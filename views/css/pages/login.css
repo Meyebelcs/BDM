@@ -1,0 +1,121 @@
+:root {
+  --primary-color: #F5DABD;
+  --secondary-color: #F4BFAD;
+  --accent-color: #F5DABD;
+  --dark-color: #3D3D3D;
+  --light-color: #EDEDED;
+}
+
+/*============MODAL=================*/
+
+.customize-theme {
+  background: rgba(255, 255, 255, 0.176);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  text-align: center;
+  display: grid;
+  place-items: center;
+  
+  font-size: 0.9rem;
+  /*se activa y desactivan las notificaciones display: none;*/
+}
+
+.customize-theme .card{
+  background-color: #EDEDED;
+  border-radius: 5%;
+  padding: 3rem;
+  width:20%;
+  box-shadow: 0 0 1rem var(--color-primary);
+}
+
+/*============CONTENT=================*/
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40rem;
+  height: 100%;
+  background-color: #B7CBBF!important;
+}
+
+.btn-secondary{
+    background-color:var(--secondary-color)!important;
+    border: none;
+}
+
+.myform{
+display: flex;
+padding: 1rem;
+flex-direction: column;
+width: 100%;
+background-color: #fff;
+border-radius: 1.1rem;
+outline: 0;
+max-width: 500px;
+}
+
+h2,h1{
+font-weight: 900;
+}
+
+.logo{
+font-size: 70px;
+}
+
+header {
+position: relative;
+background-color: black;
+height: 750px;
+min-height: 25rem;
+width: 100%;
+overflow: hidden;
+}
+
+header video {
+position: absolute;
+top: 50%;
+left: 50%;
+min-width: 100%;
+min-height: 100%;
+width: auto;
+height: auto;
+z-index: 0;
+-ms-transform: translateX(-50%) translateY(-50%);
+-moz-transform: translateX(-50%) translateY(-50%);
+-webkit-transform: translateX(-50%) translateY(-50%);
+transform: translateX(-50%) translateY(-50%);
+}
+
+header .container {
+position: relative;
+z-index: 2;
+}
+
+header .overlay {
+position: absolute;
+top: 0;
+left: 0;
+height: 100%;
+width: 100%;
+background-color: rgba(0, 0, 0, 0.623);
+opacity: 0.5;
+z-index: 1;
+}
+
+
+
+@media (pointer: coarse) and (hover: none) {
+header {
+  background: url('http://sandbox.thewikies.com/vfe-generator/images/big-buck-bunny_poster.jpg') black no-repeat center center scroll;
+}
+header video {
+  display: none;
+}
+}
+
+
