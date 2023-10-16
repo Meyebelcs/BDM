@@ -12,7 +12,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $user->save($mysqli);
         $username = $user->getUsername();
-        $json_response = ["success" => true, "msg" => "Se ha creado el usuario $username"];
+        $json_response = ["success" => true];
+        $json_response["msg" ]= "Se ha creado el usuario $username";
     } catch (Exception $e) {
         $json_response = ["success" => false, "msg" => "Error al crear el usuario: " . $e->getMessage()];
     }

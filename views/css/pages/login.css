@@ -109,7 +109,7 @@ z-index: 1;
 
 
 
-@media (pointer: coarse) and (hover: none) {
+/* @media (pointer: coarse) and (hover: none) {
 header {
   background: url('http://sandbox.thewikies.com/vfe-generator/images/big-buck-bunny_poster.jpg') black no-repeat center center scroll;
 }
@@ -117,5 +117,5 @@ header video {
   display: none;
 }
 }
-
+ */
 

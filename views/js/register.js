@@ -1,3 +1,4 @@
+const $modal = $('#miModal');
 
 function mostrarModalidad() {
     var rolSelect = document.getElementById("rol");
@@ -352,36 +353,27 @@ $(function () {
             };
 
             const xhr = new XMLHttpRequest();
+
             xhr.open("POST", "../controllers/register.php", true);
             xhr.onreadystatechange = function () {
                 try {
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                         let res = JSON.parse(xhr.response);
                         if (res.success !== true) {
+    
                             alert(res.msg);
+    
+                            return;
                         }
-                        if (res.success === true) {
-                            // Éxito...
-                            showModal("Se registró correctamente");
-                            console.log(res.msg);
-                        } else {
-                            // Error...
-                            alert(res.msg);return;
-                        }
+    
                         // Éxito...
                         showModal("Se registró correctamente");
-
+    
                         console.log(res.msg);
                     }
                 } catch (error) {
                     // Imprimir error del servidor
                     console.error(xhr.response);
-                    console.log( xhr.status);
-                    if(xhr.readyState === XMLHttpRequest.DONE){
-                        console.log( xhr.readyState);
-                        console.log(XMLHttpRequest.DONE);
-                    }
-                   
                 }
             };
 
