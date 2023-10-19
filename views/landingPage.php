@@ -6,13 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stock & Custom</title>
-  <?php include_once "./libs/bootstrap.php" ?>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <?php include_once "./libs/bootstrap.php" ?>
+  <?php include_once "./libs/fonts.php" ?>
+  <?php include_once "./libs/swiper.php" ?>
   <link rel="stylesheet" href="./css/pages/landingPage.css">
 
 </head>
@@ -111,32 +108,14 @@
     </div>
 
 
-    </div>
+    <!-- -----------scripts-------------->
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    <script src="./Scripts/Home.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-      crossorigin="anonymous"></script>
-    <script>
+    <?php include_once "./libs/bootstrapJS.php" ?>
+    <?php include_once "./libs/swiperJS.php" ?>
+    <script src="./js/landingPage.js"></script>
 
+  </main>
 
-      // Obtén referencias a los elementos del DOM
-      const toggleMenuButton = document.getElementById('toggleMenu');
-      const menuContainer = document.getElementById('menuContainer');
-
-      // Agrega un evento clic al botón de alternar menú
-      toggleMenuButton.addEventListener('click', function () {
-        // Verifica si el menú está oculto
-        if (menuContainer.style.display === 'none' || menuContainer.style.display === '') {
-          // Muestra el menú
-          menuContainer.style.display = 'block';
-        } else {
-          // Oculta el menú
-          menuContainer.style.display = 'none';
-        }
-      });
-    </script>
 </body>
 
 </html>

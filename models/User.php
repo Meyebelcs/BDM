@@ -158,7 +158,7 @@ class User
     }
 
     // Constructor
-    public function __construct($idStatus,$email, $username, $contrasena, $rol, $imagen, $nombres, $apellidos, $fechaNacimiento, $sexo, $fechaRegistro, $modo, $fechaModificacion)
+    public function __construct($idStatus, $email, $username, $contrasena, $rol, $imagen, $nombres, $apellidos, $fechaNacimiento, $sexo, $fechaRegistro, $modo, $fechaModificacion)
     {
         $this->idStatus = $idStatus;
         $this->email = $email;
@@ -191,26 +191,26 @@ class User
             isset($json["Modo"]) ? $json["Modo"] : "",
             isset($json["Fecha_modificación"]) ? $json["Fecha_modificación"] : ""
         );
-        
+
         if (isset($json["idUsuario"])) {
             $user->setIdUsuario((int) $json["idUsuario"]);
         }
-        
+
         return $user;
     }
-    
+
     public function save($mysqli)
     {
         $sql = "INSERT INTO Usuario (idStatus, Email, Username, Contraseña, Rol, Imagen, Nombres, Apellidos, Fecha_nacimiento, Sexo, Fecha_registro, Modo, Fecha_modificación) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sssssssssssss",$this->idStatus, $this->email, $this->username, $this->contrasena, $this->rol, $this->imagen, $this->nombres, $this->apellidos, $this->fechaNacimiento, $this->sexo, $this->fechaRegistro, $this->modo,  $this->fechaModificacion);
+        $stmt->bind_param("sssssssssssss", $this->idStatus, $this->email, $this->username, $this->contrasena, $this->rol, $this->imagen, $this->nombres, $this->apellidos, $this->fechaNacimiento, $this->sexo, $this->fechaRegistro, $this->modo, $this->fechaModificacion);
         $stmt->execute();
         $this->idUsuario = (int) $stmt->insert_id;
     }
-    
+
     public static function findUserByUsername($mysqli, $username, $password)
     {
-        $sql = "SELECT idUsuario, idStatus, Email, Username, Nombres, Apellidos FROM Usuario WHERE Username = ? AND Contraseña = ? LIMIT 1";
+        $sql = "SELECT idUsuario, idStatus, Email, Username,Imagen, Nombres, Apellidos, Rol , Fecha_nacimiento,Sexo, Modo,Fecha_registro,Fecha_modificación   FROM Usuario WHERE Username = ? AND Contraseña = ? LIMIT 1";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("ss", $username, $password);
         $stmt->execute();
@@ -221,7 +221,7 @@ class User
 
     public static function findUserById($mysqli, $idUsuario)
     {
-        $sql = "SELECT idUsuario, idStatus, Email, Username, Nombres, Apellidos FROM Usuario WHERE idUsuario = ? LIMIT 1";
+        $sql = "SELECT idUsuario, idStatus, Email, Username,Imagen, Nombres, Apellidos, Rol , Fecha_nacimiento,Sexo, Modo,Fecha_registro,Fecha_modificación FROM Usuario WHERE idUsuario = ? LIMIT 1";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("i", $idUsuario);
         $stmt->execute();

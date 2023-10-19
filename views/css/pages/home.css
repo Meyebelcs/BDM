@@ -1,18 +1,14 @@
 
-
 .btn-menu {
     position: absolute;
-    top: 130px;
-    left: 800px;
-    margin: 10px;
-    padding: 10px;
+    top: 24px;
+    left: 70px;
+    margin: 110;
+    padding: 110;
     z-index: 10001; 
-    align-items: right;
-   
+    align-items: left;
     
 }
-
-
 .search-bar {
     margin-top: 50px; 
     margin-bottom: 50px; 
@@ -21,7 +17,7 @@
 }
 
 .btn-menu label {
-    font-size: 55px;
+    font-size: 25px;
     cursor: pointer;
 }
 
@@ -59,14 +55,6 @@
     visibility: visible;
 }
 
-.LOGOF1 {
-    color: #fff;
-   
-    font-size: 170px;
-    
-    transform: translatey(-5px); 
-
-}
 
 
 
@@ -163,7 +151,6 @@ body{
     flex-direction: column;
 }
 
-
 /* ======================= BACKGROUND ==================== */
 
 .bg-tertiary{
@@ -214,10 +201,9 @@ body{
 }
   
   .carousel-item {
-    height: 42rem;
+    height: 32rem;
   }
 
-  
   .item1 {
     background-image: url(../Assets/bannerr3.png);
     background-repeat: no-repeat;
@@ -295,7 +281,7 @@ body{
 	.logo h1{
 		color: #fff;
 		font-weight: 400;
-		font-size: 220px;
+		font-size: 22px;
 		margin-left: 10px;
 	}
 	.container .menu{
@@ -310,15 +296,13 @@ body{
 		color: #fff;
 		transition: all 0.3s ease;
 		border-bottom: 2px solid transparent;
-		font-size: 115px;
+		font-size: 15px;
 		margin-right: 5px;
 	}
 	.container .menu a:hover{
 		border-bottom: 2px solid #c7c7c7;
 		padding-bottom: 5px;
 	}
-
-
 
     .container-menu label {
         display: flex;

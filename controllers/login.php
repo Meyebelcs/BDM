@@ -19,6 +19,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         session_start();
         //Guardamos el ID del usuario en la sesion
         $_SESSION["AUTH"] = (string)$user->getIdUsuario();
+        $json_response ["session"] = $_SESSION["AUTH"] ;
+
         echo json_encode($json_response);
         exit;
     } else {

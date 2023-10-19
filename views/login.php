@@ -1,10 +1,3 @@
-<?php
-
-//include_once '../API/api-Usuarios.php';
-//$nombre_usuario = $_SESSION['usuario']->getNombres();
-
-?>
-
 <!doctype html>
 <html lang="en">
 
@@ -15,8 +8,7 @@
   <title>Login</title>
 
   <link rel="stylesheet" href="./css/pages/login.css">
-  <?php  include_once "./libs/bootstrap.php" ?>
-  <?php  include_once "./libs/jquery.php" ?>
+  <?php include_once "./libs/bootstrap.php" ?>
 
 </head>
 
@@ -45,10 +37,10 @@
         </div>
       </div>
       <form id="login" method="post">
-        <!-- <input type="hidden" name="formulario2" value="login-form"> -->
         <div class="form-group">
           <label>Nombre de usuario </label>
-          <input type="text" id="username" name="usernameLogin" class="form-control mt-3 mb-3" placeholder="Ingresa username">
+          <input type="text" id="username" name="usernameLogin" class="form-control mt-3 mb-3"
+            placeholder="Ingresa username">
           <span class="text-danger" id="username_error_message"></span><br>
         </div>
         <div class="form-group">
@@ -79,9 +71,8 @@
     </div>
   </div>
 
-
-
-<script src="./js/login.js"></script> 
+  <?php include_once "./libs/jqueryJS.php" ?>
+  <script src="./js/login.js"></script>
 
 </body>
 

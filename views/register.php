@@ -1,10 +1,3 @@
-<?php
-
-/*  include_once '../API/api-Usuarios.php'; */
-
-?>
-
-
 <!doctype html>
 <html lang="en">
 
@@ -30,7 +23,6 @@
       </div>
 
       <form id="register" method="post">
-        <input type="hidden" name="formulario" value="register-form">
         <div class="form-group mb-3 d-flex justify-content-between">
 
           <div class="w-100 me-3">
@@ -123,7 +115,7 @@
 
         <!--------------BOTÓN DE REGISTRO------------------->
         <div class="col-md-12 text-center ">
-            <button type="button" id="btn-register" class="w-100 btn btn-secondary border-0 tx-tfm">Registrar</button>
+          <button type="button" id="btn-register" class="w-100 btn btn-secondary border-0 tx-tfm">Registrar</button>
         </div>
 
         <div class="form-group">
@@ -160,8 +152,6 @@
   </div>
 
   <script src="./js/register.js"></script>
-
-
 
 </body>
 

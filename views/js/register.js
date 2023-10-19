@@ -275,11 +275,11 @@ $(function () {
         if (susername.length < 1) {
             $("#username_error_message").html("Favor de ingresar un nombre de usuario")
             $("#username_error_message").show();
-            $("#last-name").css("border", "2px solid #F90A0A");
+            $("#username").css("border", "2px solid #F90A0A");
             error_username = true;
         } else {
             $("#username_error_message").hide();
-            $("#last-name").css("border", "2px solid #34f458", "margin-bottom", "0px");
+            $("#username").css("border", "2px solid #34f458", "margin-bottom", "0px");
         }
     }
 
