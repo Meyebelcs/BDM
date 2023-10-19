@@ -230,6 +230,46 @@ class User
         return $user ? User::parseJson($user) : null;
     }
 
+    public function update($mysqli)
+    {
+        // Query de actualización
+        $sql = "UPDATE Usuario SET 
+                Email = ?,
+                Username = ?,
+                Contraseña = ?,
+                Nombres = ?,
+                Apellidos = ?,
+                Sexo = ?,
+                Fecha_nacimiento = ?,
+                Modo = ?,
+                Fecha_modificación = ?
+                WHERE idUsuario = ?";
+
+        // Preparar la consulta
+        $stmt = $mysqli->prepare($sql);
+
+        // Enlazar los parámetros
+        $stmt->bind_param(
+            "ssssssssss",
+            $this->email,
+            $this->username,
+            $this->contrasena,
+            $this->nombres,
+            $this->apellidos,
+            $this->sexo,
+            $this->fechaNacimiento,
+            $this->modo,
+            $this->fechaModificacion,
+            $this->idUsuario
+        );
+        // Ejecutar la consulta de actualización
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
     public function toJSON()
     {
         return get_object_vars($this);

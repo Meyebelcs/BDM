@@ -38,6 +38,7 @@ if ($rol == 'Vendedor') {
     <?php include_once "./libs/fonts.php" ?>
     <?php include_once "./libs/bootstrap.php" ?>
     <link rel="stylesheet" href="./css/pages/POV_Perfil.css">
+    <link rel="stylesheet" href="./css/pages/unpload.css">
 
 </head>
 
@@ -153,8 +154,7 @@ if ($rol == 'Vendedor') {
                                 </div>
                             </div>
 
-
-
+                            <!--   botones -->
                             <div class="row mt-3">
                                 <div class="col-12">
                                     <a class="btn btn-secondary mb-3" data-bs-toggle="modal"
@@ -172,8 +172,6 @@ if ($rol == 'Vendedor') {
         </div>
 
         <!-- Contenido -->
-
-
         <div class="container">
             <div class="mb-3 border-bottom d-flex align-items-center">
                 <h3 class="p-2 pt-3" id="switchText">Productos Comprados</h3>
@@ -285,11 +283,7 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                     </div>
                                     <a href="" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
-
                                     <a href="" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
-
-
-
                                 </div>
                             </div>
                         </div>
@@ -313,11 +307,7 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                     </div>
                                     <a href="" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
-
                                     <a href="" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
-
-
-
                                 </div>
                             </div>
                         </div>
@@ -512,10 +502,123 @@ if ($rol == 'Vendedor') {
                         </li>
                     </ul>
                 </div>
-
-
             </div>
+        </div>
 
+        <!-- Modal editar perfil-->
+        <div class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="edit-profile-title" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="edit-profile-title">Editar perfil</h4>
+                    </div>
+                    <form action="" id="edit-profile-modal">
+                        <div class="modal-body">
+
+                            <label for="edit-username" class="form-label">Nombre de Usuario</label>
+                            <input type="text" class="form-control" id="edit-username" name="username"
+                                value="<?php echo $user->getUsername(); ?>">
+                            <span class="text-danger" id="fusername_error_message"></span><br>
+
+                            <label for="edit-name" class="form-label">Nombres</label>
+                            <input type="text" class="form-control" id="edit-name" name="name"
+                                value="<?php echo $user->getNombres(); ?>">
+                            <span class="text-danger" id="fname_error_message"></span><br>
+                            <label for="edit-last-name" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="edit-last-name" name="edit-last-name"
+                                value="<?php echo $user->getApellidos(); ?>">
+                            <span class="text-danger" id="sname_error_message"></span><br>
+                            <label for="edit-gender" class="form-label">Género</label>
+                            <select class="form-select" id="edit-gender" name="edit-gender">
+                                <?php
+                                if ($user->getSexo() == 'Mujer') { ?>
+                                    <option>Hombre</option>
+                                    <option selected>Mujer</option>
+                                    <option>Otro</option>
+                                <?php } else if ($user->getSexo() == 'Hombre') { ?>
+                                        <option selected>Hombre</option>
+                                        <option>Mujer</option>
+                                        <option>Otro</option>
+                                <?php } else if ($user->getSexo() == 'Otro') { ?>
+                                            <option>Hombre</option>
+                                            <option>Mujer</option>
+                                            <option selected>Otro</option>
+                                <?php }
+                                ?>
+                            </select>
+                            <span class="text-danger" id="gender_error_message"></span><br>
+                            
+                            <label for="edit-mod" class="form-label">Modalidad</label>
+                            <select class="form-select" id="edit-mod" name="edit-mod">
+
+                                <?php if ($user->getModo() == 'Público') { ?>
+                                    <option>Privado</option>
+                                    <option selected>Público</option>
+                                <?php } else if ($user->getModo() == 'Privado') { ?>
+                                        <option selected>Privado</option>
+                                        <option>Público</option>
+                                <?php } ?>
+                            </select>
+                            <span class="text-danger" id="mod_error_message"></span><br>
+
+                            <label for="edit-birthday" class="form-label">Fecha de nacimiento</label>
+                            <input type="date" class="form-control" id="edit-birthday" name="edit-birthday"
+                                min="1903-01-01" value="<?php echo $user->getFechaNacimiento(); ?>">
+                            <span class="text-danger" id="birthday_error_message"></span><br>
+                            <label for="edit-email" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="edit-email" name="edit-email"
+                                value="<?php echo $user->getEmail(); ?>">
+                            <span class="text-danger" id="email_error_message"></span><br>
+                            <label for="edit-password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="edit-password" name="edit-password"
+                                value="<?php echo $user->getContrasena(); ?>">
+                            <span class="text-danger" id="password_error_message"></span><br>
+                            <label for="retype-password" class="form-label">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" id="retype-password" name="retype-password">
+                            <span class="text-danger" id="confirm_password_error_message"></span><br>
+                            <span class="text-danger" id="modal_error_message"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-secondary" id="save-changes" name="save-changes">Save
+                                changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cambiar photo -->
+        <div class="modal fade" id="changePhoto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Cambiar foto</h4>
+                    </div>
+                    <form action="" id="change-photo-form">
+                        <div class="modal-body">
+                            <div class="wrapper">
+                                <div class="box">
+                                    <div class="input-bx">
+                                        <label for="Upload" class="uploadlabel" id="img-holder">
+                                            <span class=""><i class="bi bi-cloud-arrow-up-fill"></i></span>
+                                            <p>Añade una imagen</p>
+                                        </label>
+                                        <img src="" id="preview-img" alt="">
+                                        <input type="file" id="Upload" class="form-control mt-3">
+                                        <span class="text-danger" id="photo_error_message"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="close-btn" type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                            <button id="save-btn" type="submit" class="btn btn-secondary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
 
         <!-- Footer -->
@@ -532,6 +635,7 @@ if ($rol == 'Vendedor') {
         <?php include_once "./libs/swiperJS.php" ?>
         <?php include_once "./libs/bootstrapJS.php" ?>
         <script src="./js/POV_Perfil_Cliente.js"></script>
+        <script src="./js/Profile_edition.js"></script>
 
     </main>
 </body>

@@ -9,7 +9,7 @@
 
   <link rel="stylesheet" href="./css/pages/register.css">
   <?php include_once "./libs/bootstrap.php" ?>
-  <?php include_once "./libs/jquery.php" ?>
+
 </head>
 
 <body>
@@ -150,7 +150,8 @@
       <button type="submit" class=" btn w-100 btn-secondary border-0 " id="OK">Ok</button>
     </div>
   </div>
-
+  
+  <?php include_once "./libs/jqueryJS.php" ?>
   <script src="./js/register.js"></script>
 
 </body>
