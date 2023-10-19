@@ -201,11 +201,16 @@ class User
 
     public function save($mysqli)
     {
-        $sql = "INSERT INTO Usuario (idStatus, Email, Username, Contraseña, Rol, Imagen, Nombres, Apellidos, Fecha_nacimiento, Sexo, Fecha_registro, Modo, Fecha_modificación) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?)";
-        $stmt = $mysqli->prepare($sql);
+        // Llamar al procedimiento almacenado
+        $stmt = $mysqli->prepare("CALL sp_insert_user(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssssssssss", $this->idStatus, $this->email, $this->username, $this->contrasena, $this->rol, $this->imagen, $this->nombres, $this->apellidos, $this->fechaNacimiento, $this->sexo, $this->fechaRegistro, $this->modo, $this->fechaModificacion);
         $stmt->execute();
         $this->idUsuario = (int) $stmt->insert_id;
+        /*  $sql = "INSERT INTO Usuario (idStatus, Email, Username, Contraseña, Rol, Imagen, Nombres, Apellidos, Fecha_nacimiento, Sexo, Fecha_registro, Modo, Fecha_modificación) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?)";
+         $stmt = $mysqli->prepare($sql);
+         $stmt->bind_param("sssssssssssss", $this->idStatus, $this->email, $this->username, $this->contrasena, $this->rol, $this->imagen, $this->nombres, $this->apellidos, $this->fechaNacimiento, $this->sexo, $this->fechaRegistro, $this->modo, $this->fechaModificacion);
+         $stmt->execute();
+         $this->idUsuario = (int) $stmt->insert_id; */
     }
 
     public static function findUserByUsername($mysqli, $username, $password)
@@ -270,7 +275,7 @@ class User
         }
     }
 
- 
+
     public static function doesUsernameExist($mysqli, $username)
     {
         $sql = "SELECT COUNT(*) AS count FROM Usuario WHERE Username = ?";
