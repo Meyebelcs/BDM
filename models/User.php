@@ -206,28 +206,21 @@ class User
         $stmt->bind_param("sssssssssssss", $this->idStatus, $this->email, $this->username, $this->contrasena, $this->rol, $this->imagen, $this->nombres, $this->apellidos, $this->fechaNacimiento, $this->sexo, $this->fechaRegistro, $this->modo, $this->fechaModificacion);
         $stmt->execute();
         $this->idUsuario = (int) $stmt->insert_id;
-        /*  $sql = "INSERT INTO Usuario (idStatus, Email, Username, Contraseña, Rol, Imagen, Nombres, Apellidos, Fecha_nacimiento, Sexo, Fecha_registro, Modo, Fecha_modificación) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?)";
-         $stmt = $mysqli->prepare($sql);
-         $stmt->bind_param("sssssssssssss", $this->idStatus, $this->email, $this->username, $this->contrasena, $this->rol, $this->imagen, $this->nombres, $this->apellidos, $this->fechaNacimiento, $this->sexo, $this->fechaRegistro, $this->modo, $this->fechaModificacion);
-         $stmt->execute();
-         $this->idUsuario = (int) $stmt->insert_id; */
     }
-
     public static function findUserByUsername($mysqli, $username, $password)
     {
-        $sql = "SELECT idUsuario, idStatus, Email, Username,Imagen, Nombres, Apellidos, Rol , Fecha_nacimiento,Sexo, Modo,Fecha_registro,Fecha_modificación   FROM Usuario WHERE Username = ? AND Contraseña = ? LIMIT 1";
-        $stmt = $mysqli->prepare($sql);
+        // Llamar al procedimiento almacenado
+        $stmt = $mysqli->prepare("CALL sp_findUserByUsername(?, ?)");
         $stmt->bind_param("ss", $username, $password);
         $stmt->execute();
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
         return $user ? User::parseJson($user) : null;
     }
-
     public static function findUserById($mysqli, $idUsuario)
     {
-        $sql = "SELECT idUsuario, idStatus, Email, Username,Imagen, Nombres, Apellidos, Rol , Fecha_nacimiento,Sexo, Modo,Fecha_registro,Fecha_modificación FROM Usuario WHERE idUsuario = ? LIMIT 1";
-        $stmt = $mysqli->prepare($sql);
+        // Llamar al procedimiento almacenado
+        $stmt = $mysqli->prepare("CALL sp_FindUserById(?)");
         $stmt->bind_param("i", $idUsuario);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -237,25 +230,11 @@ class User
 
     public function update($mysqli)
     {
-        // Query de actualización
-        $sql = "UPDATE Usuario SET 
-                Email = ?,
-                Username = ?,
-                Contraseña = ?,
-                Nombres = ?,
-                Apellidos = ?,
-                Sexo = ?,
-                Fecha_nacimiento = ?,
-                Modo = ?,
-                Fecha_modificación = ?
-                WHERE idUsuario = ?";
-
-        // Preparar la consulta
-        $stmt = $mysqli->prepare($sql);
-
-        // Enlazar los parámetros
+        // Llamar al procedimiento almacenado
+        $stmt = $mysqli->prepare("CALL sp_UpdateUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param(
             "ssssssssss",
+            $this->idUsuario,
             $this->email,
             $this->username,
             $this->contrasena,
@@ -264,30 +243,29 @@ class User
             $this->sexo,
             $this->fechaNacimiento,
             $this->modo,
-            $this->fechaModificacion,
-            $this->idUsuario
+            $this->fechaModificacion
         );
-        // Ejecutar la consulta de actualización
+
         if ($stmt->execute()) {
             return true; // Éxito en la actualización
         } else {
             return false; // Error en la actualización
         }
     }
-
-
     public static function doesUsernameExist($mysqli, $username)
     {
-        $sql = "SELECT COUNT(*) AS count FROM Usuario WHERE Username = ?";
-        $stmt = $mysqli->prepare($sql);
+        // Llamar al procedimiento almacenado
+        $stmt = $mysqli->prepare("CALL sp_CheckUsernameExists(?, @exists)");
         $stmt->bind_param("s", $username);
         $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-
-        return $row['count'] > 0;
+    
+        // Obtener el resultado
+        $select = $mysqli->query('SELECT @exists as `exists`');
+        $result = $select->fetch_assoc();
+    
+        return $result['exists'] == 1;
     }
-
+    
     public function toJSON()
     {
         return get_object_vars($this);
