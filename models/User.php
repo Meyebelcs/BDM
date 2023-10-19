@@ -270,6 +270,19 @@ class User
         }
     }
 
+ 
+    public static function doesUsernameExist($mysqli, $username)
+    {
+        $sql = "SELECT COUNT(*) AS count FROM Usuario WHERE Username = ?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        return $row['count'] > 0;
+    }
+
     public function toJSON()
     {
         return get_object_vars($this);

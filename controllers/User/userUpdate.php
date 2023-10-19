@@ -3,17 +3,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once __DIR__ . '/../../db.php';
     require_once __DIR__ . '/../../models/User.php';
 
-    // Obtiene el valor de la variable de sesión "AUTH" y lo asigna a la variable $idUser
     session_start();
-    $idUser = isset($_SESSION['AUTH']) ? $_SESSION['AUTH'] : '';
-
 
     // Obtener JSON
     $json = json_decode(file_get_contents('php://input'), true);
     $mysqli = db::connect();
 
-    // Crear un objeto User a partir de JSON
+
     $user = User::parseJson($json);
+    $idUser = $_SESSION["AUTH"];
+    $mysqli = db::connect();
+    $user = User::findUserById($mysqli, (int) $idUser);
+
+    // Verificar si el nuevo nombre de usuario es diferente al actual
+    if ($json["editUsername"] !== $user->getUsername()) {
+        // El nuevo nombre de usuario es diferente, verificamos si ya existe
+        if (User::doesUsernameExist($mysqli, $json["editUsername"])) {
+            // El nombre de usuario ya existe, devolvemos un mensaje de error
+            $json_response = ["success" => false, "msg" => "El nombre de usuario ya existe"];
+            header('Content-Type: application/json');
+            echo json_encode($json_response);
+            exit; // Detenemos la ejecución del script
+        }
+    }
 
     // Actualizar las propiedades del objeto User con nuevos valores
     $user->setIdUsuario($idUser);

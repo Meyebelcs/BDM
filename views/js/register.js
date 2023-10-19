@@ -14,9 +14,15 @@ function mostrarModalidad() {
 //--------------------------VALIDACIONES--------------------
 $(function () {
 
+    let status = " ";
+
     $('#OK').click(function () {
         $('#miModal').css('display', 'none');
-        window.location.href = "./login.php";
+
+        if (status === "Exito") {
+            window.location.href = "./login.php";
+        }
+
     });
 
 
@@ -337,7 +343,7 @@ $(function () {
             const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
 
             const userRegister = {
-                idStatus:'1',
+                idStatus: '1',
                 Email: $("#email").val().trim(),
                 Username: $("#username").val().trim(),
                 Contraseña: $("#password").val().trim(),
@@ -360,15 +366,15 @@ $(function () {
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                         let res = JSON.parse(xhr.response);
                         if (res.success !== true) {
-    
-                            alert(res.msg);
-    
+                            
+                            showModal(res.msg);
                             return;
                         }
-    
+
                         // Éxito...
+                        status = "Exito";
                         showModal("Se registró correctamente");
-    
+
                         console.log(res.msg);
                     }
                 } catch (error) {

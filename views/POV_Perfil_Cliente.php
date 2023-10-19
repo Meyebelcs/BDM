@@ -16,11 +16,13 @@ $rol = $user->getRol();
 $urlPerfil = '';
 
 if ($rol == 'Vendedor') {
-    $urlPerfil = "POV_Perfil_Vendedor.php";
+    header("Location: home.php");
+    exit;
 } else if ($rol == 'Comprador') {
     $urlPerfil = "POV_Perfil_Cliente.php";
 } else if ($rol == 'Administrador') {
-    $urlPerfil = "POV_Perfil_Admin.php";
+    header("Location: home.php");
+    exit;
 }
 
 

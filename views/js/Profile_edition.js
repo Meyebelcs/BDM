@@ -294,9 +294,14 @@ $(function () {
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                         let res = JSON.parse(xhr.response);
                         if (res.success !== true) {
-
-                            alert("El usuario no se editó");
-
+                            
+                            Swal.fire({
+                                title: 'Error',
+                                text: res.msg, // El mensaje de error que obtiene del servidor
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar',
+                                confirmButtonColor: '#F47B8F'
+                            });
                             return;
                         }
 
