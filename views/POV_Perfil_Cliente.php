@@ -19,6 +19,8 @@ if ($rol == 'Vendedor') {
     $urlPerfil = "POV_Perfil_Vendedor.php";
 } else if ($rol == 'Comprador') {
     $urlPerfil = "POV_Perfil_Cliente.php";
+} else if ($rol == 'Administrador') {
+    $urlPerfil = "POV_Perfil_Admin.php";
 }
 
 
@@ -35,7 +37,7 @@ if ($rol == 'Vendedor') {
 
     <?php include_once "./libs/fonts.php" ?>
     <?php include_once "./libs/bootstrap.php" ?>
-    <link rel="stylesheet" href="./css/pages/POV_Perfil_Cliente.css">
+    <link rel="stylesheet" href="./css/pages/POV_Perfil.css">
 
 </head>
 
@@ -137,7 +139,8 @@ if ($rol == 'Vendedor') {
                             <div class="row">
                                 <div class="col-12">
                                     <h6 id="birthday">
-                                        <?php echo $user->getFechaNacimiento(); ?>
+                                        <?php $formattedFechaNacimiento = date('d \d\e F \d\e\l Y', strtotime($user->getFechaNacimiento()));
+                                        echo $formattedFechaNacimiento; ?>
                                     </h6>
                                 </div>
                             </div>
@@ -516,10 +519,10 @@ if ($rol == 'Vendedor') {
         </div>
 
         <!-- Footer -->
-        <div class="container-fluid footer mt-auto bg-primary">
+        <div class="container-fluid footer bg-primary">
             <footer class="py-3 footer">
                 <div class="col-md-4 d-flex align-items-center">
-                    <span class="mb-3 mb-md-0">&copy; 2023 Amethyst. Todos los derechos reservados.</span>
+                    <span class="mb-3 mb-md-0">&copy; 2023 Stuck & Custom. Todos los derechos reservados.</span>
                 </div>
             </footer>
         </div>

@@ -21,7 +21,10 @@ if ($rol == 'Vendedor') {
   $urlPerfil = "POV_Perfil_Vendedor.php";
 } else if ($rol == 'Comprador') {
   $urlPerfil = "POV_Perfil_Cliente.php";
+} else if ($rol == 'Administrador') {
+  $urlPerfil = "POV_Perfil_Admin.php";
 }
+
 
 ?>
 
@@ -81,7 +84,7 @@ if ($rol == 'Vendedor') {
       </div>
       <div class="dropdown mt-2">
         <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      
+
           <img src="./css/assets/perfil.png" alt="<?= $user->getUsername() ?>" width="35" height="35"
             class="rounded-circle">
         </button>
@@ -100,7 +103,7 @@ if ($rol == 'Vendedor') {
       <label for="btn-menu">✖️</label>
       <nav>
 
-        <a href=<?php echo $urlPerfil ?> >Cuenta</a>
+        <a href=<?php echo $urlPerfil ?>>Cuenta</a>
         <a href="07_Carrito.php">Carrito</a>
         <a href="chat.php">Chat</a>
         <a href="03_Perfil_Cliente.php">Mis Compras</a>
@@ -638,10 +641,10 @@ if ($rol == 'Vendedor') {
     </div>
 
     <!-- Footer -->
-    <div class="container-fluid mt-auto bg-primary">
+    <div class="container-fluid footer bg-primary">
       <footer class="py-3 footer">
         <div class="col-md-4 d-flex align-items-center">
-          <span class="mb-3 mb-md-0">&copy; 2023 Amethyst. Todos los derechos reservados.</span>
+          <span class="mb-3 mb-md-0">&copy; 2023 Stuck & Custom. Todos los derechos reservados.</span>
         </div>
       </footer>
     </div>
