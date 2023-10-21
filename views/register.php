@@ -22,7 +22,9 @@
         </div>
       </div>
 
-      <form id="register" method="post">
+     
+      <form id="register" method="POST" enctype="multipart/form-data">
+
         <div class="form-group mb-3 d-flex justify-content-between">
 
           <div class="w-100 me-3">
