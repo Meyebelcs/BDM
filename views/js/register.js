@@ -342,21 +342,23 @@ $(function () {
             const now = new Date();
             const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
 
-            const userRegister = {
-                idStatus: '1',
-                Email: $("#email").val().trim(),
-                Username: $("#username").val().trim(),
-                Contraseña: $("#password").val().trim(),
-                Rol: $("#rol").val().trim(),
-                Imagen: $("#profile-picture").val().trim(),
-                Nombres: $("#name").val().trim(),
-                Apellidos: $("#last-name").val().trim(),
-                Fecha_nacimiento: $("#birthday").val().trim(),
-                Sexo: $("#gender").val().trim(),
-                Modo: varmod,
-                Fecha_modificación: formattedDate,
-                Fecha_registro: formattedDate
-            };
+            const fileInput = document.getElementById('profile-picture');
+            const selectedFile = fileInput.files[0];
+            
+            const userRegister = new FormData();
+            userRegister.append("idStatus", "1");
+            userRegister.append("Email", $("#email").val().trim());
+            userRegister.append("Username", $("#username").val().trim());
+            userRegister.append("Contraseña", $("#password").val().trim());
+            userRegister.append("Rol", $("#rol").val().trim());
+            userRegister.append("Imagen", selectedFile); // Agrega el archivo al FormData
+            userRegister.append("Nombres", $("#name").val().trim());
+            userRegister.append("Apellidos", $("#last-name").val().trim());
+            userRegister.append("Fecha_nacimiento", $("#birthday").val().trim());
+            userRegister.append("Sexo", $("#gender").val().trim());
+            userRegister.append("Modo", varmod);
+            userRegister.append("Fecha_modificación", formattedDate);
+            userRegister.append("Fecha_registro", formattedDate);
 
             const xhr = new XMLHttpRequest();
 
@@ -366,7 +368,6 @@ $(function () {
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                         let res = JSON.parse(xhr.response);
                         if (res.success !== true) {
-                            
                             showModal(res.msg);
                             return;
                         }
@@ -383,8 +384,9 @@ $(function () {
                 }
             };
 
-            //Enviarlo en formato JSON
-            xhr.send(JSON.stringify(userRegister));
+            // Enviar FormData en lugar de JSON
+            xhr.send(userRegister);
+
 
         }
         else {

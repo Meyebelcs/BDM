@@ -84,9 +84,12 @@ if ($rol == 'Vendedor') {
       </div>
       <div class="dropdown mt-2">
         <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-          <img src="./css/assets/perfil.png" alt="<?= $user->getUsername() ?>" width="35" height="35"
-            class="rounded-circle">
+          <?php
+          $userImage = "../Files/" . $user->getImagen(); // Ruta de la imagen de perfil
+          $username = $user->getUsername();
+          ?>
+          <img src="<?= $userImage ?>" alt="<?= $username ?>" width="35" height="35" class="rounded-circle">
+          <?= $username ?>
         </button>
       </div>
 

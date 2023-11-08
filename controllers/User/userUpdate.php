@@ -11,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     $user = User::parseJson($json);
-    $idUser = $_SESSION["AUTH"];
-    $mysqli = db::connect();
+    $idUser = $_SESSION["AUTH"];/* 
+    $mysqli = db::connect(); */
     $user = User::findUserById($mysqli, (int) $idUser);
 
     // Verificar si el nuevo nombre de usuario es diferente al actual

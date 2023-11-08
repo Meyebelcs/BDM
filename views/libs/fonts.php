@@ -1,5 +1,5 @@
- <!-- Realiza una preconexión al dominio "https://fonts.googleapis.com" -->
- <link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- Realiza una preconexión al dominio "https://fonts.googleapis.com" -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
 <!-- Realiza una preconexión al dominio "https://fonts.gstatic.com" con el atributo crossorigin -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

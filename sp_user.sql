@@ -1,4 +1,4 @@
-------------INSERT USER------------
+------------insert user------------
 DELIMITER //
 
 CREATE PROCEDURE sp_insert_user(
@@ -17,13 +17,13 @@ CREATE PROCEDURE sp_insert_user(
     IN p_fechaModificacion DATETIME
 )
 BEGIN
-    INSERT INTO Usuario (idStatus, Email, Username, Contrase馻, Rol, Imagen, Nombres, Apellidos, Fecha_nacimiento, Sexo, Fecha_registro, Modo, Fecha_modificaci髇)
+    INSERT INTO Usuario (idStatus, Email, Username, Contrase帽a, Rol, Imagen, Nombres, Apellidos, Fecha_nacimiento, Sexo, Fecha_registro, Modo, Fecha_modificaci贸n)
     VALUES (p_idStatus, p_email, p_username, p_contrasena, p_rol, p_imagen, p_nombres, p_apellidos, p_fechaNacimiento, p_sexo, p_fechaRegistro, p_modo, p_fechaModificacion);
 END //
 
 DELIMITER ;
 
-------------FIND USER BY NAME-------------
+------------busqueda user by username-------------
 DELIMITER //
 
 CREATE PROCEDURE sp_findUserByUsername(
@@ -32,32 +32,32 @@ CREATE PROCEDURE sp_findUserByUsername(
 )
 BEGIN
     SELECT
-        idUsuario, idStatus, Email, Username, Imagen, Nombres, Apellidos, Rol, Fecha_nacimiento, Sexo, Modo, Fecha_registro, Fecha_modificaci髇
+        idUsuario, idStatus, Email, Username, Imagen, Nombres, Apellidos, Rol, Fecha_nacimiento, Sexo, Modo, Fecha_registro, Fecha_modificaci贸n
     FROM
         Usuario
     WHERE
         Username = p_username
-        AND Contrase馻 = p_password
+        AND Contrase帽a = p_password
     LIMIT 1;
 END //
 
 DELIMITER ;
 
--------------FIND USER BY ID----------------
+-------------busqueda user by id----------------
 DELIMITER //
 
 CREATE PROCEDURE sp_FindUserById(
     IN p_idUsuario INT
 )
 BEGIN
-    SELECT idUsuario, idStatus, Email, Username, Imagen, Nombres, Apellidos, Rol, Fecha_nacimiento, Sexo, Modo, Fecha_registro, Fecha_modificaci髇
+    SELECT idUsuario, idStatus, Email, Username, Imagen, Nombres, Apellidos, Rol, Fecha_nacimiento, Sexo, Modo, Fecha_registro, Fecha_modificaci贸n
     FROM Usuario
     WHERE idUsuario = p_idUsuario
     LIMIT 1;
 END //
 
 DELIMITER ;
----------------UPDATE USER------------------
+----------update user---------------
 DELIMITER //
 
 CREATE PROCEDURE sp_UpdateUser(
@@ -77,18 +77,18 @@ BEGIN
     SET
         Email = p_email,
         Username = p_username,
-        Contrase馻 = p_contrasena,
+        Contrase帽a = p_contrasena,
         Nombres = p_nombres,
         Apellidos = p_apellidos,
         Sexo = p_sexo,
         Fecha_nacimiento = p_fechaNacimiento,
         Modo = p_modo,
-        Fecha_modificaci髇 = p_fechaModificacion
+        Fecha_modificaci贸n = p_fechaModificacion
     WHERE idUsuario = p_idUsuario;
 END //
 
 DELIMITER ;
-------------CHECK USERNAME EXISTS---------
+------------validar q no exista el username---------
 DELIMITER //
 
 CREATE PROCEDURE sp_CheckUsernameExists(
@@ -101,3 +101,18 @@ END //
 
 DELIMITER ;
 
+---------update imagen----------
+DELIMITER //
+
+CREATE PROCEDURE sp_UpdateUserImage(
+    IN p_idUsuario INT,
+    IN p_imagen VARCHAR(255)
+)
+BEGIN
+    UPDATE Usuario
+    SET
+        Imagen = p_imagen
+    WHERE idUsuario = p_idUsuario;
+END //
+
+DELIMITER ;

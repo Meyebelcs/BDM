@@ -1,9 +1,10 @@
 <?php
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once "../db.php";
     require_once "../models/User.php";
 
-    $json = json_decode(file_get_contents('php://input'), true);
+    $json = $_POST; // Para los campos que no son archivos
     $mysqli = db::connect();
     $user = User::parseJson($json);
     $username = $user->getUsername();
@@ -17,13 +18,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!validatePassword($password)) {
             $json_response = ["success" => false, "msg" => "La contraseña no cumple con los requisitos"];
         } else {
-            try {
-                // Si el nombre de usuario no existe y la contraseña es válida, guarda el nuevo usuario
-                $user->save($mysqli);
-                $json_response = ["success" => true];
-                $json_response["msg"] = "Se ha creado el usuario $username";
-            } catch (Exception $e) {
-                $json_response = ["success" => false, "msg" => "Error al crear el usuario: " . $e->getMessage()];
+            
+            // Subir la imagen
+            $fileDirectory = "../Files/"; // Ruta de la carpeta donde deseas guardar las imágenes
+            $originalFileName = basename($_FILES['Imagen']['name']); // Nombre del archivo original con extensión
+            $extension = pathinfo($originalFileName, PATHINFO_EXTENSION); // Obtener la extensión del archivo
+            $uniqueIdentifier = uniqid(); // Generar un identificador único
+            $fileName = $username . '_' . $uniqueIdentifier . '.' . $extension; // Nombre del archivo con identificador único
+
+
+            if (move_uploaded_file($_FILES['Imagen']['tmp_name'], $fileDirectory . $fileName)) {
+                // La imagen se ha subido correctamente, ahora puedes guardar el nombre del archivo en la base de datos
+                $user->setImagen($fileName);
+                try {
+                    // Si el nombre de usuario no existe y la contraseña es válida, guarda el nuevo usuario
+                    $user->save($mysqli);
+                    $json_response = ["success" => true];
+                    $json_response["msg"] = "Se ha creado el usuario $username";
+                } catch (Exception $e) {
+                    $json_response = ["success" => false, "msg" => "Error al crear el usuario: " . $e->getMessage()];
+                }
+            } else {
+                $json_response = ["success" => false, "msg" => "Error al subir la imagen"];
             }
         }
     }
@@ -33,7 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Función para validar la contraseña
-function validatePassword($password) {
+function validatePassword($password)
+{
     if (strlen($password) < 8) {
         return false;
     }
@@ -45,7 +62,8 @@ function validatePassword($password) {
     }
     if (!preg_match('/[°|¬!"#$%&\/()=?¡\'¿¨*\]´+}~`{[^;:_,.\-<>@\\\\]/', $password)) {
         return false;
-    }    
-    
+    }
+
+
     return true;
 }

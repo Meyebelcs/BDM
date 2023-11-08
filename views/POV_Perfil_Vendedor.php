@@ -87,8 +87,12 @@ if ($rol == 'Vendedor') {
             </div>
             <div class="dropdown mt-2">
                 <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="./css/assets/perfil.png" alt="<?= $user->getUsername() ?>" width="35" height="35"
-                        class="rounded-circle">
+                    <?php
+                    $userImage = "../Files/" . $user->getImagen(); // Ruta de la imagen de perfil
+                    $username = $user->getUsername();
+                    ?>
+                    <img src="<?= $userImage ?>" alt="<?= $username ?>" width="35" height="35" class="rounded-circle">
+                    <?= $username ?>
                 </button>
             </div>
 
@@ -124,7 +128,12 @@ if ($rol == 'Vendedor') {
             <div class="container-fluid bg-tertiary">
                 <div class="profile_Section row p-4">
                     <div class="col-xl-2 col-md-4 col-sm-5 col-xs-12">
-                        <img src="./css/assets/perfil.png" id="foto_perfil" class="img-hero" alt="">
+
+                        <?php
+                        $userImage = "../Files/" . $user->getImagen(); // Ruta de la imagen de perfil
+                        $username = $user->getUsername();
+                        ?>
+                        <img src="<?= $userImage ?>" alt="<?= $username ?>" id="foto_perfil" class="img-hero" alt="">
                     </div>
                     <div class="col-xl-10 col-md-8 col-sm-7 col-xs-12 m-auto">
                         <div class="container text-xs-center">
@@ -614,12 +623,12 @@ if ($rol == 'Vendedor') {
                                 ?>
                             </select>
                             <span class="text-danger" id="gender_error_message"></span><br>
-                            
+
                             <div style="display: none;">
                                 <label for="edit-mod" class="form-label">Modalidad</label>
                                 <select class="form-select" id="edit-mod" name="edit-mod">
-                                        <option>Privado</option>
-                                        <option selected>Público</option>
+                                    <option>Privado</option>
+                                    <option selected>Público</option>
                                 </select>
                                 <span class="text-danger" id="mod_error_message"></span><br>
                             </div>
@@ -658,7 +667,7 @@ if ($rol == 'Vendedor') {
                     <div class="modal-header">
                         <h4>Cambiar foto</h4>
                     </div>
-                    <form action="" id="change-photo-form">
+                    <form action="" id="change-photo-form"  method="post" enctype="multipart/form-data">
                         <div class="modal-body">
                             <div class="wrapper">
                                 <div class="box">
@@ -668,7 +677,7 @@ if ($rol == 'Vendedor') {
                                             <p>Añade una imagen</p>
                                         </label>
                                         <img src="" id="preview-img" alt="">
-                                        <input type="file" id="Upload" class="form-control mt-3">
+                                        <input type="file" name="Upload" id="Upload" class="form-control mt-3">
                                         <span class="text-danger" id="photo_error_message"></span>
                                     </div>
                                 </div>

@@ -294,7 +294,7 @@ $(function () {
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                         let res = JSON.parse(xhr.response);
                         if (res.success !== true) {
-                            
+
                             Swal.fire({
                                 title: 'Error',
                                 text: res.msg, // El mensaje de error que obtiene del servidor
@@ -367,70 +367,183 @@ $(function () {
             alert("This browser does not support FileReader.");
         }
 
-    })
+    });
 
-    /*  $("#change-photo-form").on("submit", function () {
- 
-         error_photo = false;
- 
-         var file = document.getElementById("Upload");
- 
-         if (file.files.length == 0) {
-             error_photo = true;
-         }
- 
-         if (error_photo === false) {
- 
-             var url = new URL(window.location.href);
-             var id = url.searchParams.get('id');
- 
-             imagen = $('#Upload')[0].files[0];
- 
-             var formData = new FormData();
- 
-             formData.append('action', 'editImg');
-             formData.append('IDUsuarioRegistro', id);
-             formData.append('imagen', imagen);
- 
-             $.ajax({
-                 type: 'POST',
-                 url: '..//..//API//api-Usuarios.php',
-                 data: formData,
-                 processData: false,
-                 contentType: false,
-                 success: function (data) {
- 
-                     console.log(data);
- 
-                     Swal.fire({
-                         title: 'La imagen se ha actualizado con éxito',
-                         icon: 'success',
-                         confirmButtonText: 'Aceptar',
-                         confirmButtonColor: '#F47B8F'
-                     }).then((willDelete) => {
-                         if (willDelete) {
-                             location.reload();
-                         } else {
-                             alert("error");
-                         }
-                     });
- 
-                 },
-                 error: function (xhr, status, error) {
-                     console.log('Error', xhr);
-                 }
-             });
-             return false;
-         } else {
- 
-             $("#photo_error_message").html("Debe seleccionar una foto")
-             $("#photo_error_message").show();
-             $("#Upload").css("border", "2px solid #F90A0A");
-             return false;
-         }
- 
-     }) */
+    const submitBtnImage = document.querySelector('#save-btn');
+    submitBtnImage.addEventListener('click', function () {
 
+        event.preventDefault();
+
+
+        alert('clic');
+        error_photo = false;
+
+        var file = document.getElementById("Upload");
+
+        if (file.files.length == 0) {
+            error_photo = true;
+        }
+
+        if (error_photo === false) {
+
+            var formData = new FormData();
+
+            const fileInput = document.getElementById('Upload');
+            const selectedFile = fileInput.files[0];
+
+            // Muestra el objeto fileInput en un alert
+            alert("fileInput: " + fileInput);
+            // Agregar una alerta para ver las propiedades del objeto File
+            alert("Nombre de archivo: " + selectedFile.name);
+            alert("Tipo de archivo: " + selectedFile.type);
+            alert("Tamaño del archivo: " + selectedFile.size + " bytes");
+
+            formData.append('idUser', " ");
+            formData.append('archivo', selectedFile);
+
+            // Acceder al valor de 'archivo' después de asignarlo
+            const archivoValue = formData.get('archivo');
+
+            // Imprimir el valor en un alert
+            alert("Valor de 'archivo': " + archivoValue);
+
+
+            const xhr2 = new XMLHttpRequest();
+            xhr2.open("POST", "../controllers/User/ImageUserUpdate.php", true);
+            xhr2.onreadystatechange = function () {
+                try {
+                    if (xhr2.readyState === XMLHttpRequest.DONE && xhr2.status === 200) {
+                        let res = JSON.parse(xhr2.response);
+                        if (res.success !== true) {
+
+                            Swal.fire({
+                                title: 'Error',
+                                text: res.msg, // El mensaje de error que obtiene del servidor
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar',
+                                confirmButtonColor: '#F47B8F'
+                            });
+                            return;
+                        }
+
+                        // Éxito...
+
+                        Swal.fire({
+                            title: res.msg,
+                            icon: 'success',
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor: '#F47B8F'
+                        }).then((willDelete) => {
+                            if (willDelete) {
+                                location.reload();
+                            } else {
+                                alert("error");
+                            }
+                        });
+
+                        console.log(res.msg);
+                    }
+                } catch (error) {
+                    // Imprimir error del servidor
+                    console.error(xhr2.response);
+
+                }
+
+
+            };
+
+            //Enviarlo en formato JSON
+            xhr2.send(JSON.stringify(formData));
+
+        } else {
+
+            $("#photo_error_message").html("Debe seleccionar una foto")
+            $("#photo_error_message").show();
+            $("#Upload").css("border", "2px solid #F90A0A");
+
+        }
+    });
+
+    /* $("#change-photo-form").on("submit", function () {
+
+        event.preventDefault();
+
+        error_photo = false;
+
+        var file = document.getElementById("Upload");
+
+        if (file.files.length == 0) {
+            error_photo = true;
+        }
+
+        if (error_photo === false) {
+
+
+            imagen = $('#Upload')[0].files[0];
+
+            var formData = new FormData();
+
+            const fileInput = document.getElementById('Upload');
+            const selectedFile = fileInput.files[0];
+            formData.append('idUser', " ");
+            formData.append('ImagenUnpload', selectedFile);
+            
+            const xhr2 = new XMLHttpRequest();
+            xhr2.open("POST", "../controllers/User/ImageUserUpdate.php", true);
+            xhr2.onreadystatechange = function () {
+                try {
+                    if (xhr2.readyState === XMLHttpRequest.DONE && xhr2.status === 200) {
+                        let res = JSON.parse(xhr2.response);
+                        if (res.success !== true) {
+
+                            Swal.fire({
+                                title: 'Error',
+                                text: res.msg, // El mensaje de error que obtiene del servidor
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar',
+                                confirmButtonColor: '#F47B8F'
+                            });
+                            return;
+                        }
+
+                        // Éxito...
+
+                        Swal.fire({
+                            title: res.msg,
+                            icon: 'success',
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor: '#F47B8F'
+                        }).then((willDelete) => {
+                            if (willDelete) {
+                                location.reload();
+                            } else {
+                                alert("error");
+                            }
+                        });
+
+                        console.log(res.msg);
+                    }
+                } catch (error) {
+                    // Imprimir error del servidor
+                    console.error(xhr2.response);
+
+                }
+
+                
+            };
+
+             //Enviarlo en formato JSON
+             xhr2.send(JSON.stringify(formData));
+            return true;
+        } else {
+
+            $("#photo_error_message").html("Debe seleccionar una foto")
+            $("#photo_error_message").show();
+            $("#Upload").css("border", "2px solid #F90A0A");
+            return false;
+        }
+
+    }) */
 });
 
 function validateDate(date) {

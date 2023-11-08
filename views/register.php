@@ -23,7 +23,7 @@
       </div>
 
      
-      <form id="register" method="POST" enctype="multipart/form-data">
+      <form id="register" method="post" enctype="multipart/form-data">
 
         <div class="form-group mb-3 d-flex justify-content-between">
 
@@ -114,6 +114,7 @@
           <input class="form-control" name="profile-pictureRegistro" type="file" id="profile-picture">
           <span class="text-danger" id="photo_error_message"></span><br>
         </div>
+
 
         <!--------------BOTÓN DE REGISTRO------------------->
         <div class="col-md-12 text-center ">

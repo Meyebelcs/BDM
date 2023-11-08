@@ -86,8 +86,12 @@ if ($rol == 'Vendedor') {
             </div>
             <div class="dropdown mt-2">
                 <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="./css/assets/perfil.png" alt="<?= $user->getUsername() ?>" width="35" height="35"
-                        class="rounded-circle">
+                    <?php
+                    $userImage = "../Files/" . $user->getImagen(); // Ruta de la imagen de perfil
+                    $username = $user->getUsername();
+                    ?>
+                    <img src="<?= $userImage ?>" alt="<?= $username ?>" width="35" height="35" class="rounded-circle">
+                    <?= $username ?>
                 </button>
             </div>
 
@@ -199,7 +203,11 @@ if ($rol == 'Vendedor') {
             <div class="container-fluid bg-tertiary">
                 <div class="profile_Section row p-4">
                     <div class="col-12 text-center mb-3">
-                        <img src="./css/assets/perfil.png" id="foto_perfil" class="img-hero" alt="">
+                        <?php
+                        $userImage = "../Files/" . $user->getImagen(); // Ruta de la imagen de perfil
+                        $username = $user->getUsername();
+                        ?>
+                        <img src="<?= $userImage ?>" alt="<?= $username ?>" id="foto_perfil" class="img-hero" alt="">
                     </div>
                     <div class="col-12 text-center">
                         <h4 id="nombre_Inst">
@@ -272,8 +280,8 @@ if ($rol == 'Vendedor') {
                             <div style="display: none;">
                                 <label for="edit-mod" class="form-label">Modalidad</label>
                                 <select class="form-select" id="edit-mod" name="edit-mod">
-                                        <option>Privado</option>
-                                        <option selected>Público</option>
+                                    <option>Privado</option>
+                                    <option selected>Público</option>
                                 </select>
                                 <span class="text-danger" id="mod_error_message"></span><br>
                             </div>

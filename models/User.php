@@ -252,20 +252,33 @@ class User
             return false; // Error en la actualización
         }
     }
+    public function updateImage($mysqli)
+    {
+        // Llamar al procedimiento almacenado
+        $stmt = $mysqli->prepare("CALL sp_UpdateUserImage(?, ?)");
+        $stmt->bind_param("ss", $this->idUsuario, $this->imagen);
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización de la imagen
+        } else {
+            return false; // Error en la actualización de la imagen
+        }
+    }
+
     public static function doesUsernameExist($mysqli, $username)
     {
         // Llamar al procedimiento almacenado
         $stmt = $mysqli->prepare("CALL sp_CheckUsernameExists(?, @exists)");
         $stmt->bind_param("s", $username);
         $stmt->execute();
-    
+
         // Obtener el resultado
         $select = $mysqli->query('SELECT @exists as `exists`');
         $result = $select->fetch_assoc();
-    
+
         return $result['exists'] == 1;
     }
-    
+
     public function toJSON()
     {
         return get_object_vars($this);
