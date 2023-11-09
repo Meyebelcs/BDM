@@ -25,16 +25,14 @@ class Status
     }
 
     // Constructor
-    public function __construct($idStatus, $nombre)
+    public function __construct( $nombre)
     {
-        $this->idStatus = $idStatus;
         $this->nombre = $nombre;
     }
 
     static public function parseJson($json)
     {
         $estatus = new Status(
-            isset($json["idStatus"]) ? $json["idStatus"] : null,
             isset($json["Nombre"]) ? $json["Nombre"] : null
         );
 

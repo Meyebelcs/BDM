@@ -70,14 +70,12 @@ class Mensaje
 
     // Constructor
     public function __construct(
-        $idMensaje,
         $idStatus,
         $idChat,
         $idUsuarioCreador,
         $mensaje,
         $fechaCreacion
     ) {
-        $this->idMensaje = $idMensaje;
         $this->idStatus = $idStatus;
         $this->idChat = $idChat;
         $this->idUsuarioCreador = $idUsuarioCreador;
@@ -88,7 +86,6 @@ class Mensaje
     static public function parseJson($json)
     {
         $mensaje = new Mensaje(
-            isset($json["idMensaje"]) ? $json["idMensaje"] : null,
             isset($json["idStatus"]) ? $json["idStatus"] : null,
             isset($json["idChat"]) ? $json["idChat"] : null,
             isset($json["idUsuarioCreador"]) ? $json["idUsuarioCreador"] : null,

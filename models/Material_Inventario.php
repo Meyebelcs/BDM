@@ -70,14 +70,12 @@ class MaterialInventario
 
     // Constructor
     public function __construct(
-        $idMaterial,
         $idProducto,
         $idStatus,
         $fechaCreacion,
         $nombre,
         $cantidad
     ) {
-        $this->idMaterial = $idMaterial;
         $this->idProducto = $idProducto;
         $this->idStatus = $idStatus;
         $this->fechaCreacion = $fechaCreacion;
@@ -88,7 +86,6 @@ class MaterialInventario
     static public function parseJson($json)
     {
         $materialInventario = new MaterialInventario(
-            isset($json["idMaterial"]) ? $json["idMaterial"] : null,
             isset($json["idProducto"]) ? $json["idProducto"] : null,
             isset($json["idStatus"]) ? $json["idStatus"] : null,
             isset($json["Fecha_creacion"]) ? $json["Fecha_creacion"] : null,

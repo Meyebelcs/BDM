@@ -59,13 +59,11 @@ class Venta
 
     // Constructor
     public function __construct(
-        $idVenta,
         $idStatus,
         $idUsuarioCliente,
         $fechaRegistro,
         $total
     ) {
-        $this->idVenta = $idVenta;
         $this->idStatus = $idStatus;
         $this->idUsuarioCliente = $idUsuarioCliente;
         $this->fechaRegistro = $fechaRegistro;
@@ -75,7 +73,6 @@ class Venta
     static public function parseJson($json)
     {
         $venta = new Venta(
-            isset($json["idVenta"]) ? $json["idVenta"] : null,
             isset($json["idStatus"]) ? $json["idStatus"] : null,
             isset($json["idUsuarioCliente"]) ? $json["idUsuarioCliente"] : null,
             isset($json["FechaHr_registro"]) ? $json["FechaHr_registro"] : null,

@@ -70,14 +70,12 @@ class Chat
 
     // Constructor
     public function __construct(
-        $idChat,
         $idUsuarioCliente,
         $idUsuarioVendedor,
         $idStatus,
         $idProducto,
         $fechaCreacion
     ) {
-        $this->idChat = $idChat;
         $this->idUsuarioCliente = $idUsuarioCliente;
         $this->idUsuarioVendedor = $idUsuarioVendedor;
         $this->idStatus = $idStatus;
@@ -88,7 +86,6 @@ class Chat
     static public function parseJson($json)
     {
         $chat = new Chat(
-            isset($json["idChat"]) ? $json["idChat"] : null,
             isset($json["idUsuarioCliente"]) ? $json["idUsuarioCliente"] : null,
             isset($json["idUsuarioVendedor"]) ? $json["idUsuarioVendedor"] : null,
             isset($json["idStatus"]) ? $json["idStatus"] : null,

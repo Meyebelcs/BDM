@@ -59,13 +59,11 @@ class Pago
 
     // Constructor
     public function __construct(
-        $idPago,
         $idTipoPago,
         $idVenta,
         $idStatus,
         $monto
     ) {
-        $this->idPago = $idPago;
         $this->idTipoPago = $idTipoPago;
         $this->idVenta = $idVenta;
         $this->idStatus = $idStatus;
@@ -75,7 +73,6 @@ class Pago
     static public function parseJson($json)
     {
         $pago = new Pago(
-            isset($json["idPago"]) ? $json["idPago"] : null,
             isset($json["idTipoPago"]) ? $json["idTipoPago"] : null,
             isset($json["idVenta"]) ? $json["idVenta"] : null,
             isset($json["idStatus"]) ? $json["idStatus"] : null,

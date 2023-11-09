@@ -126,7 +126,6 @@ class Product
 
     // Constructor
     public function __construct(
-        $idProducto,
         $idAdminAutorizacion,
         $idStatus,
         $idUsuarioCreador,
@@ -138,7 +137,6 @@ class Product
         $fechaActualizacion,
         $tipo
     ) {
-        $this->idProducto = $idProducto;
         $this->idAdminAutorizacion = $idAdminAutorizacion;
         $this->idStatus = $idStatus;
         $this->idUsuarioCreador = $idUsuarioCreador;
@@ -154,7 +152,6 @@ class Product
     static public function parseJson($json)
     {
         $product = new Product(
-            isset($json["idProducto"]) ? $json["idProducto"] : null,
             isset($json["idAdminAutorizacion"]) ? $json["idAdminAutorizacion"] : null,
             isset($json["idStatus"]) ? $json["idStatus"] : null,
             isset($json["idUsuarioCreador"]) ? $json["idUsuarioCreador"] : null,

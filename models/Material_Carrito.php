@@ -60,13 +60,11 @@ class MaterialCarrito
 
     // Constructor
     public function __construct(
-        $idMaterialCarrito,
         $idCarrito,
         $idMaterial,
         $idStatus,
         $cantidad
     ) {
-        $this->idMaterialCarrito = $idMaterialCarrito;
         $this->idCarrito = $idCarrito;
         $this->idMaterial = $idMaterial;
         $this->idStatus = $idStatus;
@@ -76,7 +74,6 @@ class MaterialCarrito
     static public function parseJson($json)
     {
         $materialCarrito = new MaterialCarrito(
-            isset($json["idMaterialCarrito"]) ? $json["idMaterialCarrito"] : null,
             isset($json["idCarrito"]) ? $json["idCarrito"] : null,
             isset($json["idMaterial"]) ? $json["idMaterial"] : null,
             isset($json["idStatus"]) ? $json["idStatus"] : null,

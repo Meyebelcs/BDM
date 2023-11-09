@@ -49,12 +49,10 @@ class Archivo
 
     // Constructor
     public function __construct(
-        $idArchivo,
         $idProducto,
         $idStatus,
         $archivo
     ) {
-        $this->idArchivo = $idArchivo;
         $this->idProducto = $idProducto;
         $this->idStatus = $idStatus;
         $this->archivo = $archivo;
@@ -63,7 +61,6 @@ class Archivo
     static public function parseJson($json)
     {
         $archivo = new Archivo(
-            isset($json["idArchivo"]) ? $json["idArchivo"] : null,
             isset($json["idProducto"]) ? $json["idProducto"] : null,
             isset($json["idStatus"]) ? $json["idStatus"] : null,
             isset($json["Archivo"]) ? $json["Archivo"] : null

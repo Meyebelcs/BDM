@@ -71,14 +71,12 @@ class Categoria
 
     // Constructor
     public function __construct(
-        $idCategoria,
         $idUsuarioCreador,
         $idStatus,
         $nombre,
         $descripcion,
         $fechaCreacion
     ) {
-        $this->idCategoria = $idCategoria;
         $this->idUsuarioCreador = $idUsuarioCreador;
         $this->idStatus = $idStatus;
         $this->nombre = $nombre;
@@ -89,7 +87,6 @@ class Categoria
     static public function parseJson($json)
     {
         $categoria = new Categoria(
-            isset($json["idCategoria"]) ? $json["idCategoria"] : null,
             isset($json["idUsuarioCreador"]) ? $json["idUsuarioCreador"] : null,
             isset($json["idStatus"]) ? $json["idStatus"] : null,
             isset($json["Nombre"]) ? $json["Nombre"] : null,

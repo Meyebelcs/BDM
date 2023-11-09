@@ -48,12 +48,10 @@ class ProductoEnLista
 
     // Constructor
     public function __construct(
-        $idProductoEnLista,
         $idProducto,
         $idUsuarioCreador,
         $idLista
     ) {
-        $this->idProductoEnLista = $idProductoEnLista;
         $this->idProducto = $idProducto;
         $this->idUsuarioCreador = $idUsuarioCreador;
         $this->idLista = $idLista;
@@ -62,7 +60,6 @@ class ProductoEnLista
     static public function parseJson($json)
     {
         $productoEnLista = new ProductoEnLista(
-            isset($json["idProductoEnLista"]) ? $json["idProductoEnLista"] : null,
             isset($json["idProducto"]) ? $json["idProducto"] : null,
             isset($json["idUsuarioCreador"]) ? $json["idUsuarioCreador"] : null,
             isset($json["idLista"]) ? $json["idLista"] : null

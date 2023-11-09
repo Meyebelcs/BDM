@@ -81,7 +81,6 @@ class Comentario
 
     // Constructor
     public function __construct(
-        $idComentario,
         $idProducto,
         $idUsuarioCreador,
         $idStatus,
@@ -89,7 +88,6 @@ class Comentario
         $fechaPublicacion,
         $comentario
     ) {
-        $this->idComentario = $idComentario;
         $this->idProducto = $idProducto;
         $this->idUsuarioCreador = $idUsuarioCreador;
         $this->idStatus = $idStatus;
@@ -101,7 +99,6 @@ class Comentario
     static public function parseJson($json)
     {
         $comentario = new Comentario(
-            isset($json["idComentario"]) ? $json["idComentario"] : null,
             isset($json["idProducto"]) ? $json["idProducto"] : null,
             isset($json["idUsuarioCreador"]) ? $json["idUsuarioCreador"] : null,
             isset($json["idStatus"]) ? $json["idStatus"] : null,
