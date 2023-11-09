@@ -1,0 +1,371 @@
+
+
+.btn-menu {
+    position: absolute;
+    top: 24px;
+    left: 70px;
+    margin: 110;
+    padding: 110;
+    z-index: 10001; 
+    align-items: left;
+    
+}
+
+
+.btn-menu label {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+
+#btn-menu {
+    display: none;
+}
+
+.container-menu .cont-menu label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px; 
+    height: 40px; 
+    font-size: 20px; 
+    right: 130px;
+}
+
+.container-menu {
+    
+    position: fixed; /* Cambia a "fixed" para mantener el menú en la pantalla */
+    background: #00000080;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transition: all 500ms ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 9999; /* Establece un valor alto de z-index para el menú */
+}
+
+#btn-menu:checked ~ .container-menu {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+
+
+.cont-menu {
+    width: 100%;
+    max-width: 250px;
+    background: #00000080;
+    height: 100vh;
+    position: relative;
+    transition: all 500ms ease;
+    transform: translateX(-250px); 
+    z-index: 10000; 
+}
+
+
+
+
+#btn-menu:checked ~ .container-menu .cont-menu {
+    transform: translateX(0%);
+}
+
+/* Agrega estos estilos para dar formato al texto dentro del menú lateral */
+.cont-menu nav a {
+    display: block;
+    text-decoration: none;
+    padding: 10px 20px;
+    color: #424242;
+    border-left: 5px solid transparent;
+    transition: all 400ms ease;
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+/* Añade espacio vertical entre cada elemento del menú */
+.cont-menu nav a + a {
+    margin-top: 10px;
+}
+
+.cont-menu nav a:hover {
+    border-left: 15px solid #111111;
+    background: #1f1f1f;
+}
+
+
+
+
+/* =================== COLORS ======================= */
+:root {
+    --primary-color: #B7CBBF;
+    --primary-dark-color: #ebe6a8;
+    --secondary-color: #F4BFAD;
+    --accent-color: #B7CBBF;
+    --dark-color: #000000;
+    --light-color: #ffffff;
+}
+
+/* ==================== NAVBAR ====================== */
+nav {
+    background-color: var(--primary-color);
+}
+
+.navbar-brand{
+    color: var(--light-color);
+    font-size: 1000;
+    font-weight: 500;
+    margin-left: 30px;
+}
+
+.navbar-brand:hover{
+    color: var(--accent-color);
+}
+
+/*================= FOOTER =====================  */
+
+.footer{
+    color:white;
+    margin-top: auto;
+}
+
+/* ===================== BODY =================== */
+.main{
+    padding-bottom: 100px;
+}
+
+body{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: var(--dark-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ======================= BACKGROUND ==================== */
+
+.bg-tertiary{
+    background-color: var(--primary-dark-color);
+}
+
+
+.bg-primary{
+    background-color: var(--primary-color)
+    !important;
+}
+
+/* ========================== BUTTON ========================= */
+
+.btn-secondary{
+    --bs-btn-color:white;
+    --bs-btn-bg:var(--secondary-color);
+    --bs-btn-border-color:none;
+    --bs-btn-hover-color:white;
+    --bs-btn-hover-bg:var(--accent-color);
+    --bs-btn-hover-border-color:none;
+    --bs-btn-focus-shadow-rgb:none;
+    --bs-btn-active-color:#fff;
+    --bs-btn-active-bg:var(--secondary-color);
+    --bs-btn-active-border-color:none;
+    --bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color:#fff;
+    --bs-btn-disabled-bg:#7d6c6c;
+    --bs-btn-disabled-border-color:none;
+}
+
+/* =============================== SEARCHBAR ================================ */
+
+.search-results {
+    position: absolute;
+    width: 23%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 1;
+  }
+  
+  .search-results ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .search-results li {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .search-results li:hover {
+    background-color: #f0f0f0;
+  }
+  
+
+/* ======================= FORM CONTROL ======================== */
+.form-control:focus{
+    border-color:#dee2e6;
+    box-shadow:none
+}
+
+/*-----------MAIN-----------*/
+
+.profile-photo{
+    width: 2.7rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.container-fluid img{
+    display: block;
+    width: 100%;
+}
+
+.contenedor-comentarios a {
+    text-decoration: none;
+}
+
+.contenedor-comentarios {
+    height: 570px;
+    width: 100px;
+}
+
+
+
+.nombre-usuario {
+    font-weight: bold;
+    margin-right: .5rem;
+    color: inherit;
+}
+
+.messages-container{
+    border-left: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    
+    width: 800px;
+}
+
+
+
+
+.message{
+    margin-left: .5rem;
+}
+
+.myMessage{
+    margin-right: .5rem;
+}
+
+.message .texto{
+    background-color: #F0F0F0;
+    border-radius: 12px;
+    padding: 10px 15px;
+    margin-bottom: .5rem;
+    font-size: 0.9rem;
+    max-width: 25rem;
+    /* border: 0;
+    display: inline-block;
+    max-width: 100%;
+    position: relative; */
+}
+
+.myMessage .texto{
+    background-color: var(--primary-color);
+    border-radius: 12px;
+    padding: 10px 15px;
+    margin-bottom: .5rem;
+    font-size: 0.9rem;
+    color: white;
+    max-width: 25rem;
+    /* border: 0;
+    display: inline-block;
+    position: relative; */
+}
+
+.avatar{
+    width: 45px;
+    height: 45px;
+}
+
+/* ============================ FECHA ======================================== */
+
+.fecha-chiquita {
+    font-size: 12px;
+    color: #999999;
+}
+
+.fecha-chiquita-me {
+    font-size: 12px;
+    color: #dadada;
+}
+
+/* ====================== BREAKPOINTS =================== */
+@media (max-width:575px){
+    .col-xs-1{flex:0 0 auto;width:8.33333333%;}
+    .col-xs-2{flex:0 0 auto;width:16.66666667%;}
+    .col-xs-3{flex:0 0 auto;width:25%;}
+    .col-xs-4{flex:0 0 auto;width:33.33333333%;}
+    .col-xs-5{flex:0 0 auto;width:41.66666667%;}
+    .col-xs-6{flex:0 0 auto;width:50%;}
+    .col-xs-7{flex:0 0 auto;width:58.33333333%;}
+    .col-xs-8{flex:0 0 auto;width:66.66666667%;}
+    .col-xs-9{flex:0 0 auto;width:75%;}
+    .col-xs-10{flex:0 0 auto;width:83.33333333%;}
+    .col-xs-11{flex:0 0 auto;width:91.66666667%;}
+    .col-xs-12{flex:0 0 auto;width:100%;}
+    .text-xs-center{text-align:center !important;}
+    .d-xs-none{display:none!important}
+}
+
+@media((min-width:576px) and (max-width:767px)){
+    .text-sm-center{text-align:center !important;}
+}
+
+
+.messages-container {
+    border-left: 1px solid #cccccc;
+    width: 99%; /* Divide el espacio en dos */
+    overflow-y: auto;
+    padding: 10px; /* Ajusta el espaciado según tus necesidades */
+}
+
+/* Estilo específico para la segunda messages-container (derecha) */
+.messages-container-right {
+    border-left: none; /* Elimina el borde izquierdo de la segunda messages-container */
+    border-right: 1px solid #cccccc; /* Agrega un borde derecho a la segunda messages-container */
+}
+
+/* Ajusta la distribución de ambas messages-container en pantallas pequeñas */
+@media (max-width: 767px) {
+    .d-flex {
+        flex-direction: column; /* Apila ambas messages-container en pantallas pequeñas */
+    }
+    .messages-container {
+        width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+        border-left: none; /* Elimina el borde izquierdo en pantallas pequeñas */
+        border-right: none; /* Elimina el borde derecho en pantallas pequeñas */
+    }
+}
+
+.button-cotizar {
+    background-color: #F4BFAD;
+    color: white;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 1rem;
+    
+}
+
+.button-cotizar:hover {
+    background-color: #B7CBBF;
+}
+
+.navbar-brand {
+    font-size: 30px; /* Cambia el valor a tu preferencia */
+}
+

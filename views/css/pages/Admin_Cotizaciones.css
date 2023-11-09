@@ -1,0 +1,245 @@
+
+
+.profile_Section{
+    background-color: #F5DABD;
+}
+
+.background{
+     background-color: #ffffff;
+}
+.capa{
+    
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #B7CBBF;
+    z-index: -1;
+    top: 0;left: 0;
+}
+.btn-menu {
+    position: absolute;
+    top: 24px;
+    left: 70px;
+    z-index: 10001;
+}
+
+.search-bar {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    align-items: center;
+}
+
+.btn-menu label {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+#btn-menu {
+    display: none;
+}
+
+.container-menu label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+}
+
+.container-menu {
+    position: fixed;
+    background: #00000080;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transition: all 500ms ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 9999;
+}
+
+#btn-menu:checked ~ .container-menu {
+    opacity: 1;
+    visibility: visible;
+}
+
+.cont-menu {
+    width: 100%;
+    max-width: 250px;
+    background: #00000080;
+    height: 100vh;
+    position: relative;
+    transition: all 500ms ease;
+    transform: translateX(-250px);
+    z-index: 10000;
+}
+
+#btn-menu:checked ~ .container-menu .cont-menu {
+    transform: translateX(0%);
+}
+
+.cont-menu nav a {
+    display: block;
+    text-decoration: none;
+    padding: 10px 20px;
+    color: #424242;
+    border-left: 5px solid transparent;
+    transition: all 400ms ease;
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+.cont-menu nav a + a {
+    margin-top: 10px;
+}
+
+.cont-menu nav a:hover {
+    border-left: 15px solid #111111;
+    background: #1f1f1f;
+}
+
+:root {
+    --primary-color: #F5DABD;
+    --secondary-color: #F4BFAD;
+    --accent-color: #020202;
+    --dark-color: #000000;
+    --light-color: #ffffff;
+}
+
+nav {
+    background-color: var(--primary-color);
+}
+
+.navbar-brand {
+    color: var(--light-color);
+    font-size: 1000;
+    font-weight: 5000;
+    margin-left: 30px;
+}
+
+.footer {
+    color: #B7CBBF;
+    margin-top: auto;
+}
+
+.main {
+    padding-bottom: 100px;
+}
+
+body {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: var(--dark-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.bg-tertiary {
+    background-color: var(--light-color);
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.border-primary {
+    border-color: var(--primary-color) !important;
+}
+
+.btn-secondary {
+    --bs-btn-color: white;
+    --bs-btn-bg: var(--secondary-color);
+    --bs-btn-border-color: none;
+    --bs-btn-hover-color: white;
+    --bs-btn-hover-bg: var(--accent-color);
+    --bs-btn-hover-border-color: none;
+    --bs-btn-focus-shadow-rgb: none;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--secondary-color);
+    --bs-btn-active-border-color: none;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #6c757d;
+    --bs-btn-disabled-border-color: none;
+}
+
+
+
+/*================= FOOTER =====================  */
+
+
+.container-fluid footer{
+    background-color: #B7CBBF;
+    color: #ffffff;
+}
+
+/* -----------------SWITCH ---------*/
+
+
+ /* Estilos para el interruptor */
+ .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Estilos para el input oculto */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* Estilos para la bolita */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #B7CBBF;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  /* Estilos para la bolita cuando está activada */
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  /* Estilos para el interruptor cuando está activado */
+  input:checked + .slider {
+    background-color: #F4BFAD;
+  }
+  
+  /* Estilos para la bolita cuando está activada */
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Estilos para el texto del interruptor */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  /* Estilos para la bolita redonda */
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
