@@ -128,6 +128,61 @@ class Lista
         return $lista;
     }
 
+    public function insertLista($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertLista(?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssssss",
+            $this->idStatus,
+            $this->idUsuarioCreador,
+            $this->nombre,
+            $this->descripcion,
+            $this->imagen,
+            $this->fechaCreacion,
+            $this->modo
+        );
+
+        if ($stmt->execute()) {
+            $this->idLista = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findListaById($mysqli, $idLista)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindListaById(?)");
+        $stmt->bind_param("i", $idLista);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $lista = $result->fetch_assoc();
+
+        return $lista ? self::parseJson($lista) : null;
+    }
+
+    public function updateLista($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateLista(?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssssss",
+            $this->idLista,
+            $this->idStatus,
+            $this->idUsuarioCreador,
+            $this->nombre,
+            $this->descripcion,
+            $this->imagen,
+            $this->modo
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
+
     public function toJSON()
     {
         return get_object_vars($this);

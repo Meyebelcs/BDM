@@ -170,6 +170,66 @@ class Product
 
         return $product;
     }
+    public function insertProducto($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertProducto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "ssssssssss",
+            $this->idAdminAutorizacion,
+            $this->idStatus,
+            $this->idUsuarioCreador,
+            $this->nombre,
+            $this->descripcion,
+            $this->precio,
+            $this->inventario,
+            $this->fechaPublicacion,
+            $this->fechaActualizacion,
+            $this->tipo
+        );
+
+        if ($stmt->execute()) {
+            $this->idProducto = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findProductoById($mysqli, $idProducto)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindProductoById(?)");
+        $stmt->bind_param("i", $idProducto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $producto = $result->fetch_assoc();
+
+        return $producto ? self::parseJson($producto) : null;
+    }
+
+    public function updateProducto($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateProducto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssssssssss",
+            $this->idProducto,
+            $this->idAdminAutorizacion,
+            $this->idStatus,
+            $this->idUsuarioCreador,
+            $this->nombre,
+            $this->descripcion,
+            $this->precio,
+            $this->inventario,
+            $this->fechaPublicacion,
+            $this->fechaActualizacion,
+            $this->tipo
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
 
     public function toJSON()
     {

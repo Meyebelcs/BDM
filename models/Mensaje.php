@@ -95,10 +95,60 @@ class Mensaje
         if (isset($json["idMensaje"])) {
             $mensaje->setIdMensaje((int) $json["idMensaje"]);
         }
-        
+
 
         return $mensaje;
     }
+
+    public function insertMensaje($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertMensaje(?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssss",
+            $this->idStatus,
+            $this->idChat,
+            $this->idUsuarioCreador,
+            $this->mensaje,
+            $this->fechaCreacion
+        );
+
+        if ($stmt->execute()) {
+            $this->idMensaje = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findMensajeById($mysqli, $idMensaje)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindMensajeById(?)");
+        $stmt->bind_param("i", $idMensaje);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $mensaje = $result->fetch_assoc();
+
+        return $mensaje ? self::parseJson($mensaje) : null;
+    }
+
+    public function updateMensaje($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateMensaje(?, ?, ?, ?)");
+        $stmt->bind_param(
+            "ssss",
+            $this->idMensaje,
+            $this->idStatus,
+            $this->idChat,
+            $this->mensaje
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
 
     public function toJSON()
     {

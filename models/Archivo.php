@@ -68,8 +68,55 @@ class Archivo
         if (isset($json["idArchivo"])) {
             $archivo->setIdArchivo((int) $json["idArchivo"]);
         }
-        
+
         return $archivo;
+    }
+
+    public function insertArchivo($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertArchivo(?, ?, ?)");
+        $stmt->bind_param(
+            "sss",
+            $this->idProducto,
+            $this->idStatus,
+            $this->archivo
+        );
+
+        if ($stmt->execute()) {
+            $this->idArchivo = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findArchivoById($mysqli, $idArchivo)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindArchivoById(?)");
+        $stmt->bind_param("i", $idArchivo);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $archivo = $result->fetch_assoc();
+
+        return $archivo ? self::parseJson($archivo) : null;
+    }
+
+    public function updateArchivo($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateArchivo(?, ?, ?, ?)");
+        $stmt->bind_param(
+            "ssss",
+            $this->idArchivo,
+            $this->idProducto,
+            $this->idStatus,
+            $this->archivo
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
     }
 
     public function toJSON()

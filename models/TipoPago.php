@@ -56,6 +56,51 @@ class TipoPago
         return $tipoPago;
     }
 
+    public function insertTipoPago($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertTipoPago(?, ?)");
+        $stmt->bind_param(
+            "ss",
+            $this->idStatus,
+            $this->nombre
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findTipoPagoById($mysqli, $idTipoPago)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindTipoPagoById(?)");
+        $stmt->bind_param("i", $idTipoPago);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $tipoPago = $result->fetch_assoc();
+
+        return $tipoPago ? self::parseJson($tipoPago) : null;
+    }
+
+    public function updateTipoPago($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateTipoPago(?, ?, ?)");
+        $stmt->bind_param(
+            "sss",
+            $this->idTipoPago,
+            $this->idStatus,
+            $this->nombre
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
+
     public function toJSON()
     {
         return get_object_vars($this);

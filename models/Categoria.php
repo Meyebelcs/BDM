@@ -84,6 +84,56 @@ class Categoria
         $this->fechaCreacion = $fechaCreacion;
     }
 
+    public function insertCategoria($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertCategoria(?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssss",
+            $this->idUsuarioCreador,
+            $this->idStatus,
+            $this->nombre,
+            $this->descripcion,
+            $this->fechaCreacion
+        );
+    
+        if ($stmt->execute()) {
+            $this->idCategoria = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+    
+    public function findCategoriaById($mysqli, $idCategoria)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindCategoriaById(?)");
+        $stmt->bind_param("i", $idCategoria);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $categoria = $result->fetch_assoc();
+    
+        return $categoria ? self::parseJson($categoria) : null;
+    }
+    
+    public function updateCategoria($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateCategoria(?, ?, ?, ?)");
+        $stmt->bind_param(
+            "ssss",
+            $this->idCategoria,
+            $this->idStatus,
+            $this->nombre,
+            $this->descripcion,
+        );
+    
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+    
+
     static public function parseJson($json)
     {
         $categoria = new Categoria(

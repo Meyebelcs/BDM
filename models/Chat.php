@@ -96,10 +96,59 @@ class Chat
         if (isset($json["idChat"])) {
             $chat->setIdChat((int) $json["idChat"]);
         }
-        
+
 
         return $chat;
     }
+
+    public function insertChat($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertChat(?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssss",
+            $this->idUsuarioCliente,
+            $this->idUsuarioVendedor,
+            $this->idStatus,
+            $this->idProducto,
+            $this->fechaCreacion
+        );
+
+        if ($stmt->execute()) {
+            $this->idChat = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findChatById($mysqli, $idChat)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindChatById(?)");
+        $stmt->bind_param("i", $idChat);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $chat = $result->fetch_assoc();
+
+        return $chat ? self::parseJson($chat) : null;
+    }
+
+    public function updateChat($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateChat(?, ?, ?)");
+        $stmt->bind_param(
+            "sss",
+            $this->idChat,
+            $this->idStatus,
+            $this->idProducto
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
 
     public function toJSON()
     {

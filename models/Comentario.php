@@ -114,6 +114,56 @@ class Comentario
         return $comentario;
     }
 
+    public function insertComentario($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertComentario(?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "ssssss",
+            $this->idProducto,
+            $this->idUsuarioCreador,
+            $this->idStatus,
+            $this->calificacion,
+            $this->fechaPublicacion,
+            $this->comentario
+        );
+
+        if ($stmt->execute()) {
+            $this->idComentario = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findComentarioById($mysqli, $idComentario)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindComentarioById(?)");
+        $stmt->bind_param("i", $idComentario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $comentario = $result->fetch_assoc();
+
+        return $comentario ? self::parseJson($comentario) : null;
+    }
+
+    public function updateComentario($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateComentario(?, ?, ?, ?)");
+        $stmt->bind_param(
+            "ssss",
+            $this->idComentario,
+            $this->idStatus,
+            $this->calificacion,
+            $this->comentario
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
     public function toJSON()
     {
         return get_object_vars($this);

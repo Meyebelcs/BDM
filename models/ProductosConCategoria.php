@@ -68,10 +68,58 @@ class ProductosConCategoria
         if (isset($json["idProductosConCategoria"])) {
             $productosConCategoria->setIdProductosConCategoria((int) $json["idProductosConCategoria"]);
         }
-        
+
 
         return $productosConCategoria;
     }
+
+    public function insertProductosConCategoria($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertProductosConCategoria(?, ?, ?)");
+        $stmt->bind_param(
+            "iii",
+            $this->idCategoria,
+            $this->idProducto,
+            $this->idStatus
+        );
+
+        if ($stmt->execute()) {
+            $this->idProductosConCategoria = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findProductosConCategoriaById($mysqli, $idProductosConCategoria)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindProductosConCategoriaById(?)");
+        $stmt->bind_param("i", $idProductosConCategoria);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $productosConCategoria = $result->fetch_assoc();
+
+        return $productosConCategoria ? self::parseJson($productosConCategoria) : null;
+    }
+
+    public function updateProductosConCategoria($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateProductosConCategoria(?, ?, ?, ?)");
+        $stmt->bind_param(
+            "iiii",
+            $this->idProductosConCategoria,
+            $this->idCategoria,
+            $this->idProducto,
+            $this->idStatus
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
 
     public function toJSON()
     {

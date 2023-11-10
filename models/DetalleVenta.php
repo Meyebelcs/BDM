@@ -85,6 +85,55 @@ class DetalleVenta
         return $detalleVenta;
     }
 
+    public function insertDetalleVenta($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertDetalleVenta(?, ?, ?, ?)");
+        $stmt->bind_param(
+            "ssss",
+            $this->idVenta,
+            $this->idProducto,
+            $this->idCarrito,
+            $this->idStatus
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findDetalleVentaById($mysqli, $idDetalleVenta)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindDetalleVentaById(?)");
+        $stmt->bind_param("i", $idDetalleVenta);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $detalleVenta = $result->fetch_assoc();
+
+        return $detalleVenta ? self::parseJson($detalleVenta) : null;
+    }
+
+    public function updateDetalleVenta($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateDetalleVenta(?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssss",
+            $this->idDetalleVenta,
+            $this->idVenta,
+            $this->idProducto,
+            $this->idCarrito,
+            $this->idStatus
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
+
     public function toJSON()
     {
         return get_object_vars($this);

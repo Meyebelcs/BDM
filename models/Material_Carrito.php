@@ -82,9 +82,59 @@ class MaterialCarrito
         if (isset($json["idMaterialCarrito"])) {
             $materialCarrito->setIdMaterialCarrito((int) $json["idMaterialCarrito"]);
         }
-        
+
         return $materialCarrito;
     }
+
+    public function insertMaterialCarrito($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertMaterialCarrito(?, ?, ?, ?)");
+        $stmt->bind_param(
+            "ssss",
+            $this->idCarrito,
+            $this->idMaterial,
+            $this->idStatus,
+            $this->cantidad
+        );
+
+        if ($stmt->execute()) {
+            $this->idMaterialCarrito = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findMaterialCarritoById($mysqli, $idMaterialCarrito)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindMaterialCarritoById(?)");
+        $stmt->bind_param("i", $idMaterialCarrito);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $materialCarrito = $result->fetch_assoc();
+
+        return $materialCarrito ? self::parseJson($materialCarrito) : null;
+    }
+
+    public function updateMaterialCarrito($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateMaterialCarrito(?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssss",
+            $this->idMaterialCarrito,
+            $this->idCarrito,
+            $this->idMaterial,
+            $this->idStatus,
+            $this->cantidad
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
 
     public function toJSON()
     {

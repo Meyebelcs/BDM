@@ -202,7 +202,7 @@ class User
     public function save($mysqli)
     {
         // Llamar al procedimiento almacenado
-        $stmt = $mysqli->prepare("CALL sp_insert_user(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $mysqli->prepare("CALL sp_InsertUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssssssssss", $this->idStatus, $this->email, $this->username, $this->contrasena, $this->rol, $this->imagen, $this->nombres, $this->apellidos, $this->fechaNacimiento, $this->sexo, $this->fechaRegistro, $this->modo, $this->fechaModificacion);
         $stmt->execute();
         $this->idUsuario = (int) $stmt->insert_id;
@@ -227,7 +227,7 @@ class User
         $user = $result->fetch_assoc();
         return $user ? User::parseJson($user) : null;
     }
-
+    
     public function update($mysqli)
     {
         // Llamar al procedimiento almacenado

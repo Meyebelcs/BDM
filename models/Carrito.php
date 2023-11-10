@@ -151,8 +151,66 @@ class Carrito
         if (isset($json["idCarrito"])) {
             $carrito->setIdCarrito((int) $json["idCarrito"]);
         }
-        
+
         return $carrito;
+    }
+
+    public function insertCarrito($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertCarrito(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssssssss",
+            $this->idUsuarioCliente,
+            $this->idProducto,
+            $this->idStatus,
+            $this->cantidad,
+            $this->precioUnitario,
+            $this->subtotal,
+            $this->descripcion,
+            $this->fechaAgregado,
+            $this->tipo
+        );
+
+        if ($stmt->execute()) {
+            $this->idCarrito = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findCarritoById($mysqli, $idCarrito)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindCarritoById(?)");
+        $stmt->bind_param("i", $idCarrito);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $carrito = $result->fetch_assoc();
+
+        return $carrito ? self::parseJson($carrito) : null;
+    }
+
+    public function updateCarrito($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateCarrito(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssssssss",
+            $this->idCarrito,
+            $this->idProducto,
+            $this->idStatus,
+            $this->cantidad,
+            $this->precioUnitario,
+            $this->subtotal,
+            $this->descripcion,
+            $this->fechaAgregado,
+            $this->tipo
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
     }
 
     public function toJSON()

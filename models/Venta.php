@@ -81,9 +81,59 @@ class Venta
         if (isset($json["idVenta"])) {
             $venta->setIdVenta((int) $json["idVenta"]);
         }
-        
+
         return $venta;
     }
+
+    public function insertVenta($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertVenta(?, ?, ?, ?)");
+        $stmt->bind_param(
+            "ssss",
+            $this->idStatus,
+            $this->idUsuarioCliente,
+            $this->fechaRegistro,
+            $this->total
+        );
+
+        if ($stmt->execute()) {
+            $this->idVenta = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findVentaById($mysqli, $idVenta)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindVentaById(?)");
+        $stmt->bind_param("i", $idVenta);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $venta = $result->fetch_assoc();
+
+        return $venta ? self::parseJson($venta) : null;
+    }
+
+    public function updateVenta($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateVenta(?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssss",
+            $this->idVenta,
+            $this->idStatus,
+            $this->idUsuarioCliente,
+            $this->fechaRegistro,
+            $this->total
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
 
     public function toJSON()
     {

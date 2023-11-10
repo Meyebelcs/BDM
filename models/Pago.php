@@ -81,9 +81,58 @@ class Pago
         if (isset($json["idPago"])) {
             $pago->setIdPago((int) $json["idPago"]);
         }
-        
+
         return $pago;
     }
+
+    public function insertPago($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertPago(?, ?, ?, ?)");
+        $stmt->bind_param(
+            "ssss",
+            $this->idTipoPago,
+            $this->idVenta,
+            $this->idStatus,
+            $this->monto
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findPagoById($mysqli, $idPago)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindPagoById(?)");
+        $stmt->bind_param("i", $idPago);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $pago = $result->fetch_assoc();
+
+        return $pago ? self::parseJson($pago) : null;
+    }
+
+    public function updatePago($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdatePago(?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssss",
+            $this->idPago,
+            $this->idTipoPago,
+            $this->idVenta,
+            $this->idStatus,
+            $this->monto
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
 
     public function toJSON()
     {

@@ -68,9 +68,56 @@ class ProductoEnLista
         if (isset($json["idProductoEnLista"])) {
             $productoEnLista->setIdProductoEnLista((int) $json["idProductoEnLista"]);
         }
-        
+
         return $productoEnLista;
     }
+
+    public function insertProductoEnLista($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertProductoEnLista(?, ?, ?)");
+        $stmt->bind_param(
+            "iii",
+            $this->idProducto,
+            $this->idUsuarioCreador,
+            $this->idLista
+        );
+
+        if ($stmt->execute()) {
+            $this->idProductoEnLista = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+
+    public function findProductoEnListaById($mysqli, $idProductoEnLista)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindProductoEnListaById(?)");
+        $stmt->bind_param("i", $idProductoEnLista);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $productoEnLista = $result->fetch_assoc();
+
+        return $productoEnLista ? self::parseJson($productoEnLista) : null;
+    }
+
+    public function updateProductoEnLista($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateProductoEnLista(?, ?, ?)");
+        $stmt->bind_param(
+            "iii",
+            $this->idProductoEnLista,
+            $this->idProducto,
+            $this->idLista
+        );
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
 
     public function toJSON()
     {

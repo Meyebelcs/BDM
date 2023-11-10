@@ -99,7 +99,56 @@ class MaterialInventario
 
         return $materialInventario;
     }
-
+    public function insertMaterialInventario($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_InsertMaterialInventario(?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssss",
+            $this->idProducto,
+            $this->idStatus,
+            $this->fechaCreacion,
+            $this->nombre,
+            $this->cantidad
+        );
+    
+        if ($stmt->execute()) {
+            $this->idMaterial = (int) $stmt->insert_id;
+            return true; // Éxito en la inserción
+        } else {
+            return false; // Error en la inserción
+        }
+    }
+    
+    public function findMaterialInventarioById($mysqli, $idMaterial)
+    {
+        $stmt = $mysqli->prepare("CALL sp_FindMaterialInventarioById(?)");
+        $stmt->bind_param("i", $idMaterial);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $materialInventario = $result->fetch_assoc();
+      
+        return $materialInventario ? self::parseJson($materialInventario) : null;
+    }
+    
+    public function updateMaterialInventario($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateMaterialInventario(?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssss",
+            $this->idMaterial,
+            $this->idProducto,
+            $this->idStatus,
+            $this->nombre,
+            $this->cantidad
+        );
+    
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+    
     public function toJSON()
     {
         return get_object_vars($this);

@@ -1,7 +1,7 @@
 ------------insert user------------
 DELIMITER //
 
-CREATE PROCEDURE sp_insert_user(
+CREATE PROCEDURE sp_InsertUser(
     IN p_idStatus INT,
     IN p_email VARCHAR(255),
     IN p_username VARCHAR(255),
