@@ -114,6 +114,20 @@ class Categoria
     
         return $categoria ? self::parseJson($categoria) : null;
     }
+
+    public static function getAllCategorias($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_GetAllCategorias()");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $categorias = array();
+
+        while ($row = $result->fetch_assoc()) {
+            $categorias[] = $row;
+        }
+
+        return $categorias;
+    }
     
     public function updateCategoria($mysqli)
     {

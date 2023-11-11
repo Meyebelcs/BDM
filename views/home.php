@@ -1,3 +1,9 @@
+<!-- NOOO HA SIDO PROGRAMADA -->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
 <?php
 session_start();
 
@@ -122,7 +128,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="Detalle-producto.php" class="btn btn-secondary">Saber más</a>
+              <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
           <div class="card swiper-slide" style="width: 23rem;">
@@ -152,7 +158,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="Detalle-producto.php" class="btn btn-secondary">Saber más</a>
+              <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
           <div class="card swiper-slide" style="width: 23rem;">
@@ -182,7 +188,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="Detalle-producto.php" class="btn btn-secondary">Saber más</a>
+              <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
           <div class="card swiper-slide" style="width: 23rem;">
@@ -212,7 +218,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="" class="btn btn-secondary">Saber más</a>
+             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
           <div class="card swiper-slide" style="width: 23rem;">
@@ -239,7 +245,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="Detalle-producto.php" class="btn btn-secondary">Saber más</a>
+              <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
 
@@ -283,7 +289,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="" class="btn btn-secondary">Saber más</a>
+              <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
           <div class="card swiper-slide" style="width: 23rem;">
@@ -310,7 +316,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="" class="btn btn-secondary">Saber más</a>
+             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
           <div class="card swiper-slide" style="width: 23rem;">
@@ -337,7 +343,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="" class="btn btn-secondary">Saber más</a>
+             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
           <div class="card swiper-slide" style="width: 23rem;">
@@ -364,7 +370,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="" class="btn btn-secondary">Saber más</a>
+             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
           <div class="card swiper-slide" style="width: 23rem;">
@@ -391,7 +397,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="" class="btn btn-secondary">Saber más</a>
+             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
 
@@ -433,7 +439,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="" class="btn btn-secondary">Saber más</a>
+             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
           <div class="card swiper-slide" style="width: 23rem;">
@@ -460,7 +466,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="" class="btn btn-secondary">Saber más</a>
+             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
           <div class="card swiper-slide" style="width: 23rem;">
@@ -487,7 +493,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="" class="btn btn-secondary">Saber más</a>
+             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
           <div class="card swiper-slide" style="width: 23rem;">
@@ -514,7 +520,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="" class="btn btn-secondary">Saber más</a>
+             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
           <div class="card swiper-slide" style="width: 23rem;">
@@ -541,7 +547,7 @@ require_once './components/menu.php';
               <h6 class="card-text mb-3 fw-bolder">$
                 34 MXN
               </h6>
-              <a href="" class="btn btn-secondary">Saber más</a>
+             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
 

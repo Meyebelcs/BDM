@@ -1,3 +1,9 @@
+<!-- NOOO HA SIDO PROGRAMADA -->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
 <?php
 session_start();
 
@@ -39,7 +45,7 @@ require_once './components/menu.php';
                         <h6>@arleth_mel</h6>
                     </div>
                     <div class="col-12 text-center mt-3">
-                        <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#changePhoto">Enviar
+                        <a href="chat.php" class="btn btn-secondary">Enviar
                             Mensaje</a>
                     </div>
                 </div>
@@ -78,7 +84,7 @@ require_once './components/menu.php';
                                     <i class="bi bi-star"></i>
                                 </div>
 
-                                <a href="Detalle-producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
                                 <div style="position: absolute; bottom: 10px; right: 10px;">
                                     <i class="bi bi-heart"></i>
@@ -105,7 +111,7 @@ require_once './components/menu.php';
                                     <i class="bi bi-star"></i>
                                 </div>
 
-                                <a href="Detalle-producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
                                 <div style="position: absolute; bottom: 10px; right: 10px;">
                                     <i class="bi bi-heart"></i>
@@ -132,7 +138,7 @@ require_once './components/menu.php';
                                     <i class="bi bi-star"></i>
                                 </div>
 
-                                <a href="Detalle-producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
                                 <div style="position: absolute; bottom: 10px; right: 10px;">
                                     <i class="bi bi-heart"></i>
@@ -159,7 +165,7 @@ require_once './components/menu.php';
                                     <i class="bi bi-star"></i>
                                 </div>
 
-                                <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                  <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
                                 <div style="position: absolute; bottom: 10px; right: 10px;">
                                     <i class="bi bi-heart"></i>
@@ -186,7 +192,7 @@ require_once './components/menu.php';
                                     <i class="bi bi-star"></i>
                                 </div>
 
-                                <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                  <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
                                 <div style="position: absolute; bottom: 10px; right: 10px;">
                                     <i class="bi bi-heart"></i>
@@ -213,7 +219,7 @@ require_once './components/menu.php';
                                     <i class="bi bi-star"></i>
                                 </div>
 
-                                <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                  <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
                                 <div style="position: absolute; bottom: 10px; right: 10px;">
                                     <i class="bi bi-heart"></i>
@@ -240,7 +246,7 @@ require_once './components/menu.php';
                                     <i class="bi bi-star"></i>
                                 </div>
 
-                                <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                  <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
                                 <div style="position: absolute; bottom: 10px; right: 10px;">
                                     <i class="bi bi-heart"></i>
@@ -267,7 +273,7 @@ require_once './components/menu.php';
                                     <i class="bi bi-star"></i>
                                 </div>
 
-                                <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                  <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
                                 <div style="position: absolute; bottom: 10px; right: 10px;">
                                     <i class="bi bi-heart"></i>
@@ -311,7 +317,7 @@ require_once './components/menu.php';
                                 <i class="bi bi-star"></i>
                                 <i class="bi bi-star"></i>
                             </div>
-                            <a href="" class="btn btn-secondary mb-1" id="">Enviar Mensaje</a>
+                            <a href="chat.php" class="btn btn-secondary mb-1" id="">Enviar Mensaje</a>
                         </div>
                     </div>
                     <div class="card border mb-5" style="width: 50rem; ">
@@ -341,7 +347,7 @@ require_once './components/menu.php';
                                 <i class="bi bi-star"></i>
                                 <i class="bi bi-star"></i>
                             </div>
-                            <a href="" class="btn btn-secondary mb-1" id="">Enviar Mensaje</a>
+                             <a href="chat.php" class="btn btn-secondary mb-1" id="">Enviar Mensaje</a>
                         </div>
                     </div>
                     <div class="card border mb-5" style="width: 50rem; ">
@@ -371,7 +377,7 @@ require_once './components/menu.php';
                                 <i class="bi bi-star"></i>
                                 <i class="bi bi-star"></i>
                             </div>
-                            <a href="" class="btn btn-secondary mb-1" id="">Enviar Mensaje</a>
+                             <a href="chat.php" class="btn btn-secondary mb-1" id="">Enviar Mensaje</a>
                         </div>
                     </div>
 

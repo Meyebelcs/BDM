@@ -68,3 +68,14 @@ BEGIN
 END //
 
 DELIMITER ;
+
+------------getall-----------------------
+DELIMITER //
+
+CREATE PROCEDURE sp_GetAllCategorias()
+BEGIN
+    SELECT idCategoria, Nombre, Descripcion, Fecha_creacion
+    FROM Categoria;
+END //
+
+DELIMITER ;

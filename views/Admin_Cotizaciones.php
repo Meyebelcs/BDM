@@ -1,3 +1,9 @@
+<!-- NOOO HA SIDO PROGRAMADA -->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
 <?php
 session_start();
 
@@ -98,7 +104,7 @@ require_once './components/menu.php';
                       <td data-title="Cotización">Pinturas de Oleo</td>
                       <td data-title="Usuario">Elian Padilla</td>
                       <td data-title="Detalle">
-                        <a class="btn btn-secondary" href="">Ver detalles</a>
+                        <a class="btn btn-secondary" href="Detalle_producto.php">Ver detalles</a>
                       </td>
                       <td data-title="Aceptar/Declinar">
                         <a class="btn text-success" href=""><i class="bi bi-check-circle-fill"></i></a>
@@ -109,7 +115,7 @@ require_once './components/menu.php';
                       <td data-title="Cotización">Manualidades</td>
                       <td data-title="Usuario">Mary Sofia</td>
                       <td data-title="Detalle">
-                        <a class="btn btn-secondary" href="">Ver detalles</a>
+                         <a class="btn btn-secondary" href="Detalle_producto.php">Ver detalles</a>
                       </td>
                       <td data-title="Aceptar/Declinar">
                         <a class="btn text-success" href=""><i class="bi bi-check-circle-fill"></i></a>
@@ -120,7 +126,7 @@ require_once './components/menu.php';
                       <td data-title="Cotización">Mesas de maders</td>
                       <td data-title="Usuario">Daniel Gomez</td>
                       <td data-title="Detalle">
-                        <a class="btn btn-secondary" href="">Ver detalles</a>
+                         <a class="btn btn-secondary" href="Detalle_producto.php">Ver detalles</a>
                       </td>
                       <td data-title="Aceptar/Declinar">
                         <a class="btn text-success" href=""><i class="bi bi-check-circle-fill"></i></a>
@@ -149,7 +155,7 @@ require_once './components/menu.php';
                       <td data-title="Cotizaciones">feroo</td>
                       <td data-title="Usuario">Abiel Mario</td>
                       <td data-title="Detalle"><button class="btn btn-secondary ">
-                          <a class="nav-link text-white" href="">Ver detalles</a></button></td>
+                          <a class="nav-link text-white" href="Detalle_producto.php">Ver detalles</a></button></td>
                       <td data-title="Activar"><button class="btn btn-secondary ">
                           <a class="nav-link text-white" href="">Activar</a></button></td>
                       </td>
@@ -158,7 +164,7 @@ require_once './components/menu.php';
                       <td data-title="Cotizaciones">fs</td>
                       <td data-title="Usuario">Oliver Joe</td>
                       <td data-title="Detalle"><button class="btn btn-secondary ">
-                          <a class="nav-link text-white" href="">Ver detalles</a></button></td>
+                          <a class="nav-link text-white" href="Detalle_producto.php">Ver detalles</a></button></td>
                       <td data-title="Activar"><button class="btn btn-secondary ">
                           <a class="nav-link text-white" href="">Activar</a></button></td>
                       </td>
@@ -167,7 +173,7 @@ require_once './components/menu.php';
                       <td data-title="Cotizaciones">gg</td>
                       <td data-title="Usuario">Melissa Castro</td>
                       <td data-title="Detalle"><button class="btn btn-secondary ">
-                          <a class="nav-link text-white" href="">Ver detalles</a></button></td>
+                          <a class="nav-link text-white" href="Detalle_producto.php">Ver detalles</a></button></td>
                       <td data-title="Activar"><button class="btn btn-secondary ">
                           <a class="nav-link text-white" href="">Activar</a></button></td>
                       </td>
@@ -176,7 +182,7 @@ require_once './components/menu.php';
                       <td data-title="Cotizaciones">gatos</td>
                       <td data-title="Usuario">Jorge Esteban</td>
                       <td data-title="Detalle"><button class="btn btn-secondary ">
-                          <a class="nav-link text-white" href="">Ver detalles</a></button></td>
+                          <a class="nav-link text-white" href="Detalle_producto.php">Ver detalles</a></button></td>
                       <td data-title="Activar"><button class="btn btn-secondary ">
                           <a class="nav-link text-white" href="">Activar</a></button></td>
                       </td>
@@ -185,7 +191,7 @@ require_once './components/menu.php';
                       <td data-title="Cotizaciones">juguetes</td>
                       <td data-title="Usuario">Regina Mirna</td>
                       <td data-title="Detalle"><button class="btn btn-secondary ">
-                          <a class="nav-link text-white" href="">Ver detalles</a></button></td>
+                          <a class="nav-link text-white" href="Detalle_producto.php">Ver detalles</a></button></td>
                       <td data-title="Activar"><button class="btn btn-secondary ">
                           <a class="nav-link text-white" href="">Activar</a></button></td>
                       </td>
@@ -194,7 +200,7 @@ require_once './components/menu.php';
                       <td data-title="Cotizaciones">rollo</td>
                       <td data-title="Usuario">Amanda Mirabel</td>
                       <td data-title="Detalle"><button class="btn btn-secondary ">
-                          <a class="nav-link text-white" href="">Ver detalles</a></button></td>
+                          <a class="nav-link text-white" href="Detalle_producto.php">Ver detalles</a></button></td>
                       <td data-title="Activar"><button class="btn btn-secondary ">
                           <a class="nav-link text-white" href="">Activar</a></button></td>
                       </td>

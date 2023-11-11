@@ -5,19 +5,29 @@ if (!isset($_SESSION["AUTH"])) {
 }
 
 require_once "../models/User.php";
+require_once "../models/Categoria.php";
 require_once "../db.php";
 $idUser = $_SESSION["AUTH"];
 $mysqli = db::connect();
 $user = User::findUserById($mysqli, (int) $idUser);
 
+/* --------- categorias------------ */
+$categorias = Categoria::getAllCategorias($mysqli);
+
 /* ---------Reedireccionamiento a perfil------------ */
 $rol = $user->getRol();
 $urlPerfil = '';
+$titulo = '';
+$url= '';
 
 if ($rol == 'Vendedor') {
-    $urlPerfil = "POV_Perfil_Vendedor.php";
-} else if ($rol == 'Comprador') {
-    $urlPerfil = "POV_Perfil_Cliente.php";
-} else if ($rol == 'Administrador') {
+    $urlPerfil = $url = "POV_Perfil_Vendedor.php";
+    $titulo = 'MisVentas';
+} elseif ($rol == 'Comprador') {
+    $urlPerfil = $url = "POV_Perfil_Cliente.php";
+    $titulo = 'MisCompras';
+} elseif ($rol == 'Administrador') {
     $urlPerfil = "POV_Perfil_Admin.php";
+    $url = 'Admin_Cotizaciones.php';
+    $titulo = 'Autorizaciones';
 }

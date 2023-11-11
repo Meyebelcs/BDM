@@ -1,29 +1,16 @@
+<!-- NOOO HA SIDO PROGRAMADA -->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
 <?php
 session_start();
 
-if (!isset($_SESSION["AUTH"])) {
-    header("Location: landingPage.php");
-    exit;
-}
+$perfil="PerfilCliente";
 
-require_once "../models/User.php";
-require_once "../db.php";
-$idUser = $_SESSION["AUTH"];
-$mysqli = db::connect();
-$user = User::findUserById($mysqli, (int) $idUser);
+require_once './components/POV_menu.php';
 
-$rol = $user->getRol();
-$urlPerfil = '';
-
-if ($rol == 'Vendedor') {
-    header("Location: home.php");
-    exit;
-} else if ($rol == 'Comprador') {
-    $urlPerfil = "POV_Perfil_Cliente.php";
-} else if ($rol == 'Administrador') {
-    header("Location: home.php");
-    exit;
-}
 
 
 ?>
@@ -102,7 +89,7 @@ if ($rol == 'Vendedor') {
                                         data-bs-target="#changePhoto">Cambiar foto</a>
                                     <a class="btn btn-secondary mb-3" data-bs-toggle="modal"
                                         data-bs-target="#editProfile">Editar perfil</a>
-                                    <a class="btn btn-secondary mb-3" href="agregar-curso.php"> Crear Lista</a>
+                                    <a class="btn btn-secondary mb-3" href="Alta_Lista.php"> Crear Lista</a>
 
                                 </div>
                             </div>
@@ -195,85 +182,9 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                         <i class="bi bi-star"></i>
                                     </div>
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
+                                    <a href="Ticket.php" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
 
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                            <div class="card" style="width: 100%;">
-                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                    <hr class="mt-2">
-                                    <p class="card-text mb-1">Cantidad: 2</p>
-                                    <p class="card-text mb-1">Precio: $150</p>
-                                    <p class="card-text mb-1">Total: $300</p>
-                                    <p class="card-text mb-1"> Diste una calificación de:</p>
-
-                                    <div class="calificacion pb-2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
-                                    </div>
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                            <div class="card" style="width: 100%;">
-                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                    <hr class="mt-2">
-                                    <p class="card-text mb-1">Cantidad: 2</p>
-                                    <p class="card-text mb-1">Precio: $150</p>
-                                    <p class="card-text mb-1">Total: $300</p>
-                                    <p class="card-text mb-1"> Diste una calificación de:</p>
-
-                                    <div class="calificacion pb-2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
-                                    </div>
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                            <div class="card" style="width: 100%;">
-                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                    <hr class="mt-2">
-                                    <p class="card-text mb-1">Cantidad: 2</p>
-                                    <p class="card-text mb-1">Precio: $150</p>
-                                    <p class="card-text mb-1">Total: $300</p>
-                                    <p class="card-text mb-1"> Diste una calificación de:</p>
-
-                                    <div class="calificacion pb-2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
-                                    </div>
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
-
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
+                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
 
 
 
@@ -299,9 +210,57 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                         <i class="bi bi-star"></i>
                                     </div>
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
+                                     <a href="Ticket.php" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
+                                   <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
+                            <div class="card" style="width: 100%;">
+                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
+                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
+                                    <hr class="mt-2">
+                                    <p class="card-text mb-1">Cantidad: 2</p>
+                                    <p class="card-text mb-1">Precio: $150</p>
+                                    <p class="card-text mb-1">Total: $300</p>
+                                    <p class="card-text mb-1"> Diste una calificación de:</p>
 
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
+                                    <div class="calificacion pb-2">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star"></i>
+                                        <i class="bi bi-star"></i>
+                                    </div>
+                                     <a href="Ticket.php" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
+                                   <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
+                            <div class="card" style="width: 100%;">
+                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
+                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
+                                    <hr class="mt-2">
+                                    <p class="card-text mb-1">Cantidad: 2</p>
+                                    <p class="card-text mb-1">Precio: $150</p>
+                                    <p class="card-text mb-1">Total: $300</p>
+                                    <p class="card-text mb-1"> Diste una calificación de:</p>
+
+                                    <div class="calificacion pb-2">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star"></i>
+                                        <i class="bi bi-star"></i>
+                                    </div>
+                                     <a href="Ticket.php" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
+
+                                   <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
 
 
 
@@ -327,9 +286,37 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                         <i class="bi bi-star"></i>
                                     </div>
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
+                                     <a href="Ticket.php" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
 
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
+                                   <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
+                            <div class="card" style="width: 100%;">
+                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
+                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
+                                    <hr class="mt-2">
+                                    <p class="card-text mb-1">Cantidad: 2</p>
+                                    <p class="card-text mb-1">Precio: $150</p>
+                                    <p class="card-text mb-1">Total: $300</p>
+                                    <p class="card-text mb-1"> Diste una calificación de:</p>
+
+                                    <div class="calificacion pb-2">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star"></i>
+                                        <i class="bi bi-star"></i>
+                                    </div>
+                                     <a href="Ticket.php" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
+
+                                   <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles del Producto</a>
 
 
 
@@ -366,7 +353,7 @@ if ($rol == 'Vendedor') {
                                 <p class="card-text mb-1">Cantidad: 2</p>
                                 <p class="card-text mb-1">Total: $650</p>
                                 <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-                                <a href="" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
+                                 <a href="Ticket.php" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
 
                             </div>
                         </div>
@@ -392,7 +379,7 @@ if ($rol == 'Vendedor') {
                                 <p class="card-text mb-1">Cantidad: 2</p>
                                 <p class="card-text mb-1">Total: $650</p>
                                 <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-                                <a href="" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
+                                 <a href="Ticket.php" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
 
                             </div>
                         </div>
@@ -418,7 +405,7 @@ if ($rol == 'Vendedor') {
                                 <p class="card-text mb-1">Cantidad: 2</p>
                                 <p class="card-text mb-1">Total: $650</p>
                                 <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-                                <a href="" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
+                                 <a href="Ticket.php" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
 
                             </div>
                         </div>

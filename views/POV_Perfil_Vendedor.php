@@ -1,31 +1,15 @@
+<!-- NOOO HA SIDO PROGRAMADA -->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
 <?php
 session_start();
 
-if (!isset($_SESSION["AUTH"])) {
-    header("Location: landingPage.php");
-    exit;
-}
+$perfil="PerfilVendedor";
 
-require_once "../models/User.php";
-require_once "../db.php";
-$idUser = $_SESSION["AUTH"];
-$mysqli = db::connect();
-$user = User::findUserById($mysqli, (int) $idUser);
-
-/* ---------Reedireccionamiento a perfil------------ */
-$rol = $user->getRol();
-$urlPerfil = '';
-
-if ($rol == 'Vendedor') {
-    $urlPerfil = "POV_Perfil_Vendedor.php";
-} else if ($rol == 'Comprador') {
-    header("Location: home.php");
-    exit;
-
-} else if ($rol == 'Administrador') {
-    header("Location: home.php");
-    exit;
-}
+require_once './components/POV_menu.php';
 
 ?>
 
@@ -96,7 +80,7 @@ if ($rol == 'Vendedor') {
                                         data-bs-target="#changePhoto">Cambiar foto</a>
                                     <a class="btn btn-secondary mb-3" data-bs-toggle="modal"
                                         data-bs-target="#editProfile">Editar perfil</a>
-                                    <a class="btn btn-secondary mb-3" href="agregar-curso.php">Agregar Producto</a>
+                                    <a class="btn btn-secondary mb-3" href="Alta_Producto.php">Agregar Producto</a>
 
                                 </div>
                             </div>
@@ -187,7 +171,7 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                     </div>
 
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
 
 
@@ -213,7 +197,7 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                     </div>
 
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
 
 
@@ -239,7 +223,7 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                     </div>
 
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
 
 
@@ -265,7 +249,7 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                     </div>
 
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
 
 
@@ -291,7 +275,7 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                     </div>
 
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
 
 
@@ -317,7 +301,7 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                     </div>
 
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
 
                                 </div>
@@ -342,7 +326,7 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                     </div>
 
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
 
 
@@ -367,7 +351,7 @@ if ($rol == 'Vendedor') {
                                         <i class="bi bi-star"></i>
                                     </div>
 
-                                    <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
 
 
@@ -402,7 +386,7 @@ if ($rol == 'Vendedor') {
                                 <p class="card-text mb-1">Tamaños: 20x20</p>
                                 <p class="card-text mb-1">Cantidad Vendida: 2</p>
                                 <p class="card-text mb-1">Precio: $650</p>
-                                <a href="" class="btn btn-secondary mb-1 mt-2" id="">Ver detalles</a>
+                                <a href="Detalle_producto.php" class="btn btn-secondary mb-1 mt-2" id="">Ver detalles</a>
                             </div>
                         </div>
                         <div class="card border mb-5" style="width: 50rem; ">
@@ -426,7 +410,7 @@ if ($rol == 'Vendedor') {
                                 <p class="card-text mb-1">Tamaños: 20x20</p>
                                 <p class="card-text mb-1">Cantidad Vendida: 2</p>
                                 <p class="card-text mb-1">Precio: $650</p>
-                                <a href="" class="btn btn-secondary mb-1 mt-2" id="">Ver detalles</a>
+                                <a href="Detalle_producto.php" class="btn btn-secondary mb-1 mt-2" id="">Ver detalles</a>
                             </div>
                         </div>
                         <div class="card border mb-5" style="width: 50rem; ">
@@ -450,7 +434,7 @@ if ($rol == 'Vendedor') {
                                 <p class="card-text mb-1">Tamaños: 20x20</p>
                                 <p class="card-text mb-1">Cantidad Vendida: 2</p>
                                 <p class="card-text mb-1">Precio: $650</p>
-                                <a href="" class="btn btn-secondary mb-1 mt-2" id="">Ver detalles</a>
+                                <a href="Detalle_producto.php" class="btn btn-secondary mb-1 mt-2" id="">Ver detalles</a>
                             </div>
                         </div>
                     </div>

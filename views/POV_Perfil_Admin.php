@@ -1,29 +1,16 @@
+<!-- NOOO HA SIDO PROGRAMADA -->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
+<!-- --------------------------------------------------->
 <?php
 session_start();
 
-if (!isset($_SESSION["AUTH"])) {
-    header("Location: landingPage.php");
-    exit;
-}
+$perfil="PerfilAdmin";
 
-require_once "../models/User.php";
-require_once "../db.php";
-$idUser = $_SESSION["AUTH"];
-$mysqli = db::connect();
-$user = User::findUserById($mysqli, (int) $idUser);
+require_once './components/POV_menu.php';
 
-$rol = $user->getRol();
-$urlPerfil = '';
-
-if ($rol == 'Vendedor') {
-    header("Location: home.php");
-    exit;
-} else if ($rol == 'Comprador') {
-    header("Location: home.php");
-    exit;
-} else if ($rol == 'Administrador') {
-    $urlPerfil = "POV_Perfil_Admin.php";
-}
 
 ?>
 
