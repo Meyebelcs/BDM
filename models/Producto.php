@@ -152,7 +152,7 @@ class Product
     static public function parseJson($json)
     {
         $product = new Product(
-            isset($json["idAdminAutorizacion"]) ? $json["idAdminAutorizacion"] : null,
+            isset($json["idAdminAutorización"]) ? $json["idAdminAutorización"] : null,
             isset($json["idStatus"]) ? $json["idStatus"] : null,
             isset($json["idUsuarioCreador"]) ? $json["idUsuarioCreador"] : null,
             isset($json["Nombre"]) ? $json["Nombre"] : null,
@@ -187,12 +187,8 @@ class Product
             $this->tipo
         );
 
-        if ($stmt->execute()) {
-            $this->idProducto = (int) $stmt->insert_id;
-            return true; // Éxito en la inserción
-        } else {
-            return false; // Error en la inserción
-        }
+        $stmt->execute();
+        $this->idProducto = (int) $stmt->insert_id;
     }
 
     public static function findProductoById($mysqli, $idProducto)

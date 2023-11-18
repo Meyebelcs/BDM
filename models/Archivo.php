@@ -90,7 +90,7 @@ class Archivo
         }
     }
 
-    public function findArchivoById($mysqli, $idArchivo)
+    public static function findArchivoById($mysqli, $idArchivo)
     {
         $stmt = $mysqli->prepare("CALL sp_FindArchivoById(?)");
         $stmt->bind_param("i", $idArchivo);

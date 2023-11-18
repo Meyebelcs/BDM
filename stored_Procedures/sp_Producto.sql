@@ -16,7 +16,7 @@ CREATE PROCEDURE sp_InsertProducto(
 )
 BEGIN
     INSERT INTO Producto (
-        idAdminAutorizacion,
+        idAdminAutorización,
         idStatus,
         idUsuarioCreador,
         Nombre,
@@ -86,7 +86,7 @@ CREATE PROCEDURE sp_UpdateProducto(
 BEGIN
     UPDATE Producto
     SET
-        idAdminAutorizacion = p_idAdminAutorizacion,
+        idAdminAutorización = p_idAdminAutorizacion,
         idStatus = p_idStatus,
         idUsuarioCreador = p_idUsuarioCreador,
         Nombre = p_nombre,

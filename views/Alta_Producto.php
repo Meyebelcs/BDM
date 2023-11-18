@@ -49,8 +49,10 @@ require_once './components/menu.php';
     <div class="container">
       <!---------------- productosStock---------->
       <div class="productosStock">
-        <form class="row" id="create-course">
+        <form class="row" id="create-Product" enctype="multipart/form-data">
           <div class="row">
+          <input type="hidden" name="idUser" id="idUser" value="<?php echo $idUser; ?>">
+          
             <div class="col-lg-6 col-sm-12 col-xs-12">
               <div class="mb-3">
                 <label for="Nombre" class="form-label">Nombre</label>
@@ -155,7 +157,7 @@ require_once './components/menu.php';
 
       <!-- Cards COTIZACION--------->
       <div class="productosCotizacion">
-        <form class="row" id="formCotizacion">
+        <form class="row" id="formCotizacion" enctype="multipart/form-data">
           <div class="row">
             <div class="col-lg-6 col-sm-12 col-xs-12">
               <div class="mb-3">
@@ -362,7 +364,7 @@ require_once './components/menu.php';
       crossorigin="anonymous"></script>
 
     <script src="./js/Category.js"></script>
-    <script src="./js/Create-course.js"></script>
+    <script src="./js/Alta_Producto.js"></script>
   </main>
 
 </body>

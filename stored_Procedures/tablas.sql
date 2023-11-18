@@ -149,7 +149,7 @@ CREATE TABLE Archivo (
    idArchivo INT(10) UNSIGNED AUTO_INCREMENT,
    idProducto INT(10) UNSIGNED NOT NULL,
    idStatus INT(10) UNSIGNED NOT NULL,
-   Archivo VARCHAR(255) NOT NULL,  -- almacena la dirección o nombre del archivo
+   Archivo LONGBLOB  NOT NULL,  -- almacena la dirección o nombre del archivo
    PRIMARY KEY (idArchivo),
    CONSTRAINT FK_Archivo_Producto FOREIGN KEY (idProducto) REFERENCES Producto(idProducto),
    CONSTRAINT FK_Archivo_Estatus FOREIGN KEY (idStatus) REFERENCES Estatus(idStatus)

@@ -4,7 +4,7 @@ DELIMITER //
 CREATE PROCEDURE sp_InsertArchivo(
     IN p_idProducto INT,
     IN p_idStatus INT,
-    IN p_archivo VARCHAR(255)
+    IN p_archivo LONGBLOB 
 )
 BEGIN
     INSERT INTO Archivo (idProducto, idStatus, Archivo)
@@ -37,7 +37,7 @@ CREATE PROCEDURE sp_UpdateArchivo(
     IN p_idArchivo INT,
     IN p_idProducto INT,
     IN p_idStatus INT,
-    IN p_archivo VARCHAR(255)
+    IN p_archivo LONGBLOB 
 )
 BEGIN
     UPDATE Archivo
