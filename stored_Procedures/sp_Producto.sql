@@ -51,7 +51,7 @@ CREATE PROCEDURE sp_FindProductoById(
 BEGIN
     SELECT
         idProducto,
-        idAdminAutorizacion,
+        idAdminAutorización,
         idStatus,
         idUsuarioCreador,
         Nombre,

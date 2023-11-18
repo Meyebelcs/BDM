@@ -72,7 +72,8 @@
             <a href="Carrito.php">Carrito</a>
             <a href="chat.php">Chat</a>
             <a href=<?php echo $url ?>><?php echo $titulo ?></a>
-            <a href="../controllers/logout.php">Salir</a>
+            <a href="Terminos.php">Términos y Condiciones</a>
+            <a href="../../controllers/logout.php">Salir</a>
         </nav>
 
     </div>

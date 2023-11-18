@@ -1,0 +1,218 @@
+
+/* =================== COLORS ======================= */
+:root {
+    --primary-color: #F5DABD;
+    --secondary-color: #F4BFAD;
+    --accent-color: #020202;
+    --dark-color: #000000;
+    --light-color: #ffffff;
+}
+
+/* ==================== NAVBAR ====================== */
+nav {
+    background-color: var(--primary-color);
+}
+
+.navbar-brand{
+    color: var(--light-color);
+    font-size: 1000;
+    font-weight: 500;
+    margin-left: 30px;
+}
+
+.navbar-brand:hover{
+    color: var(--accent-color);
+}
+
+/*================= FOOTER =====================  */
+
+.footer{
+    color:white;
+    margin-top: auto;
+}
+
+/* ===================== BODY =================== */
+
+body{
+    color: var(--dark-color);
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+/* ======================= BACKGROUND ==================== */
+
+.bg-tertiary{
+    background-color: var(--primary-dark-color);
+}
+
+
+.bg-primary{
+    background-color: var(--primary-color)
+    !important;
+}
+
+/* ==================== BORDER ============================== */
+.border-primary{
+    border-color:var(--primary-color)!important
+}
+
+/* ======================= CARD ============================== */
+
+.card-body {
+    background-color: #F2F2F2;
+}
+.card{
+    border: none;
+    box-shadow: 1px 1px 5px #dadce3;
+    width: 100%;
+}
+
+.card-title{
+    font-weight: 500;
+}
+
+/* ==================== MULTI-SELECT =================== */
+
+.select2-container--default .select2-selection--multiple {
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    cursor: text;
+}
+
+/* ========================== BUTTON ========================= */
+
+.btn-secondary{
+    --bs-btn-color:white;
+    --bs-btn-bg:var(--secondary-color);
+    --bs-btn-border-color:none;
+    --bs-btn-hover-color:white;
+    --bs-btn-hover-bg:var(--accent-color);
+    --bs-btn-hover-border-color:none;
+    --bs-btn-focus-shadow-rgb:none;
+    --bs-btn-active-color:#fff;
+    --bs-btn-active-bg:var(--secondary-color);
+    --bs-btn-active-border-color:none;
+    --bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color:#fff;
+    --bs-btn-disabled-bg:#6c757d;
+    --bs-btn-disabled-border-color:none;
+}
+
+/* ============================= */
+
+.form-label{
+    font-size: 16px;
+}
+
+.form-check-label{
+    font-size: 16px;
+}
+
+.btn-secondary{
+    background-color:var(--secondary-color);
+    border: none;
+}
+
+.form-control{
+    font-size: 16px;
+}
+
+#costo{
+    width: 80px; 
+    height: 30px;
+}
+
+
+/*============MODAL=================*/
+
+.customize-theme {
+    background: rgba(255, 255, 255, 0.176);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    text-align: center;
+    place-items: center;
+    z-index: 500;
+    font-size: 0.9rem;
+    /*se activa y desactivan las notificaciones display: none;*/
+  }
+  
+  .customize-theme .card{
+    background-color: #EDEDED;
+    border-radius: 5%;
+    padding: 3rem;
+    width:20%;
+    box-shadow: 0 0 1rem var(--color-primary);
+  }
+
+.uploadlabel{
+    width: 100%;
+    height: 300px;
+    background: #f2f2f2;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.uploadlabel i{
+    font-size: 70px;
+    color:var(--dark-color);
+}
+
+.uploadlabel p{
+    color:var(--dark-color);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+#preview-img{
+    max-width: 465px;
+    max-height: 400px;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+@media((max-width:767px)){
+    input[type="file"]{
+        margin-bottom: 15px;
+    }
+}
+
+@media(max-width:575px){
+    .container{
+        margin-left: 15px;
+    }
+}
+
+/* ====================== BREAKPOINTS =================== */
+@media (max-width:575px){
+    .col-xs-1{flex:0 0 auto;width:8.33333333%;}
+    .col-xs-2{flex:0 0 auto;width:16.66666667%;}
+    .col-xs-3{flex:0 0 auto;width:25%;}
+    .col-xs-4{flex:0 0 auto;width:33.33333333%;}
+    .col-xs-5{flex:0 0 auto;width:41.66666667%;}
+    .col-xs-6{flex:0 0 auto;width:50%;}
+    .col-xs-7{flex:0 0 auto;width:58.33333333%;}
+    .col-xs-8{flex:0 0 auto;width:66.66666667%;}
+    .col-xs-9{flex:0 0 auto;width:75%;}
+    .col-xs-10{flex:0 0 auto;width:83.33333333%;}
+    .col-xs-11{flex:0 0 auto;width:91.66666667%;}
+    .col-xs-12{flex:0 0 auto;width:100%;}
+    .text-xs-center{text-align:center !important;}
+}
+
+@media((min-width:576px) and (max-width:767px)){
+    .text-sm-center{text-align:center !important;}
+}

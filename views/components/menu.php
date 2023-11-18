@@ -11,6 +11,7 @@ $idUser = $_SESSION["AUTH"];
 $mysqli = db::connect();
 $user = User::findUserById($mysqli, (int) $idUser);
 
+
 /* --------- categorias------------ */
 $categorias = Categoria::getAllCategorias($mysqli);
 
@@ -22,12 +23,16 @@ $url= '';
 
 if ($rol == 'Vendedor') {
     $urlPerfil = $url = "POV_Perfil_Vendedor.php";
-    $titulo = 'MisVentas';
+    $titulo = 'Mis Ventas';
 } elseif ($rol == 'Comprador') {
     $urlPerfil = $url = "POV_Perfil_Cliente.php";
-    $titulo = 'MisCompras';
+    $titulo = 'Mis Compras';
 } elseif ($rol == 'Administrador') {
     $urlPerfil = "POV_Perfil_Admin.php";
     $url = 'Admin_Cotizaciones.php';
     $titulo = 'Autorizaciones';
 }
+
+
+
+

@@ -69,3 +69,22 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-----------get comentarios--------------
+DELIMITER //
+
+CREATE PROCEDURE sp_getComentsbyProduct(IN idProducto INT)
+BEGIN
+    SELECT
+        c.*, 
+        u.Username,
+        u.Imagen AS ImagenUsuario
+    FROM
+        Comentario c
+    INNER JOIN
+        Usuario u ON c.idUsuarioCreador = u.idUsuario
+    WHERE
+        c.idProducto = idProducto;
+END //
+
+DELIMITER ;

@@ -8,6 +8,27 @@ class Comentario
     private $calificacion;
     private $fechaPublicacion;
     private $comentario;
+    private $username;
+    private $imagenUsuario;
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    public function getusername()
+    {
+        return $this->username;
+    }
+    
+    public function setImagenUsuario($imagenUsuario)
+    {
+        $this->imagenUsuario = $imagenUsuario;
+    }
+
+    public function getimagenUsuario()
+    {
+        return $this->imagenUsuario;
+    }
 
     public function getIdComentario()
     {
@@ -143,7 +164,7 @@ class Comentario
         $result = $stmt->get_result();
         $comentario = $result->fetch_assoc();
 
-        return $comentario ? self::parseJson($comentario) : null;
+        return $comentario ? Comentario::parseJson($comentario) : null;
     }
 
     public function updateComentario($mysqli)
@@ -163,6 +184,40 @@ class Comentario
             return false; // Error en la actualización
         }
     }
+
+    public static function getCommentsByProduct($mysqli, $idProducto)
+    {
+        $comments = array();
+    
+        $stmt = $mysqli->prepare("CALL sp_getComentsbyProduct(?)");
+        $stmt->bind_param("i", $idProducto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        while ($row = $result->fetch_assoc()) {
+            $comment = new Comentario(
+                $row['idProducto'],
+                $row['idUsuarioCreador'],
+                $row['idStatus'],
+                $row['Calificacion'],
+                $row['Fecha_publicacion'],
+                $row['Comentario']
+            );
+    
+            $comment->setIdComentario($row['idComentario']);
+            $comment->setUsername($row['Username']);
+            $comment->setImagenUsuario($row['ImagenUsuario']);
+    
+            // Agregar el comentario directamente al array
+            $comments[] = $comment;
+        }
+    
+        $stmt->close();
+    
+        return $comments;
+    }
+    
+    
 
     public function toJSON()
     {

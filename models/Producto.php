@@ -195,7 +195,7 @@ class Product
         }
     }
 
-    public function findProductoById($mysqli, $idProducto)
+    public static function findProductoById($mysqli, $idProducto)
     {
         $stmt = $mysqli->prepare("CALL sp_FindProductoById(?)");
         $stmt->bind_param("i", $idProducto);
@@ -203,7 +203,7 @@ class Product
         $result = $stmt->get_result();
         $producto = $result->fetch_assoc();
 
-        return $producto ? self::parseJson($producto) : null;
+        return $producto ? Product::parseJson($producto) : null;
     }
 
     public function updateProducto($mysqli)
@@ -231,6 +231,7 @@ class Product
         }
     }
 
+  
     public function toJSON()
     {
         return get_object_vars($this);

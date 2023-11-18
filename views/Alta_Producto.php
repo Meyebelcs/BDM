@@ -1,9 +1,3 @@
-<!-- NOOO HA SIDO PROGRAMADA -->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
 <?php
 session_start();
 
@@ -11,125 +5,366 @@ require_once './components/menu.php';
 
 ?>
 
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Producto</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Producto</title>
 
-    <?php include_once "./libs/fonts.php" ?>
-    <?php include_once "./libs/bootstrap.php" ?>
-    <link rel="stylesheet" href="./css/pages/Alta_Producto.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+
+
+  <link rel="stylesheet" href="./css/pages/Alta_Producto.css">
 
 
 </head>
 
 <body>
+  <!-- navbar.php -->
+  <?php include('./components/navbar.php'); ?>
 
-    <!-- navbar.php -->
-    <?php include('./components/navbar.php'); ?>
+  <main m-0 p-0 class="background">
 
-    <main m-0 p-0 class="background">
+    <!-- Hero -->
+    <div class="text-center mb-3">
+      <h3 class="border-bottom p-2 pt-3" id="switchText">Añadir Productos</h3>
+      <!-- Interruptor de bolita -->
+      <label class="switch">
+        <input type="checkbox" id="switchInput">
+        <span class="slider round"></span>
+      </label>
+    </div>
 
-        <!-- Hero -->
-        <div class="text-center mb-3">
-            <h3 class="border-bottom p-2 pt-3" id="switchText">Añadir Productos</h3>
-            <!-- Interruptor de bolita -->
-            <label class="switch">
-                <input type="checkbox" id="switchInput">
-                <span class="slider round"></span>
-            </label>
+    <div class="container">
+      <!---------------- productosStock---------->
+      <div class="productosStock">
+        <form class="row" id="create-course">
+          <div class="row">
+            <div class="col-lg-6 col-sm-12 col-xs-12">
+              <div class="mb-3">
+                <label for="Nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="name">
+                <span class="text-danger" id="name_error_message"></span><br>
+              </div>
+              <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea class="form-control" id="desc" rows="3"></textarea>
+                <span class="text-danger" id="description_error_message"></span><br>
+              </div>
+
+              <div class="row mb-3">
+                <div class="d-flex">
+                  <select class="w-100" multiple="true" id="select-categories">
+                    <?php
+                    $html = "";
+                    foreach ($categorias as $categoria) {
+                      $html .= "<option  id = '" . $categoria['idCategoria'] . "' value='" . $categoria['Nombre'] . "'>" . $categoria["Nombre"] . "</option>";
+                    }
+                    echo $html;
+                    ?>
+                  </select>
+                  <button type="button" class="AddCategoryClic ms-3 btn btn-secondary btn-sm m-auto w-25"
+                    data-bs-toggle="modal" data-bs-target="#addCategoryStock">Añadir categoria</button>
+                </div>
+                <span class="text-danger" id="categories_error_message"></span><br>
+              </div>
+              <div class="row">
+                <div class="col-12 m-3">
+                  <div class="row ">
+                    <div class="d-flex justify-content-between">
+                      <label class="form-label pt-2 me-3" for="">Costo:</label>
+                      <input class="form-control" type="text" id="price">
+                    </div>
+                    <span class="text-danger" id="price_error_message"></span><br>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 m-3">
+                  <div class="row ">
+                    <div class="d-flex justify-content-between">
+                      <label class="form-label pt-2 me-3" for="">Inventario:</label>
+                      <input class="form-control" type="text" id="inventario">
+                    </div>
+                    <span class="text-danger" id="inventario_error_message"></span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="center mt-2 col-lg-6 col-sm-12 col-xs-12 image-container">
+              <div class="wrapper">
+                <div class="box ">
+                  <div class="input-bx d-flex flex-column align-items-center">
+                    <label for="Upload" class="uploadlabel" id="img-holder">
+                      <span class=""><i class="bi bi-cloud-arrow-up-fill"></i></span>
+                      <p>Añade una imagen</p>
+                    </label>
+                    <img src="" class="preview-img" alt="">
+                    <input type="file" id="Upload" class="form-control mt-3">
+                    <span class="text-danger" id="photo_error_message"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="image-previews  m-2 d-flex flex-wrap align-items-center" id="image-previews-container"></div>
+              <span class="text-danger" id="img_error_message"></span><br>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-secondary m-4">Crear Producto</button>
+          <!-- <span class="text-danger" id="modal_error_message"></span><br> -->
+        </form>
+
+        <!-- Modal Añadir categoria STOCK-->
+        <div class="modal fade" id="addCategoryStock" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered modal-dialog">
+            <form class="modal-content" id="create-category">
+              <input type="hidden" name="formulario" value="category-form">
+              <div class="modal-header">
+                <h4>Añadir categoría</h4>
+              </div>
+              <div class="modal-body">
+                <label for="Nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="name-Category" id="category-name">
+                <span class="text-danger" id="category_name_error_message"></span><br>
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea class="form-control" id="category-desc" name="desc-Category" rows="3"></textarea>
+                <span class="text-danger" id="category_description_error_message"></span>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeStock">Cerrar</button>
+                <button type="button" class="btn btn-secondary" id="btn_savechangesCatStock">Guardar</button>
+                <span class="text-danger" id="category_error_message"></span>
+              </div>
+            </form>
+          </div>
         </div>
 
-        <!-- Contenido -->
-        <div class="container">
-            <div class="productosStock">
-                <!-- Cards -->
-                <h1 class="text-center">Nuevo Producto</h1>
-                <form action="procesar_formulario.php" method="POST" enctype="multipart/form-data"
-                    onsubmit="return validarFormularioStock();">
-                    <label for="nombreStock">Nombre del Producto:</label>
-                    <input type="text" id="nombreStock" name="nombreStock" required>
-                    <br><br>
+      </div>
 
-                    <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion" name="descripcion" rows="2" required></textarea>
-                    <br><br>
+      <!-- Cards COTIZACION--------->
+      <div class="productosCotizacion">
+        <form class="row" id="formCotizacion">
+          <div class="row">
+            <div class="col-lg-6 col-sm-12 col-xs-12">
+              <div class="mb-3">
+                <label for="NombreCotizacion" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nameCotizacion">
+                <span class="text-danger" id="name_error_messageCotizacion"></span><br>
+              </div>
+              <div class="mb-3">
+                <label for="descripcionCotizacion" class="form-label">Descripción</label>
+                <textarea class="form-control" id="descCotizacion" rows="3"></textarea>
+                <span class="text-danger" id="description_error_messageCotizacion"></span><br>
+              </div>
 
-                    <label for="precio">Precio:</label>
-                    <input type="number" id="precio" name="precio" step="0.01" required pattern="\d+(\.\d{2})?"
-                        title="Ingrese un número válido con dos decimales (p.ej. 12.34)">
-                    <br><br>
+              <div class="row m-6">
+                <div class="d-flex mb-12">
+                  <select class="categoriesCotizacion " multiple="true" id="select-categoriesCotizacion"
+                    style="width: 480px;">
+                    <?php
+                    $html = "";
+                    foreach ($categorias as $categoria) {
+                      $html .= "<option  id = '" . $categoria['idCategoria'] . "' value='" . $categoria['Nombre'] . "'>" . $categoria["Nombre"] . "</option>";
+                    }
+                    echo $html;
+                    ?>
+                  </select>
+                  <button type="button" class="AddCategoryClic ms-3 btn btn-secondary btn-sm m-auto w-25"
+                    data-bs-toggle="modal" data-bs-target="#addCategory">Añadir categoria</button>
+                </div>
+                <span class="text-danger" id="categories_error_messageCotizacion"></span><br>
+              </div>
 
-                    <label for="inventario">Inventario:</label>
-                    <input type="number" id="inventario" name="inventario" required>
-
-                    <br><br>
-
-                    <label for="Categoria">Categoria:</label>
-                    <input type="text" id="Categoria" name="Categoria" required>
-                    <br><br>
-
-                    <label for="imagenStock">Imágenes del Producto:</label>
-                    <input type="file" id="imagenStock" name="imagenStock[]" accept="image/*" multiple>
-                    <br><br>
-
-                    <div id="previewStock" style="display: flex; flex-wrap: wrap;">
-                        <!-- Aquí se mostrarán las imágenes seleccionadas por el usuario en la sección de stock -->
-                    </div>
-
-                    <div class="text-center">
-                        <input type="submit" class="btn btn-orange" value="Agregar Producto">
-                    </div>
-                </form>
             </div>
 
-            <div class="productosCotizacion">
-                <!-- Cards COTIZACION--------->
-                <h1 class="text-center">Nueva Cotizacion</h1>
-                <form action="procesar_formulario.php" method="POST" enctype="multipart/form-data"
-                    onsubmit="return validarFormularioCotizacion();">
-                    <label for="nombreCotizacion">Nombre del Producto:</label>
-                    <input type="text" id="nombreCotizacion" name="nombreCotizacion" required>
-                    <br><br>
-
-                    <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
-                    <br><br>
-
-                    <label for="Categoria">Categoria:</label>
-                    <input type="text" id="Categoria" name="Categoria" required>
-                    <br><br>
-
-                    <label for="imagenCotizacion">Imágenes del Producto:</label>
-                    <input type="file" id="imagenCotizacion" name="imagenCotizacion[]" accept="image/*" multiple>
-                    <br><br>
-
-                    <div id="previewCotizacion" style="display: flex; flex-wrap: wrap;">
-                        <!-- Aquí se mostrarán las imágenes seleccionadas por el usuario en la sección de cotización -->
-                    </div>
-
-                    <div class="text-center">
-                        <input type="submit" class="add btn btn-orange " value="Agregar Producto">
-                    </div>
-                </form>
+            <div class="center mt-2 col-lg-6 col-sm-12 col-xs-12 image-container">
+              <div class="wrapper">
+                <div class="box">
+                  <div class="input-bx d-flex flex-column align-items-center">
+                    <label for="UploadCotizacion" class="uploadlabel" id="img-holderCotizacion">
+                      <span class=""><i class="bi bi-cloud-arrow-up-fill"></i></span>
+                      <p>Añade una imagen</p>
+                    </label>
+                    <img src="" id="preview-imgCotizacion" alt="">
+                    <input type="file" id="UploadCotizacion" class="form-control mt-3">
+                    <span class="text-danger" id="photo_error_messageCotizacion"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="image-previews  m-2 d-flex flex-wrap align-items-center"
+                id="image-previews-container-Cotizacion"></div>
+              <span class="text-danger" id="img_error_messageCotizacion"></span><br>
             </div>
-        </div>
 
-        <!-- Footer -->
-        <?php include('./components/footer.php'); ?>
+            <!-- MATERIALES -->
+            <div class="row mt-4">
+              <div class="col-lg-12 p-2 d-flex">
+                <h4 class="pe-4">Materiales</h4>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                  data-bs-target="#addLevel">Añadir Material</button>
+              </div>
+            </div>
 
-        <?php include_once "./libs/jqueryJS.php" ?>
-        <?php include_once "./libs/bootstrapJS.php" ?>
-        <?php include_once "./libs/sweetalertJS.php" ?>
-        <script src="./js/Alta_Producto.js"></script>
+            <div class="row">
+              <div class="accordion levels" id="levels">
 
-    </main>
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header bg-light" id="panelsStayOpen-headingOne">
+                      <div class="d-flex justify-content-between p-2">
+                        <p class="btn border-0 m-0"> NombreMaterial</p>
+                        <p class="btn border-0 m-0">Cantidad: 200</p>
+                        <div class="d-flex justify-content-center">
+                          <button class="btn collapsed border-0" type="button" data-bs-toggle="modal"
+                            data-bs-target="#editLevel">
+                            <i class="bi bi-pencil-fill"></i>
+                          </button>
+                          <button class="btn collapsed border-0 text-danger" type="button" data-bs-toggle="modal"
+                            data-bs-target="#deleteLevel">
+                            <i class="bi bi-trash-fill"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </h2>
+                  </div>
+                </div>
+
+
+
+              </div>
+              <button type="submit" class="btn btn-secondary m-4">Crear Cotización</button><!-- 
+          <span class="text-danger" id="modal_error_messageCotizacion"></span><br> -->
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Añadir categoria-->
+    <div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog  modal-dialog-centered modal-dialog">
+        <form class="modal-content" id="create-category">
+          <input type="hidden" name="formulario" value="category-form">
+          <div class="modal-header">
+            <h4>Añadir categoría</h4>
+          </div>
+          <div class="modal-body">
+            <label for="Nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" name="name-Category" id="category-name">
+            <span class="text-danger" id="category_name_error_message"></span><br>
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea class="form-control" id="category-desc" name="desc-Category" rows="3"></textarea>
+            <span class="text-danger" id="category_description_error_message"></span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Cerrar</button>
+            <button type="button" class="btn btn-secondary" id="btn_savechangesCat">Guardar</button>
+            <span class="text-danger" id="category_error_message"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+
+
+    <!-- Modal Añadir material-->
+    <div class="modal fade" id="addLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form id="add-level" class="modal-content">
+          <input type="hidden" name="formulario" value="addlevel-form">
+          <div class="modal-header">
+            <h4>Añadir material</h4>
+          </div>
+          <div class="modal-body">
+            <label for="" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="level-name" name="name-add-Level">
+            <span class="text-danger" id="level_name_error_message"></span><br>
+
+            <label class="form-label pt-2 me-3" for="">Cantidad:</label>
+            <input class="form-control" type="text" id="level-price" name="costo-add-Level">
+            <span class="text-danger" id="level_price_error_message"></span><br>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Cerrar</button>
+            <button type="button" id="add-level-btn" class="btn btn-secondary">Añadir material</button>
+            <span class="text-danger" id="level_error_message"></span><br>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- Modal editar material-->
+    <div class="modal fade" id="editLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form id="edit-level" class="modal-content">
+          <div class="modal-header">
+            <h4>Editar material</h4>
+          </div>
+          <div class="modal-body">
+            <label for="" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="level-edit-name" name="nameleveleditname">
+            <span class="text-danger" id="level_edit_name_error_message"></span><br>
+            <label class="form-label pt-2 me-3" for="">Cantidad:</label>
+            <input class="form-control" type="text" id="level-edit-price" name="nameleveleditcosto">
+            <span class="text-danger" id="level_edit_price_error_message"></span><br>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+              id="close-edit-level">Cerrar</button>
+            <button type="button" id="edit-level-btn" class="btn btn-secondary">Guardar cambios</button>
+            <span class="text-danger" id="level_edit_error_message"></span><br>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal delete material-->
+    <div class="modal fade" id="deleteLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form id="add-level" class="modal-content">
+          <input type="hidden" name="formulario" value="addlevel-form">
+          <div class="modal-header">
+            <h4>Eliminar material</h4>
+          </div>
+          <div class="modal-body">
+            <h6>¿Estás seguro de que deseas eliminar este material?</h6>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Cerrar</button>
+            <button type="button" id="delete-level-btn" class="btn btn-secondary">Eliminar</button>
+            <span class="text-danger" id="level_error_message"></span><br>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include('./components/footer.php'); ?>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"></script>
+
+    <script src="./js/Category.js"></script>
+    <script src="./js/Create-course.js"></script>
+  </main>
 
 </body>
-
 
 </html>
