@@ -241,9 +241,10 @@ $(document).ready(function () {
                 }
             }
 
-            selectedOptions.forEach(function (option) {
-                formData.append('categorias[]', option);
-            });
+            for (var i = 0; i < selectedOptions.length; i++) {
+                const idCategoria = selectedOptions[i];
+                formData.append("categorias[" + i + "]", idCategoria);
+            }
 
             console.log("Imágenes antes de enviar la solicitud:", imagenesStock);
 
@@ -345,11 +346,14 @@ $(document).ready(function () {
                 }
             }
 
-            selectedOptions.forEach(function (option) {
-                formDataCotizacion.append('categorias[]', option);
-            });
+            for (var i = 0; i < selectedOptions.length; i++) {
+                const idCategoria = selectedOptions[i];
+                formDataCotizacion.append("categorias[" + i + "]", idCategoria);
+            }
+
 
             console.log("Imágenes antes de enviar la solicitud:", imagenesCotizacion);
+
 
             //materiales
             for (var i = 0; i < materialsArray.length; i++) {

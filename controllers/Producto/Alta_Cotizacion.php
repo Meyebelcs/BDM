@@ -3,6 +3,7 @@ require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../models/Producto.php';
 require_once __DIR__ . '/../../models/Archivo.php';
 require_once __DIR__ . '/../../models/Material_Inventario.php';
+require_once __DIR__ . '/../../models/ProductosConCategoria.php';
 $json = $_POST;
 $mysqli = db::connect();
 $producto = Product::parseJson($json);
@@ -31,6 +32,15 @@ try {
     }
 
     //alta de producto con categoria----------------------
+    $categorias = $_POST["categorias"];
+
+    // Iterar sobre los materiales
+    foreach ($categorias as $idcategoria) {
+
+        $categoria = new ProductosConCategoria($idcategoria, $idProducto->getIdProducto(), '2');
+        $categoria->insertProductosConCategoria($mysqli);
+    }
+    
 
     // Verifica si se enviaron archivos
     if (!empty($uploadedFiles['name'][0])) {

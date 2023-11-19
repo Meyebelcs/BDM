@@ -82,13 +82,9 @@ class ProductosConCategoria
             $this->idProducto,
             $this->idStatus
         );
+        $stmt->execute();
+        $this->idProductosConCategoria = (int) $stmt->insert_id;
 
-        if ($stmt->execute()) {
-            $this->idProductosConCategoria = (int) $stmt->insert_id;
-            return true; // Éxito en la inserción
-        } else {
-            return false; // Error en la inserción
-        }
     }
 
     public function findProductosConCategoriaById($mysqli, $idProductosConCategoria)
