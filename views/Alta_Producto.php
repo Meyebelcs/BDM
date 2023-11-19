@@ -49,10 +49,11 @@ require_once './components/menu.php';
     <div class="container">
       <!---------------- productosStock---------->
       <div class="productosStock">
-        <form class="row" method="post" action="../controllers/Producto/Alta_Producto.php" id="create-Product" enctype="multipart/form-data">
+        <form class="row" method="post" action="../controllers/Producto/Alta_Producto.php" id="create-Product"
+          enctype="multipart/form-data">
           <div class="row">
-          <input type="hidden" name="idUser" id="idUser" value="<?php echo $idUser; ?>">
-          
+            <input type="hidden" name="idUser" id="idUser" value="<?php echo $idUser; ?>">
+
             <div class="col-lg-6 col-sm-12 col-xs-12">
               <div class="mb-3">
                 <label for="Nombre" class="form-label">Nombre</label>
@@ -77,7 +78,7 @@ require_once './components/menu.php';
                     ?>
                   </select>
                   <button type="button" class="AddCategoryClic ms-3 btn btn-secondary btn-sm m-auto w-25"
-                    data-bs-toggle="modal" data-bs-target="#addCategoryStock">Añadir categoria</button>
+                    data-bs-toggle="modal" data-bs-target="#addCategory">Añadir categoria</button>
                 </div>
                 <span class="text-danger" id="categories_error_message"></span><br>
               </div>
@@ -128,7 +129,7 @@ require_once './components/menu.php';
         </form>
 
         <!-- Modal Añadir categoria STOCK-->
-        <div class="modal fade" id="addCategoryStock" tabindex="-1" aria-labelledby="exampleModalLabel"
+        <!--   <div class="modal fade" id="addCategoryStock" tabindex="-1" aria-labelledby="exampleModalLabel"
           aria-hidden="true">
           <div class="modal-dialog  modal-dialog-centered modal-dialog">
             <form class="modal-content" id="create-category">
@@ -151,14 +152,16 @@ require_once './components/menu.php';
               </div>
             </form>
           </div>
-        </div>
+        </div> -->
 
       </div>
 
       <!-- Cards COTIZACION--------->
       <div class="productosCotizacion">
-        <form class="row" method="POST" action="../controllers/Producto/Alta_Cotizacion.php" id="formCotizacion" enctype="multipart/form-data">
+        <form class="row" method="POST" action="../controllers/Producto/Alta_Cotizacion.php" id="formCotizacion"
+          enctype="multipart/form-data">
           <div class="row">
+            <input type="hidden" name="idUserCotizacion" id="idUserCotizacion" value="<?php echo $idUser; ?>">
             <div class="col-lg-6 col-sm-12 col-xs-12">
               <div class="mb-3">
                 <label for="NombreCotizacion" class="form-label">Nombre</label>
@@ -242,42 +245,12 @@ require_once './components/menu.php';
                     </h2>
                   </div>
                 </div>
-
-
-
               </div>
-              <button type="submit" class="btn btn-secondary m-4">Crear Cotización</button><!-- 
+              <button type="submit" class="btn btn-secondary m-4 mb-9">Crear Cotización</button><!-- 
           <span class="text-danger" id="modal_error_messageCotizacion"></span><br> -->
         </form>
       </div>
     </div>
-
-    <!-- Modal Añadir categoria-->
-    <div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog  modal-dialog-centered modal-dialog">
-        <form class="modal-content" id="create-category">
-          <input type="hidden" name="formulario" value="category-form">
-          <div class="modal-header">
-            <h4>Añadir categoría</h4>
-          </div>
-          <div class="modal-body">
-            <label for="Nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" name="name-Category" id="category-name">
-            <span class="text-danger" id="category_name_error_message"></span><br>
-            <label for="descripcion" class="form-label">Descripción</label>
-            <textarea class="form-control" id="category-desc" name="desc-Category" rows="3"></textarea>
-            <span class="text-danger" id="category_description_error_message"></span>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Cerrar</button>
-            <button type="button" class="btn btn-secondary" id="btn_savechangesCat">Guardar</button>
-            <span class="text-danger" id="category_error_message"></span>
-          </div>
-        </form>
-      </div>
-    </div>
-
-
 
 
     <!-- Modal Añadir material-->
@@ -353,19 +326,45 @@ require_once './components/menu.php';
       </div>
     </div>
 
-    <!-- Footer -->
-    <?php include('./components/footer.php'); ?>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-      crossorigin="anonymous"></script>
-
-    <script src="./js/Category.js"></script>
-    <script src="./js/Alta_Producto.js"></script>
   </main>
+
+   <!-- Modal Añadir categoria-->
+   <div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog  modal-dialog-centered modal-dialog">
+        <form class="modal-content" id="create-category">
+          <input type="hidden" name="formulario" value="category-form">
+          <div class="modal-header">
+            <h4>Añadir categoría</h4>
+          </div>
+          <div class="modal-body">
+            <label for="Nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" name="name-Category" id="category-name">
+            <span class="text-danger" id="category_name_error_message"></span><br>
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea class="form-control" id="category-desc" name="desc-Category" rows="3"></textarea>
+            <span class="text-danger" id="category_description_error_message"></span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Cerrar</button>
+            <button type="button" class="btn btn-secondary" id="btn_savechangesCat">Guardar</button>
+            <span class="text-danger" id="category_error_message"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  <!-- Footer -->
+  <?php include('./components/footer.php'); ?>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+
+  <script src="./js/Category.js"></script>
+  <script src="./js/Alta_Producto.js"></script>
 
 </body>
 

@@ -382,6 +382,7 @@ $(document).ready(function () {
                         // Éxito...
                         Swal.fire({
                             title: res.msg + ' La Cotización se ha creado con éxito',
+                            html: '<div>¡Gracias por tu contribución!</div><div>Ahora debes esperar a que el administrador acepte publicar tu Cotización</div>',
                             icon: 'success',
                             confirmButtonText: 'Aceptar',
                             confirmButtonColor: '#F47B8F'
@@ -403,6 +404,7 @@ $(document).ready(function () {
 
             // Enviar formDataCotizacion en lugar de JSON
             xhr.send(formDataCotizacion);
+            return false;
         } else {
             $("#modal_error_message").html("Por favor llene correctamente todos los campos")
             $("#modal_error_message").show();

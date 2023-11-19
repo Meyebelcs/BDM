@@ -18,6 +18,7 @@ try {
 
 
     //alta de materiales tambien----------------------
+    //alta de producto con categoria tambien----------------------
 
     // Verifica si se enviaron archivos
     if (!empty($uploadedFiles['name'][0])) {

@@ -16,6 +16,9 @@ try {
 
     $uploadedFiles = $_FILES['imagenesStock'];
 
+    //alta de producto con categoria tambien----------------------
+
+
     // Verifica si se enviaron archivos
     if (!empty($uploadedFiles['name'][0])) {
         $uploadedFileCount = count($uploadedFiles['name']);
