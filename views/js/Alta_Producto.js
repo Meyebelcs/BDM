@@ -121,6 +121,7 @@ $(document).ready(function () {
         } else {
             $("#categories_error_message").hide();
             $("#select-categories").css("border", "2px solid #34f458", "margin-bottom", "0px");
+            error_category = false;
         }
     }
 
@@ -134,6 +135,8 @@ $(document).ready(function () {
         } else {
             $("#photo_error_message").hide();
             $("#Upload").css("border", "2px solid #34f458", "margin-bottom", "0px");
+            error_img = false;
+
         }
     }
 
@@ -157,6 +160,7 @@ $(document).ready(function () {
         } else {
             $("#categories_error_messageCotizacion").hide();
             $("#select-categoriesCotizacion").css("border", "2px solid #34f458", "margin-bottom", "0px");
+            error_category = false;
         }
     }
 
@@ -170,6 +174,8 @@ $(document).ready(function () {
         } else {
             $("#photo_error_messageCotizacion").hide();
             $("#UploadCotizacion").css("border", "2px solid #34f458", "margin-bottom", "0px");
+            error_img = false;
+
         }
     }
 
@@ -211,7 +217,7 @@ $(document).ready(function () {
             formData.append('Nombre', $('#name').val());
             formData.append('Descripción', $('#desc').val());
             formData.append('Precio', $('#price').val());
-            formData.append('Inventario',  $('#inventario').val());
+            formData.append('Inventario', $('#inventario').val());
             formData.append('Fecha_actualizacion', formattedDate);
             formData.append('Fecha_publicación', formattedDate);
             formData.append('idStatus', '1');
@@ -260,7 +266,7 @@ $(document).ready(function () {
 
                         // Éxito...
                         Swal.fire({
-                            title:' El Producto se ha creado con éxito',
+                            title: ' El Producto se ha creado con éxito',
                             icon: 'success',
                             confirmButtonText: 'Aceptar',
                             confirmButtonColor: '#F47B8F'
@@ -306,7 +312,6 @@ $(document).ready(function () {
 
         if (error_name === false && error_desc === false && error_category === false && error_img === false && error_material === false) {
 
-           
             var formDataCotizacion = new FormData();
 
             const now = new Date();
@@ -315,14 +320,14 @@ $(document).ready(function () {
 
             //obtengo el valor de los campos
             formDataCotizacion.append('Nombre', $('#nameCotizacion').val());
-            formDataCotizacion.append('Descripción',  $('#descCotizacion').val());
+            formDataCotizacion.append('Descripción', $('#descCotizacion').val());
             formDataCotizacion.append('Precio', ' ');
             formDataCotizacion.append('Inventario', ' ');
             formDataCotizacion.append('Fecha_actualizacion', formattedDate);
             formDataCotizacion.append('Fecha_publicación', formattedDate);
             formDataCotizacion.append('idStatus', '2');
-            formDataCotizacion.append('idAdminAutorización',  $('#idUser').val());
-            formDataCotizacion.append('idUsuarioCreador',  $('#idUser').val());
+            formDataCotizacion.append('idAdminAutorización', $('#idUser').val());
+            formDataCotizacion.append('idUsuarioCreador', $('#idUser').val());
             formDataCotizacion.append('Tipo', 'Cotizacion');
 
             // Itera sobre el array de imágenes y agrégales al FormData
@@ -410,34 +415,34 @@ $(document).ready(function () {
 
     $("#Upload").on("change", function () {
         var container = $("#image-previews-container");
-    
+
         $("#photo_error_message").hide();
         $("#Upload").css("border", "1px solid #dee2e6");
-    
+
         if (typeof FileReader !== "undefined") {
             var files = $(this)[0].files;
-    
+
             for (var i = 0; i < files.length; i++) {
                 var objectURL = URL.createObjectURL(files[i]);
-    
+
                 // Validar el tamaño de la imagen
                 if (validateImageSize(files[i])) {
                     container.append('<img src="' + objectURL + '" class="preview-img" alt="">');
-    
+
                     // Agrega cada imagen al array global
                     imagenesStock.push(files[i]);
                 } else {
                     // Manejar el error de tamaño de la imagen
                     Swal.fire({
                         title: 'Error',
-                        text:"Error: La imagen '" + files[i].name + "' supera el tamaño permitido.",
+                        text: "Error: La imagen '" + files[i].name + "' supera el tamaño permitido.",
                         icon: 'error',
                         confirmButtonText: 'Aceptar',
                         confirmButtonColor: '#F47B8F'
                     });
                 }
             }
-    
+
             // Imprimir el contenido de imagenesStock en la consola de manera entendible
             console.log("Imágenes antes de enviar la solicitud:");
             console.log(JSON.stringify(imagenesStock, null, 2));
@@ -457,28 +462,28 @@ $(document).ready(function () {
 
         if (typeof FileReader !== "undefined") {
             var files = $(this)[0].files;
-    
+
             for (var i = 0; i < files.length; i++) {
                 var objectURL = URL.createObjectURL(files[i]);
-    
+
                 // Validar el tamaño de la imagen
                 if (validateImageSize(files[i])) {
                     container.append('<img src="' + objectURL + '" class="preview-img" alt="">');
-    
+
                     // Agrega cada imagen al array global
                     imagenesCotizacion.push(files[i]);
                 } else {
                     // Manejar el error de tamaño de la imagen
                     Swal.fire({
                         title: 'Error',
-                        text:"Error: La imagen '" + files[i].name + "' supera el tamaño permitido.",
+                        text: "Error: La imagen '" + files[i].name + "' supera el tamaño permitido.",
                         icon: 'error',
                         confirmButtonText: 'Aceptar',
                         confirmButtonColor: '#F47B8F'
                     });
                 }
             }
-    
+
             // Imprimir el contenido de imagenesStock en la consola de manera entendible
             console.log("Imágenes antes de enviar la solicitud:");
             console.log(JSON.stringify(imagenesCotizacion, null, 2));
@@ -488,13 +493,13 @@ $(document).ready(function () {
 
     });
 
-        
+
     function validateImageSize(file) {
         // Define el tamaño máximo permitido para LONGBLOB (en bytes)
         var maxSizeAllowed = 4294967295;  // 4 GB
-    
+
         // Verifica si el tamaño del archivo excede el límite
         return file.size <= maxSizeAllowed;
     }
-    
+
 })

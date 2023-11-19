@@ -63,24 +63,7 @@ $(function () {
 
         if (error_name === false && error_cantidad === false) {
 
-            /*  const formData = new FormData();
- 
-             const now = new Date();
-             const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
- 
-             //obtengo el valor de los campos
-             nombre = $('#material-name').val();
-             cantidad = $('#material-cantidad').val();
-             fechaCreacion = formattedDate;
-             idStatus = '1';
-             idProducto = '';
- 
-             formData.append('idProducto', idProducto);
-             formData.append('idStatus', idStatus);
-             formData.append('Fecha_creacion', nombre);
-             formData.append('Nombre', descripcion);
-             formData.append('Cantidad', cantidad); */
-
+            $("#material_error_messageCotizacion").hide();
 
             const now = new Date();
             const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');

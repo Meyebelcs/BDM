@@ -199,30 +199,10 @@ require_once './components/menu.php';
             <div class="row">
               <div class="accordion levels" id="levels">
 
-               
-                <div class="accordion" id="accordionPanelsStayOpenExample">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header bg-light" id="panelsStayOpen-headingOne">
-                      <div class="d-flex justify-content-between p-2">
-                        <p class="btn border-0 m-0"> NombreMaterial</p>
-                        <p class="btn border-0 m-0">Cantidad: 200</p>
-                        <div class="d-flex justify-content-center">
-                          <button class="btn collapsed border-0" type="button" data-bs-toggle="modal"
-                            data-bs-target="#editLevel">
-                            <i class="bi bi-pencil-fill"></i>
-                          </button>
-                          <button class="btn collapsed border-0 text-danger" type="button" data-bs-toggle="modal"
-                            data-bs-target="#deleteLevel">
-                            <i class="bi bi-trash-fill"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </h2>
-                  </div>
-                </div>
               </div>
-              <button type="submit" class="btn btn-secondary m-4 mb-9">Crear Cotización</button><!-- 
-          <span class="text-danger" id="modal_error_messageCotizacion"></span><br> -->
+              <span class="text-danger" id="material_error_messageCotizacion"></span><br>
+              <button type="submit" class="btn btn-secondary m-4 mb-9">Crear Cotización</button>
+              
         </form>
       </div>
     </div>
