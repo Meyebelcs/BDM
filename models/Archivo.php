@@ -72,7 +72,7 @@ class Archivo
         return $archivo;
     }
 
-    public function insertArchivo($mysqli, )
+    public function insertArchivo($mysqli )
     {
 
         /* $encodeImagen = base64_encode($this->archivo); */

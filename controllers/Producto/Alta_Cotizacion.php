@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../models/Producto.php';
 require_once __DIR__ . '/../../models/Archivo.php';
+require_once __DIR__ . '/../../models/Material_Inventario.php';
 $json = $_POST;
 $mysqli = db::connect();
 $producto = Product::parseJson($json);
@@ -17,8 +18,19 @@ try {
     $uploadedFiles = $_FILES['imagenesCotizacion'];
 
 
-    //alta de materiales tambien----------------------
-    //alta de producto con categoria tambien----------------------
+    //alta de materiales ----------------------
+    $materiales = $_POST["materiales"];
+
+    // Iterar sobre los materiales
+    foreach ($materiales as $material) {
+
+        // Guarda el contenido en la base de datos
+        $material = new MaterialInventario($idProducto->getIdProducto(), '1', $material['Fecha_creacion'], $material['Nombre'], $material['Cantidad']);
+        $material->insertMaterialInventario($mysqli);
+
+    }
+
+    //alta de producto con categoria----------------------
 
     // Verifica si se enviaron archivos
     if (!empty($uploadedFiles['name'][0])) {

@@ -128,32 +128,6 @@ require_once './components/menu.php';
           <!-- <span class="text-danger" id="modal_error_message"></span><br> -->
         </form>
 
-        <!-- Modal Añadir categoria STOCK-->
-        <!--   <div class="modal fade" id="addCategoryStock" tabindex="-1" aria-labelledby="exampleModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog  modal-dialog-centered modal-dialog">
-            <form class="modal-content" id="create-category">
-              <input type="hidden" name="formulario" value="category-form">
-              <div class="modal-header">
-                <h4>Añadir categoría</h4>
-              </div>
-              <div class="modal-body">
-                <label for="Nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="name-Category" id="category-name">
-                <span class="text-danger" id="category_name_error_message"></span><br>
-                <label for="descripcion" class="form-label">Descripción</label>
-                <textarea class="form-control" id="category-desc" name="desc-Category" rows="3"></textarea>
-                <span class="text-danger" id="category_description_error_message"></span>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeStock">Cerrar</button>
-                <button type="button" class="btn btn-secondary" id="btn_savechangesCatStock">Guardar</button>
-                <span class="text-danger" id="category_error_message"></span>
-              </div>
-            </form>
-          </div>
-        </div> -->
-
       </div>
 
       <!-- Cards COTIZACION--------->
@@ -218,13 +192,14 @@ require_once './components/menu.php';
               <div class="col-lg-12 p-2 d-flex">
                 <h4 class="pe-4">Materiales</h4>
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                  data-bs-target="#addLevel">Añadir Material</button>
+                  data-bs-target="#addmaterial">Añadir Material</button>
               </div>
             </div>
 
             <div class="row">
               <div class="accordion levels" id="levels">
 
+               
                 <div class="accordion" id="accordionPanelsStayOpenExample">
                   <div class="accordion-item">
                     <h2 class="accordion-header bg-light" id="panelsStayOpen-headingOne">
@@ -254,26 +229,26 @@ require_once './components/menu.php';
 
 
     <!-- Modal Añadir material-->
-    <div class="modal fade" id="addLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addmaterial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <form id="add-level" class="modal-content">
-          <input type="hidden" name="formulario" value="addlevel-form">
+        <form id="add-material" class="modal-content">
+          <input type="hidden" name="formulario" value="addmaterial-form">
           <div class="modal-header">
             <h4>Añadir material</h4>
           </div>
           <div class="modal-body">
             <label for="" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="level-name" name="name-add-Level">
-            <span class="text-danger" id="level_name_error_message"></span><br>
+            <input type="text" class="form-control" id="material-name" name="name-add-material">
+            <span class="text-danger" id="material_name_error_message"></span><br>
 
             <label class="form-label pt-2 me-3" for="">Cantidad:</label>
-            <input class="form-control" type="text" id="level-price" name="costo-add-Level">
-            <span class="text-danger" id="level_price_error_message"></span><br>
+            <input class="form-control" type="text" id="material-cantidad" name="costo-add-material">
+            <span class="text-danger" id="material_cantidad_error_message"></span><br>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Cerrar</button>
-            <button type="button" id="add-level-btn" class="btn btn-secondary">Añadir material</button>
-            <span class="text-danger" id="level_error_message"></span><br>
+            <button type="button" id="add-material-btn" class="btn btn-secondary">Añadir material</button>
+            <span class="text-danger" id="material_error_message"></span><br>
           </div>
         </form>
       </div>
@@ -281,35 +256,35 @@ require_once './components/menu.php';
 
 
     <!-- Modal editar material-->
-    <div class="modal fade" id="editLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editmaterial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <form id="edit-level" class="modal-content">
+        <form id="edit-material" class="modal-content">
           <div class="modal-header">
             <h4>Editar material</h4>
           </div>
           <div class="modal-body">
             <label for="" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="level-edit-name" name="nameleveleditname">
-            <span class="text-danger" id="level_edit_name_error_message"></span><br>
+            <input type="text" class="form-control" id="material-edit-name" name="namematerialeditname">
+            <span class="text-danger" id="material_edit_name_error_message"></span><br>
             <label class="form-label pt-2 me-3" for="">Cantidad:</label>
-            <input class="form-control" type="text" id="level-edit-price" name="nameleveleditcosto">
-            <span class="text-danger" id="level_edit_price_error_message"></span><br>
+            <input class="form-control" type="text" id="material-edit-price" name="namematerialeditcosto">
+            <span class="text-danger" id="material_edit_price_error_message"></span><br>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-              id="close-edit-level">Cerrar</button>
-            <button type="button" id="edit-level-btn" class="btn btn-secondary">Guardar cambios</button>
-            <span class="text-danger" id="level_edit_error_message"></span><br>
+              id="close-edit-material">Cerrar</button>
+            <button type="button" id="edit-material-btn" class="btn btn-secondary">Guardar cambios</button>
+            <span class="text-danger" id="material_edit_error_message"></span><br>
           </div>
         </form>
       </div>
     </div>
 
     <!-- Modal delete material-->
-    <div class="modal fade" id="deleteLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deletematerial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <form id="add-level" class="modal-content">
-          <input type="hidden" name="formulario" value="addlevel-form">
+        <form id="add-material" class="modal-content">
+          <input type="hidden" name="formulario" value="addmaterial-form">
           <div class="modal-header">
             <h4>Eliminar material</h4>
           </div>
@@ -319,8 +294,8 @@ require_once './components/menu.php';
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Cerrar</button>
-            <button type="button" id="delete-level-btn" class="btn btn-secondary">Eliminar</button>
-            <span class="text-danger" id="level_error_message"></span><br>
+            <button type="button" id="delete-material-btn" class="btn btn-secondary">Eliminar</button>
+            <span class="text-danger" id="material_error_message"></span><br>
           </div>
         </form>
       </div>
@@ -329,30 +304,30 @@ require_once './components/menu.php';
 
   </main>
 
-   <!-- Modal Añadir categoria-->
-   <div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog  modal-dialog-centered modal-dialog">
-        <form class="modal-content" id="create-category">
-          <input type="hidden" name="formulario" value="category-form">
-          <div class="modal-header">
-            <h4>Añadir categoría</h4>
-          </div>
-          <div class="modal-body">
-            <label for="Nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" name="name-Category" id="category-name">
-            <span class="text-danger" id="category_name_error_message"></span><br>
-            <label for="descripcion" class="form-label">Descripción</label>
-            <textarea class="form-control" id="category-desc" name="desc-Category" rows="3"></textarea>
-            <span class="text-danger" id="category_description_error_message"></span>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Cerrar</button>
-            <button type="button" class="btn btn-secondary" id="btn_savechangesCat">Guardar</button>
-            <span class="text-danger" id="category_error_message"></span>
-          </div>
-        </form>
-      </div>
+  <!-- Modal Añadir categoria-->
+  <div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered modal-dialog">
+      <form class="modal-content" id="create-category">
+        <input type="hidden" name="formulario" value="category-form">
+        <div class="modal-header">
+          <h4>Añadir categoría</h4>
+        </div>
+        <div class="modal-body">
+          <label for="Nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" name="name-Category" id="category-name">
+          <span class="text-danger" id="category_name_error_message"></span><br>
+          <label for="descripcion" class="form-label">Descripción</label>
+          <textarea class="form-control" id="category-desc" name="desc-Category" rows="3"></textarea>
+          <span class="text-danger" id="category_description_error_message"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Cerrar</button>
+          <button type="button" class="btn btn-secondary" id="btn_savechangesCat">Guardar</button>
+          <span class="text-danger" id="category_error_message"></span>
+        </div>
+      </form>
     </div>
+  </div>
   <!-- Footer -->
   <?php include('./components/footer.php'); ?>
 
@@ -364,7 +339,8 @@ require_once './components/menu.php';
     crossorigin="anonymous"></script>
 
   <script src="./js/Category.js"></script>
-  <script src="./js/Alta_Producto.js"></script>
+  <script type="module" src="./js/Material.js"></script>
+  <script type="module" src="./js/Alta_Producto.js"></script>
 
 </body>
 

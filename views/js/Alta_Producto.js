@@ -1,3 +1,5 @@
+import { materialsArray } from './Material.js';
+
 
 $(document).ready(function () {
 
@@ -206,25 +208,16 @@ $(document).ready(function () {
             const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
 
             //obtengo el valor de los campos
-            nombre = $('#name').val();
-            descripcion = $('#desc').val();
-            costo = $('#price').val();
-            inventario = $('#inventario').val();
-            tipo = 'Stock';
-            fechaActualizacion = fechaPublicacion = formattedDate;
-            idStatus = '1';
-            idUsuarioCreador = idAdminAutorizacion = $('#idUser').val();
-
-            formData.append('Nombre', nombre);
-            formData.append('Descripción', descripcion);
-            formData.append('Precio', costo);
-            formData.append('Inventario', inventario);
-            formData.append('Fecha_actualizacion', fechaActualizacion);
-            formData.append('Fecha_publicación', fechaPublicacion);
-            formData.append('idStatus', idStatus);
-            formData.append('idAdminAutorización', idAdminAutorizacion);
-            formData.append('idUsuarioCreador', idUsuarioCreador);
-            formData.append('Tipo', tipo);
+            formData.append('Nombre', $('#name').val());
+            formData.append('Descripción', $('#desc').val());
+            formData.append('Precio', $('#price').val());
+            formData.append('Inventario',  $('#inventario').val());
+            formData.append('Fecha_actualizacion', formattedDate);
+            formData.append('Fecha_publicación', formattedDate);
+            formData.append('idStatus', '1');
+            formData.append('idAdminAutorización', $('#idUser').val());
+            formData.append('idUsuarioCreador', $('#idUser').val());
+            formData.append('Tipo', 'Stock');
 
             // Itera sobre el array de imágenes y agrégales al FormData
             for (var i = 0; i < imagenesStock.length; i++) {
@@ -321,23 +314,16 @@ $(document).ready(function () {
 
 
             //obtengo el valor de los campos
-            nombre = $('#nameCotizacion').val();
-            descripcion = $('#descCotizacion').val();
-            tipo = 'Cotizacion';
-            fechaActualizacion = fechaPublicacion = formattedDate;
-            idStatus = '2';
-            idUsuarioCreador = idAdminAutorizacion = $('#idUser').val();
-
-            formDataCotizacion.append('Nombre', nombre);
-            formDataCotizacion.append('Descripción', descripcion);
+            formDataCotizacion.append('Nombre', $('#nameCotizacion').val());
+            formDataCotizacion.append('Descripción',  $('#descCotizacion').val());
             formDataCotizacion.append('Precio', ' ');
             formDataCotizacion.append('Inventario', ' ');
-            formDataCotizacion.append('Fecha_actualizacion', fechaActualizacion);
-            formDataCotizacion.append('Fecha_publicación', fechaPublicacion);
-            formDataCotizacion.append('idStatus', idStatus);
-            formDataCotizacion.append('idAdminAutorización', idAdminAutorizacion);
-            formDataCotizacion.append('idUsuarioCreador', idUsuarioCreador);
-            formDataCotizacion.append('Tipo', tipo);
+            formDataCotizacion.append('Fecha_actualizacion', formattedDate);
+            formDataCotizacion.append('Fecha_publicación', formattedDate);
+            formDataCotizacion.append('idStatus', '2');
+            formDataCotizacion.append('idAdminAutorización',  $('#idUser').val());
+            formDataCotizacion.append('idUsuarioCreador',  $('#idUser').val());
+            formDataCotizacion.append('Tipo', 'Cotizacion');
 
             // Itera sobre el array de imágenes y agrégales al FormData
             for (var i = 0; i < imagenesCotizacion.length; i++) {
@@ -360,6 +346,14 @@ $(document).ready(function () {
 
             console.log("Imágenes antes de enviar la solicitud:", imagenesCotizacion);
 
+            //materiales
+            for (var i = 0; i < materialsArray.length; i++) {
+                const material = materialsArray[i];
+                formDataCotizacion.append("materiales[" + i + "][Nombre]", material.Nombre);
+                formDataCotizacion.append("materiales[" + i + "][Cantidad]", material.Cantidad);
+                formDataCotizacion.append("materiales[" + i + "][Fecha_creacion]", material.Fecha_creacion);
+            }
+
 
             const xhr = new XMLHttpRequest();
 
@@ -381,7 +375,7 @@ $(document).ready(function () {
 
                         // Éxito...
                         Swal.fire({
-                            title: res.msg + ' La Cotización se ha creado con éxito',
+                            title: ' La Cotización se ha creado con éxito',
                             html: '<div>¡Gracias por tu contribución!</div><div>Ahora debes esperar a que el administrador acepte publicar tu Cotización</div>',
                             icon: 'success',
                             confirmButtonText: 'Aceptar',
