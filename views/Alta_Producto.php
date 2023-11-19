@@ -49,7 +49,7 @@ require_once './components/menu.php';
     <div class="container">
       <!---------------- productosStock---------->
       <div class="productosStock">
-        <form class="row" id="create-Product" enctype="multipart/form-data">
+        <form class="row" method="post" action="../controllers/Producto/Alta_Producto.php" id="create-Product" enctype="multipart/form-data">
           <div class="row">
           <input type="hidden" name="idUser" id="idUser" value="<?php echo $idUser; ?>">
           
@@ -113,7 +113,7 @@ require_once './components/menu.php';
                       <p>Añade una imagen</p>
                     </label>
                     <img src="" class="preview-img" alt="">
-                    <input type="file" id="Upload" class="form-control mt-3">
+                    <input type="file" id="Upload" name="Upload" class="form-control mt-3">
                     <span class="text-danger" id="photo_error_message"></span>
                   </div>
                 </div>
@@ -157,7 +157,7 @@ require_once './components/menu.php';
 
       <!-- Cards COTIZACION--------->
       <div class="productosCotizacion">
-        <form class="row" id="formCotizacion" enctype="multipart/form-data">
+        <form class="row" method="POST" action="../controllers/Producto/Alta_Cotizacion.php" id="formCotizacion" enctype="multipart/form-data">
           <div class="row">
             <div class="col-lg-6 col-sm-12 col-xs-12">
               <div class="mb-3">
@@ -200,7 +200,7 @@ require_once './components/menu.php';
                       <p>Añade una imagen</p>
                     </label>
                     <img src="" id="preview-imgCotizacion" alt="">
-                    <input type="file" id="UploadCotizacion" class="form-control mt-3">
+                    <input type="file" name="UploadCotizacion" id="UploadCotizacion" class="form-control mt-3">
                     <span class="text-danger" id="photo_error_messageCotizacion"></span>
                   </div>
                 </div>

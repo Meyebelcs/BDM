@@ -7,37 +7,67 @@ $mysqli = db::connect();
 $producto = Product::parseJson($json);
 $nombreProducto = $producto->getNombre();
 
+
 try {
     // Insertar el producto
     $producto->insertProducto($mysqli);
 
-    // Obtener el ID del producto recién insertado
-    $idProducto = $producto->getIdProducto();
+    $idProducto = $producto->getLastidProducto($mysqli);
 
-    //alta de materiales tambien
+    $uploadedFiles = $_FILES['imagenesCotizacion'];
 
-    // Verificar si se enviaron imágenes
-    /*    if (isset($_FILES['imagenesStock'])) {
-           // Acceder a las imágenes
-           $imagenesStock = $_FILES['imagenesStock'];
 
-           // Iterar sobre las imágenes
-           for ($i = 0; $i < count($imagenesStock['name']); $i++) {
+    //alta de materiales tambien----------------------
 
-               $tempImagen = $imagenesStock['tmp_name'][$i];
+    // Verifica si se enviaron archivos
+    if (!empty($uploadedFiles['name'][0])) {
+        $uploadedFileCount = count($uploadedFiles['name']);
 
-               //  la guardamos en la base de datos utilizando el modelo Archivo
-               $archivo = new Archivo($producto->getIdProducto(), '2', file_get_contents($tempImagen));
-               $archivo->insertArchivo($mysqli);
-           }
-       }  */
+        for ($i = 0; $i < $uploadedFileCount; $i++) {
+            // Verifica si el archivo se cargó correctamente
+            if ($uploadedFiles["error"][$i] === UPLOAD_ERR_OK) {
 
-    $json_response = ["success" => true];
-    $json_response["msg"] = "Se ha creado la cotización $nombreProducto";
+
+                $imgSize = filesize($uploadedFiles["tmp_name"][$i]);
+
+                // Define el tamaño máximo permitido para LONGBLOB (en bytes)
+                $maxSizeAllowed = 4294967295;  // 4 GB
+
+                // Verifica si el tamaño del archivo excede el límite
+                if ($imgSize > $maxSizeAllowed) {
+                    $json_response = ["success" => false];
+                    $json_response["msg"] = "El archivo supera el tamaño máximo permitido.";
+                    throw new Exception("El archivo supera el tamaño máximo permitido.");
+                }
+
+                // Lee el contenido binario del archivo
+                $imgContenido = file_get_contents($uploadedFiles["tmp_name"][$i]);
+
+                // Guarda el contenido binario en la base de datos
+                $archivo = new Archivo($idProducto->getIdProducto(), '1', $imgContenido);
+                $archivo->insertArchivo($mysqli);
+
+                // echo "El archivo se ha guardado en la base de datos.";
+            } else {
+                //echo "Error al cargar el archivo: " . $uploadedFiles["error"][$i];
+            }
+        }
+
+        $json_response = ["success" => true];
+        $json_response["msg"] = "Se ha creado la cotización $nombreProducto y archivos";
+    } else {
+        //echo "No se cargaron archivos.";
+        $json_response = ["success" => true];
+        $json_response["msg"] = "Se ha creado la cotización $nombreProducto pero no archivos";
+        exit;
+    }
+
 } catch (Exception $e) {
-    $json_response = ["success" => false, "msg" => "Error al crear el producto: " . $e->getMessage()];
+    $json_response = ["success" => false, "msg" => "Error al crear la cotización: " . $e->getMessage()];
+    exit;
 }
 
 header('Content-Type: application/json');
+
 echo json_encode($json_response);
-?>
+

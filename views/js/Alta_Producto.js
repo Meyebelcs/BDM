@@ -231,6 +231,7 @@ $(document).ready(function () {
                 formData.append("imagenesStock[]", imagenesStock[i]);
             }
 
+
             // Itera sobre el array de categoria y agrégales al FormData
             var selectElement = document.getElementById("select-categories");
             var selectedOptions = [];
@@ -245,8 +246,9 @@ $(document).ready(function () {
                 formData.append('categorias[]', option);
             });
 
-            const xhr = new XMLHttpRequest();
+            console.log("Imágenes antes de enviar la solicitud:", imagenesStock);
 
+            const xhr = new XMLHttpRequest();
             xhr.open("POST", "../controllers/Producto/Alta_Producto.php", true);
             xhr.onreadystatechange = function () {
                 try {
@@ -265,7 +267,7 @@ $(document).ready(function () {
 
                         // Éxito...
                         Swal.fire({
-                            title: res.msg + ' El Producto se ha creado con éxito',
+                            title:' El Producto se ha creado con éxito',
                             icon: 'success',
                             confirmButtonText: 'Aceptar',
                             confirmButtonColor: '#F47B8F'
@@ -311,11 +313,12 @@ $(document).ready(function () {
 
         if (error_name === false && error_desc === false && error_category === false && error_img === false && error_material === false) {
 
-            alert('entra aiff');
+           
             var formDataCotizacion = new FormData();
 
             const now = new Date();
             const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
+
 
             //obtengo el valor de los campos
             nombre = $('#nameCotizacion').val();
@@ -336,12 +339,12 @@ $(document).ready(function () {
             formDataCotizacion.append('idUsuarioCreador', idUsuarioCreador);
             formDataCotizacion.append('Tipo', tipo);
 
-            // Itera sobre el array de imágenes y agrégales al formDataCotizacion
+            // Itera sobre el array de imágenes y agrégales al FormData
             for (var i = 0; i < imagenesCotizacion.length; i++) {
                 formDataCotizacion.append("imagenesCotizacion[]", imagenesCotizacion[i]);
             }
 
-            // Itera sobre el array de categoria y agrégales al formDataCotizacion
+            // Itera sobre el array de categoria y agrégales al FormData
             var selectElement = document.getElementById("select-categoriesCotizacion");
             var selectedOptions = [];
 
@@ -354,6 +357,9 @@ $(document).ready(function () {
             selectedOptions.forEach(function (option) {
                 formDataCotizacion.append('categorias[]', option);
             });
+
+            console.log("Imágenes antes de enviar la solicitud:", imagenesCotizacion);
+
 
             const xhr = new XMLHttpRequest();
 
@@ -375,7 +381,7 @@ $(document).ready(function () {
 
                         // Éxito...
                         Swal.fire({
-                            title: res.msg + ' La Cotizacioon se ha creado con éxito',
+                            title: res.msg + ' La Cotización se ha creado con éxito',
                             icon: 'success',
                             confirmButtonText: 'Aceptar',
                             confirmButtonColor: '#F47B8F'
@@ -404,37 +410,45 @@ $(document).ready(function () {
         }
     })
 
-    // ----- muestra la imagen seleccionada ----
-
     var imagenesStock = []; // Declarar un array global para almacenar las imágenes
 
     $("#Upload").on("change", function () {
         var container = $("#image-previews-container");
-
+    
         $("#photo_error_message").hide();
         $("#Upload").css("border", "1px solid #dee2e6");
-
+    
         if (typeof FileReader !== "undefined") {
             var files = $(this)[0].files;
-
+    
             for (var i = 0; i < files.length; i++) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    container.append('<img src="' + e.target.result + '" class="preview-img" alt="">');
-
+                var objectURL = URL.createObjectURL(files[i]);
+    
+                // Validar el tamaño de la imagen
+                if (validateImageSize(files[i])) {
+                    container.append('<img src="' + objectURL + '" class="preview-img" alt="">');
+    
                     // Agrega cada imagen al array global
                     imagenesStock.push(files[i]);
-                    /*  imagenesStock.push(reader.result); */
-                };
-
-                reader.readAsDataURL(files[i]);
+                } else {
+                    // Manejar el error de tamaño de la imagen
+                    Swal.fire({
+                        title: 'Error',
+                        text:"Error: La imagen '" + files[i].name + "' supera el tamaño permitido.",
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#F47B8F'
+                    });
+                }
             }
+    
+            // Imprimir el contenido de imagenesStock en la consola de manera entendible
+            console.log("Imágenes antes de enviar la solicitud:");
+            console.log(JSON.stringify(imagenesStock, null, 2));
         } else {
-            alert("This browser does not support FileReader.");
+            alert("Este navegador no admite FileReader.");
         }
     });
-
 
     // ----- muestra la imagen seleccionada ----
     var imagenesCotizacion = []; // Declarar un array global para almacenar las imágenes
@@ -447,24 +461,44 @@ $(document).ready(function () {
 
         if (typeof FileReader !== "undefined") {
             var files = $(this)[0].files;
-
+    
             for (var i = 0; i < files.length; i++) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    container.append('<img src="' + e.target.result + '" class="preview-img" alt="">');
-
+                var objectURL = URL.createObjectURL(files[i]);
+    
+                // Validar el tamaño de la imagen
+                if (validateImageSize(files[i])) {
+                    container.append('<img src="' + objectURL + '" class="preview-img" alt="">');
+    
                     // Agrega cada imagen al array global
                     imagenesCotizacion.push(files[i]);
-                    /*  imagenesCotizacion.push(reader.result); */
-                };
-
-                reader.readAsDataURL(files[i]);
+                } else {
+                    // Manejar el error de tamaño de la imagen
+                    Swal.fire({
+                        title: 'Error',
+                        text:"Error: La imagen '" + files[i].name + "' supera el tamaño permitido.",
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#F47B8F'
+                    });
+                }
             }
+    
+            // Imprimir el contenido de imagenesStock en la consola de manera entendible
+            console.log("Imágenes antes de enviar la solicitud:");
+            console.log(JSON.stringify(imagenesCotizacion, null, 2));
         } else {
-            alert("This browser does not support FileReader.");
+            alert("Este navegador no admite FileReader.");
         }
+
     });
 
-
+        
+    function validateImageSize(file) {
+        // Define el tamaño máximo permitido para LONGBLOB (en bytes)
+        var maxSizeAllowed = 4294967295;  // 4 GB
+    
+        // Verifica si el tamaño del archivo excede el límite
+        return file.size <= maxSizeAllowed;
+    }
+    
 })

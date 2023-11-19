@@ -202,6 +202,17 @@ class Product
         return $producto ? Product::parseJson($producto) : null;
     }
 
+    public static function getLastidProducto($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL getLastIdProducto()");
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $producto = $result->fetch_assoc();
+        $stmt->close();
+        return $producto ? Product::parseJson($producto) : null;
+    }
+
     public function updateProducto($mysqli)
     {
         $stmt = $mysqli->prepare("CALL sp_UpdateProducto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -227,7 +238,7 @@ class Product
         }
     }
 
-  
+
     public function toJSON()
     {
         return get_object_vars($this);

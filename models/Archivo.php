@@ -72,8 +72,11 @@ class Archivo
         return $archivo;
     }
 
-    public function insertArchivo($mysqli)
+    public function insertArchivo($mysqli, )
     {
+
+        /* $encodeImagen = base64_encode($this->archivo); */
+
         $stmt = $mysqli->prepare("CALL sp_InsertArchivo(?, ?, ?)");
         $stmt->bind_param(
             "sss",
@@ -81,13 +84,10 @@ class Archivo
             $this->idStatus,
             $this->archivo
         );
+        $stmt->execute();
+        $this->idArchivo = (int) $stmt->insert_id;
+        
 
-        if ($stmt->execute()) {
-            $this->idArchivo = (int) $stmt->insert_id;
-            return true; // Éxito en la inserción
-        } else {
-            return false; // Error en la inserción
-        }
     }
 
     public static function findArchivoById($mysqli, $idArchivo)
