@@ -30,6 +30,7 @@ BEGIN
 END //
 
 DELIMITER ;
+
 ------------update Archivo------------
 DELIMITER //
 
@@ -49,4 +50,18 @@ BEGIN
 END //
 
 DELIMITER ;
-
+------------find Archivo by product------------
+DELIMITER //
+CREATE PROCEDURE sp_FindArchivoByProduct(
+    IN p_idProduct INT
+)
+BEGIN
+    SELECT
+        idArchivo,
+        idProducto,
+        idStatus,
+        Archivo
+    FROM Archivo
+    WHERE idProducto = p_idProduct;
+END //
+DELIMITER ;

@@ -72,7 +72,7 @@ class Archivo
         return $archivo;
     }
 
-    public function insertArchivo($mysqli )
+    public function insertArchivo($mysqli)
     {
 
         /* $encodeImagen = base64_encode($this->archivo); */
@@ -86,7 +86,7 @@ class Archivo
         );
         $stmt->execute();
         $this->idArchivo = (int) $stmt->insert_id;
-        
+
 
     }
 
@@ -98,7 +98,34 @@ class Archivo
         $result = $stmt->get_result();
         $archivo = $result->fetch_assoc();
 
-        return $archivo ? self::parseJson($archivo) : null;
+        return $archivo ? Archivo::parseJson($archivo) : null;
+    }
+    public static function getArchivoByProduct($mysqli, $idProducto)
+    {
+        $Archivos = array();
+
+        $stmt = $mysqli->prepare("CALL sp_FindArchivoByProduct(?)");
+        $stmt->bind_param("i", $idProducto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $imagenes = new Archivo(
+                $row['idProducto'],
+                $row['idStatus'],
+                $row['Archivo']
+
+            );
+
+            $imagenes->setIdArchivo($row['idArchivo']);
+
+            // Agregar el comentario directamente al array
+            $Archivos[] = $imagenes;
+        }
+
+        $stmt->close();
+
+        return $Archivos;
     }
 
     public function updateArchivo($mysqli)
