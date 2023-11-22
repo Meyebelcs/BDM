@@ -11,31 +11,47 @@ $(document).ready(function () {
       $('.productosStock').hide();
       $('.productosCotizacion').show();
       estado = 'Cotizacion';
+      limpiarInputs();
+      filtro();
     } else {
       $('#switchText').text('Productos');
       $('.productosCotizacion').hide();
       $('.productosStock').show();
       estado = 'Stock';
+      limpiarInputs();
+      filtro();
     }
   });
+
+  function limpiarInputs() {
+    // Obtener referencias a los inputs
+    var fechaInicialInput = document.getElementById('fechaInicial');
+    var horaInput = document.getElementById('hora');
+    var categoriaSelect = document.getElementById('categoria');
+    var nombreProductoInput = document.getElementById('nombreProducto');
+    var calificacionSelect = document.getElementById('calificacion');
+
+    // Limpiar los valores de los inputs
+    fechaInicialInput.value = '';
+    horaInput.value = '';
+    categoriaSelect.value = '';
+    nombreProductoInput.value = '';
+    calificacionSelect.value = '';
+}
 
   //--------------FILTROOO-------------------------
 
   // Captura cambios en los campos con la clase 'buscar'
   $('.buscar').change(function () {
-    // Recoge los valores de los campos
+    filtro();
+  });
+
+  function filtro(){
     var fecha = $('#fechaInicial').val() ?? null;
     var hora = $('#hora').val() ?? null;
     var idcategoria = $('#categoria').val() ?? '0';
     var nombreProducto = $('#nombreProducto').val() ?? null;
     var calificacion = $('#calificacion').val() ?? '0';
-
-/*     console.log('Fecha:', fecha);
-    console.log('Hora:', hora);
-    console.log('ID Categoría:', idcategoria);
-    console.log('Nombre Producto:', nombreProducto);
-    console.log('Calificación:', calificacion);
-    console.log('estado:', estado); */
 
     const formData = new FormData();
     formData.append('fecha', fecha);
@@ -193,8 +209,7 @@ $(document).ready(function () {
     xhr.send(formData);
     return false;
 
-
-  });
+  }
 
 });
 

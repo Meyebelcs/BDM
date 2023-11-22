@@ -107,13 +107,11 @@ CREATE PROCEDURE getLastIdProducto()
 BEGIN
     DECLARE ultimoId INT;
 
-    -- Seleccionar el último idArchivo ordenado de forma descendente
     SELECT idProducto INTO ultimoId
     FROM Producto
     ORDER BY idProducto DESC
     LIMIT 1;
 
-    -- Puedes hacer lo que desees con el valor obtenido, como imprimirlo
     SELECT ultimoId AS 'idProducto';
 END //
 

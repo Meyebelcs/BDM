@@ -204,7 +204,7 @@ class Product
 
     public static function getLastidProducto($mysqli)
     {
-        $stmt = $mysqli->prepare("CALL getLastIdProducto()");
+        $stmt = $mysqli->prepare("CALL GetLastProductId()");
 
         $stmt->execute();
         $result = $stmt->get_result();
