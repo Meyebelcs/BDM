@@ -95,7 +95,7 @@ class Categoria
             $this->descripcion,
             $this->fechaCreacion
         );
-    
+
         if ($stmt->execute()) {
             $this->idCategoria = (int) $stmt->insert_id;
             return true; // Éxito en la inserción
@@ -103,7 +103,7 @@ class Categoria
             return false; // Error en la inserción
         }
     }
-    
+
     public function findCategoriaById($mysqli, $idCategoria)
     {
         $stmt = $mysqli->prepare("CALL sp_FindCategoriaById(?)");
@@ -111,7 +111,7 @@ class Categoria
         $stmt->execute();
         $result = $stmt->get_result();
         $categoria = $result->fetch_assoc();
-    
+
         return $categoria ? self::parseJson($categoria) : null;
     }
 
@@ -128,7 +128,7 @@ class Categoria
 
         return $categorias;
     }
-    
+
     public function updateCategoria($mysqli)
     {
         $stmt = $mysqli->prepare("CALL sp_UpdateCategoria(?, ?, ?, ?)");
@@ -139,14 +139,14 @@ class Categoria
             $this->nombre,
             $this->descripcion,
         );
-    
+
         if ($stmt->execute()) {
             return true; // Éxito en la actualización
         } else {
             return false; // Error en la actualización
         }
     }
-    
+
 
     static public function parseJson($json)
     {
@@ -164,6 +164,35 @@ class Categoria
 
         return $categoria;
     }
+
+    public static function GetCategoriasPorProducto($mysqli, $idProducto)
+    {
+        $categorias = array();
+
+        $stmt = $mysqli->prepare("CALL GetCategoriasPorProducto(?)");
+        $stmt->bind_param("i", $idProducto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $categoria = new Categoria(
+                0,
+                0,
+                $row['NombreCategoria'],
+                $row['DescripcionCategoria'],
+                $row['FechaCreacionCategoria']
+            );
+            $categoria->setIdCategoria($row['idCategoria']);
+
+            // Agregar el comentario directamente al array
+            $categorias[] = $categoria;
+        }
+
+        $stmt->close();
+
+        return $categorias;
+    }
+
 
     public function toJSON()
     {

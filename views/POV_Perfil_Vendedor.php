@@ -7,9 +7,19 @@
 <?php
 session_start();
 
-$perfil="PerfilVendedor";
+$perfil = "PerfilVendedor";
 
 require_once './components/POV_menu.php';
+
+require_once "../models/Reportes/POV_ReportesVendedor.php";
+require_once "../models/Archivo.php";
+
+
+//$productosStock = POV_ReportesVendedor::getAllSellsProductsStock($mysqli, $idUser);
+$productosStock = POV_ReportesVendedor::getAllProductsFiltro($mysqli, $idUser, null, null, 0, null, 0);
+$productosCotizacion = POV_ReportesVendedor::getAllSellsProductsCotizacion($mysqli, $idUser);
+$VentasStock = POV_ReportesVendedor::GetSellsTotalByUserStock($mysqli, $idUser);
+$VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli, $idUser);
 
 ?>
 
@@ -117,9 +127,11 @@ require_once './components/POV_menu.php';
                 <div class="col-lg-4 col-md-10 col-sm-10 col-xs-10 select-box">
                     <select id="categoria" class="form-select buscar">
                         <option value="" selected></option>
-                        <option value="3">Pintura</option>
-                        <option value="2">Electronica</option>
-                        <option value="1">Perros</option>
+                        <?php foreach ($categorias as $categoria) { ?>
+                            <option value="<?php echo $categoria['idCategoria']; ?>">
+                                <?php echo $categoria['Nombre'] ?>
+                            </option>
+                        <?php } ?>
                     </select>
                 </div>
             </div>
@@ -128,7 +140,7 @@ require_once './components/POV_menu.php';
                 <div class="pb-3 d-flex col-xs-12 col-sm-12 col-md-12 col-lg-6 ">
                     <label for="nombreProducto" class="form-label" style="white-space: nowrap;">Nombre del
                         Producto:</label>
-                    <input id="nombreProducto" type="text" class="form-control">
+                    <input id="nombreProducto" type="text" class="form-control buscar">
                 </div>
                 <div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 select-box">
                     <label for="calificacion" class="form-label">Calificación:</label>
@@ -146,218 +158,87 @@ require_once './components/POV_menu.php';
             </div>
 
 
+
             <!-- Contenido -->
             <div class="container">
 
-                <div class="productosStock">
+                <div class="productosStock" id="productosStock">
                     <!-- Cards -->
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center">
-                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                            <div class="card" style="width: 100%;">
-                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                    <hr class="mt-2">
-                                    <p class="card-text mb-1">Precio: $150</p>
-                                    <p class="card-text mb-1">Cantidad Vendida: 15</p>
-                                    <p class="card-text mb-1">Total de Ingresos: $750.00</p>
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center" id="productosStockCard">
 
-                                    <div class="calificacion pb-2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
+                        <?php
+
+                        if ($productosStock) {
+                            foreach ($productosStock as $producto) { ?>
+                                <div class=" col border mx-3 mb-3 " style="width: 20rem;">
+                                    <div class="card" style="width: 100%;">
+                                        <img src="data:image/jpeg;base64,<?php echo base64_encode($producto->getImagen()); ?>"
+                                            class="card-img card-img-top" alt="  <?php echo $producto->getNombre(); ?>"
+                                            style="width: 300px; height: 300px;">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-1">
+                                                <?php echo $producto->getNombre(); ?>
+                                            </h5>
+                                            <small class="card-text mb-1">
+                                                <?php echo $producto->getDescripcion(); ?><br>
+                                            </small>
+                                            <?php
+                                            $categoriasbyproduct = Categoria::GetCategoriasPorProducto($mysqli, $producto->getIdProducto());
+
+                                            foreach ($categoriasbyproduct as $category) { ?>
+                                                <small class="card-text mb-1">
+                                                    <strong>#
+                                                        <?php echo $category->getNombre(); ?>
+                                                    </strong>
+                                                </small>
+                                            <?php } ?>
+
+
+                                            <hr class="mt-2">
+                                            <p class="card-text mb-1">Precio: $
+                                                <?php echo $producto->getPrecio(); ?>
+                                            </p>
+                                            <p class="card-text mb-1">Cantidad Vendida:
+                                                <?php echo $producto->getCantidadVendida(); ?>
+                                            </p>
+                                            <p class="card-text mb-1">Inventario:
+                                                <?php echo $producto->getInventario(); ?>
+                                            </p>
+                                            <p class="card-text mb-1">Total de Ingresos: $
+                                                <?php echo $producto->getTotalIngresos(); ?>
+                                            </p>
+                                            <p class="card-text mb-1">Fecha de publicación:
+                                                <?php echo $producto->getFecha(); ?>
+                                            </p>
+                                            <p class="card-text mb-1">Hora de publicación:
+                                                <?php echo $producto->getHora(); ?>
+                                            </p>
+
+                                            <div class="calificacion pb-2">
+                                                <?php
+                                                $calif = $producto->getPromedioCalificacion();
+
+                                                for ($i = 1; $i <= 5; $i++) {
+                                                    if ($calif >= $i) {
+                                                        echo '<i class="bi bi-star-fill"></i>';
+                                                    } else {
+                                                        echo '<i class="bi bi-star"></i>';
+                                                    }
+                                                }
+                                                ?>
+                                            </div>
+                                            <a href="Detalle_producto.php?idProductoIndex=<?php echo $producto->getIdProducto(); ?>"
+                                                class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                        </div>
                                     </div>
-
-                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-
-
-
                                 </div>
+                            <?php }
+                        } else { ?>
+                            <div class="col border mx-3 mb-6 mt-6 "
+                                style="width: 20rem; background:  #B7CBBF;  margin: 5rem;">
+                                Aún no hay productos registrados
                             </div>
-                        </div>
-                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                            <div class="card" style="width: 100%;">
-                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                    <hr class="mt-2">
-                                    <p class="card-text mb-1">Precio: $150</p>
-                                    <p class="card-text mb-1">Cantidad Vendida: 15</p>
-                                    <p class="card-text mb-1">Total de Ingresos: $750.00</p>
-
-                                    <div class="calificacion pb-2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
-                                    </div>
-
-                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                            <div class="card" style="width: 100%;">
-                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                    <hr class="mt-2">
-                                    <p class="card-text mb-1">Precio: $150</p>
-                                    <p class="card-text mb-1">Cantidad Vendida: 15</p>
-                                    <p class="card-text mb-1">Total de Ingresos: $750.00</p>
-
-                                    <div class="calificacion pb-2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
-                                    </div>
-
-                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                            <div class="card" style="width: 100%;">
-                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                    <hr class="mt-2">
-                                    <p class="card-text mb-1">Precio: $150</p>
-                                    <p class="card-text mb-1">Cantidad Vendida: 15</p>
-                                    <p class="card-text mb-1">Total de Ingresos: $750.00</p>
-
-                                    <div class="calificacion pb-2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
-                                    </div>
-
-                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                            <div class="card" style="width: 100%;">
-                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                    <hr class="mt-2">
-                                    <p class="card-text mb-1">Precio: $150</p>
-                                    <p class="card-text mb-1">Cantidad Vendida: 15</p>
-                                    <p class="card-text mb-1">Total de Ingresos: $750.00</p>
-
-                                    <div class="calificacion pb-2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
-                                    </div>
-
-                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                            <div class="card" style="width: 100%;">
-                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                    <hr class="mt-2">
-                                    <p class="card-text mb-1">Precio: $150</p>
-                                    <p class="card-text mb-1">Cantidad Vendida: 15</p>
-                                    <p class="card-text mb-1">Total de Ingresos: $750.00</p>
-
-                                    <div class="calificacion pb-2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
-                                    </div>
-
-                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                            <div class="card" style="width: 100%;">
-                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                    <hr class="mt-2">
-                                    <p class="card-text mb-1">Precio: $150</p>
-                                    <p class="card-text mb-1">Cantidad Vendida: 15</p>
-                                    <p class="card-text mb-1">Total de Ingresos: $750.00</p>
-
-                                    <div class="calificacion pb-2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
-                                    </div>
-
-                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                            <div class="card" style="width: 100%;">
-                                <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                    <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                    <hr class="mt-2">
-                                    <p class="card-text mb-1">Precio: $150</p>
-                                    <p class="card-text mb-1">Cantidad Vendida: 15</p>
-                                    <p class="card-text mb-1">Total de Ingresos: $750.00</p>
-                                    <div class="calificacion pb-2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
-                                    </div>
-
-                                    <a href="Detalle_producto.php" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-
-
-
-                                </div>
-                            </div>
-                        </div>
+                        <?php } ?>
 
                     </div>
                 </div>
@@ -365,78 +246,84 @@ require_once './components/POV_menu.php';
                     <!-- Cards COTIZACION--------->
 
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center">
+
+                        <?php
+                        if ($productosCotizacion) {
+                            foreach ($productosCotizacion as $cotizacion) { ?>
                         <div class="card border mb-5" style="width: 50rem; ">
                             <div class="card-body">
-                                <div class="d-flex justify-content-center mb-3">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
+                                <div class="d-flex justify-content-center mb-3"
+                                    style="background: #B7CBBF; padding:1rem">
+                                    <?php
+
+                                    $archivos = Archivo::getArchivoByProduct($mysqli, $cotizacion->getIdProducto());
+                                    foreach ($archivos as $imagen) { ?>
+                                    <img src="data:image/jpeg;base64,<?php echo base64_encode($imagen->getArchivo()); ?>"
+                                        class="card-img card-img-top mx-auto"
+                                        alt=" <?php echo $cotizacion->getNombre(); ?>" style="width: 20%;">
+
+                                    <?php } ?>
+
                                 </div>
-                                <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
+                                <h5 class="card-title mb-1">
+                                    <?php echo $cotizacion->getNombre(); ?>
+                                </h5>
+                                <small class="card-text mb-1">
+                                    <?php echo $cotizacion->getDescripcion(); ?> <br>
+                                </small>
+
+                                <?php
+                                $categoriasbyproduct = Categoria::GetCategoriasPorProducto($mysqli, $cotizacion->getIdProducto());
+
+                                foreach ($categoriasbyproduct as $category) { ?>
+                                <small class="card-text mb-1">
+                                    <strong>#
+                                        <?php echo $category->getNombre(); ?>
+                                    </strong>
+                                </small>
+                                <?php } ?>
+
                                 <hr class="mt-2">
-                                <p class="card-text mb-1">Paleta de colores: Azul y Amarillo</p>
-                                <p class="card-text mb-1">Tamaños: 20x20</p>
-                                <p class="card-text mb-1">Cantidad Vendida: 2</p>
-                                <p class="card-text mb-1">Precio: $650</p>
-                                <a href="Detalle_producto.php" class="btn btn-secondary mb-1 mt-2" id="">Ver detalles</a>
+                                <p class="card-text mb-1">Cantidad Vendida:
+                                    <?php echo $cotizacion->getCantidadVendida(); ?>
+                                </p>
+                                <p class="card-text mb-1">Total de Ingresos: $
+                                    <?php echo $cotizacion->getTotalIngresos(); ?>
+                                </p>
+                                <p class="card-text mb-1">Fecha de publicación:
+                                    <?php echo $cotizacion->getFecha(); ?>
+                                </p>
+                                <p class="card-text mb-1">Hora de publicación:
+                                    <?php echo $cotizacion->getHora(); ?>
+                                </p>
+
+                                <div class="calificacion pb-2">
+                                    <?php
+                                    $calif = $cotizacion->getPromedioCalificacion();
+
+                                    for ($i = 1; $i <= 5; $i++) {
+                                        if ($calif >= $i) {
+                                            echo '<i class="bi bi-star-fill"></i>';
+                                        } else {
+                                            echo '<i class="bi bi-star"></i>';
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                                <hr class="mt-2">
+                                <a href="Detalle_producto.php?idProductoIndex=<?php echo $cotizacion->getIdProducto(); ?>"
+                                    class="btn btn-secondary mb-1 mt-2" id="">Ver
+                                    detalles</a>
                             </div>
                         </div>
-                        <div class="card border mb-5" style="width: 50rem; ">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center mb-3">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                </div>
-                                <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                <hr class="mt-2">
-                                <p class="card-text mb-1">Paleta de colores: Azul y Amarillo</p>
-                                <p class="card-text mb-1">Tamaños: 20x20</p>
-                                <p class="card-text mb-1">Cantidad Vendida: 2</p>
-                                <p class="card-text mb-1">Precio: $650</p>
-                                <a href="Detalle_producto.php" class="btn btn-secondary mb-1 mt-2" id="">Ver detalles</a>
-                            </div>
+                        <?php }
+                        } else { ?>
+                        <div class="col border mx-3 mb-6 mt-6 "
+                            style="width: 20rem; background:  #B7CBBF;  margin: 5rem;">
+                            Aún no hay cotizaciones registradas
                         </div>
-                        <div class="card border mb-5" style="width: 50rem; ">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center mb-3">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                    <img src="./css/assets/vangogh.png" class="card-img card-img-top mx-auto"
-                                        alt="Imagen actual" style="width: 20%;">
-                                </div>
-                                <h5 class="card-title mb-1">Pintura de oleo</h5>
-                                <small class="card-text mb-1">Pintura inspirada en el arte de Van Gogh</small>
-                                <hr class="mt-2">
-                                <p class="card-text mb-1">Paleta de colores: Azul y Amarillo</p>
-                                <p class="card-text mb-1">Tamaños: 20x20</p>
-                                <p class="card-text mb-1">Cantidad Vendida: 2</p>
-                                <p class="card-text mb-1">Precio: $650</p>
-                                <a href="Detalle_producto.php" class="btn btn-secondary mb-1 mt-2" id="">Ver detalles</a>
-                            </div>
-                        </div>
+                        <?php } ?>
+
                     </div>
 
                 </div>
@@ -474,19 +361,23 @@ require_once './components/POV_menu.php';
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Método de pago</th>
+                                <th scope="col">Tipo</th>
                                 <th scope="col">Total de ingresos</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">Tarjeta de crédito/débito</th>
-                                <th scope="col" id="creditCard-ingresos"> $42,394 mxn</th>
+                                <th scope="row">Productos en Stock</th>
+                                <th scope="col"> $
+                                    <?php echo $VentasStock; ?> mxn
+                                </th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th scope="row">Paypal</th>
-                                <th scope="col" id="paypal-ingresos"> $20,394 mxn</th>
+                                <th scope="row">Cotizaciones</th>
+                                <th scope="col"> $
+                                    <?php echo $VentasCotizacion; ?> mxn
+                                </th>
                                 <td></td>
                             </tr>
                         </tbody>

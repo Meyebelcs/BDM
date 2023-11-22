@@ -115,6 +115,21 @@ class ProductosConCategoria
             return false; // Error en la actualización
         }
     }
+   
+    public static function GetAllCategoriasByProduct($mysqli,$idProducto)
+    {
+        $stmt = $mysqli->prepare("CALL sp_GetAllCategoriasByProduct(?)");
+        $stmt->bind_param("i", $idProducto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $categorias = array();
+
+        while ($row = $result->fetch_assoc()) {
+            $categorias[] = $row;
+        }
+
+        return $categorias;
+    }
 
 
     public function toJSON()

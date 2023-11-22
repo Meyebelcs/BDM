@@ -75,17 +75,17 @@ $(function () {
             const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
 
             //obtengo el valor de los campos
-            nombre = $('#category-name').val();
+/*             nombre = $('#category-name').val();
             descripcion = $('#category-desc').val();
             fechaCreacion = formattedDate;
             idStatus = '1';
-            idUsuarioCreador = $('#idUser').val();
+            idUsuarioCreador = $('#idUser').val(); */
 
-            formData.append('idUsuarioCreador', idUsuarioCreador);
-            formData.append('idStatus', idStatus);
-            formData.append('Nombre', nombre);
-            formData.append('Descripcion', descripcion);
-            formData.append('Fecha_creacion', fechaCreacion);
+            formData.append('idUsuarioCreador', $('#idUser').val());
+            formData.append('idStatus', '1');
+            formData.append('Nombre', $('#category-name').val());
+            formData.append('Descripcion', $('#category-desc').val());
+            formData.append('Fecha_creacion', formattedDate);
 
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "../controllers/Categoria/Alta_Categoria.php", true);

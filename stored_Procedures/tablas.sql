@@ -44,6 +44,15 @@ CREATE TABLE Producto (
    CONSTRAINT FK_Producto_Usuario FOREIGN KEY (idUsuarioCreador) REFERENCES Usuario(idUsuario)
 );
 
+CREATE TABLE PromedioCalificacion (
+   idPromedioCalificacion INT(10) UNSIGNED AUTO_INCREMENT,
+   idProducto INT(10) UNSIGNED,
+   promedio INT(10) NULL,
+   PRIMARY KEY (idPromedioCalificacion),
+   CONSTRAINT FK_PromedioCalificacion_idProducto FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+);
+
+
 CREATE TABLE Material_Inventario (
    idMaterial INT(10) UNSIGNED AUTO_INCREMENT,
    idProducto INT(10) UNSIGNED NOT NULL,
@@ -185,7 +194,7 @@ CREATE TABLE Material_Carrito (
 );
 
 
-CREATE TABLE Venta (
+/* CREATE TABLE Venta (
    idVenta INT(10) UNSIGNED AUTO_INCREMENT,
    idStatus INT(10) UNSIGNED NOT NULL,
    idUsuarioCliente INT(10) UNSIGNED NOT NULL,
@@ -194,9 +203,25 @@ CREATE TABLE Venta (
    PRIMARY KEY (idVenta),
    CONSTRAINT FK_Venta_Estatus FOREIGN KEY (idStatus) REFERENCES Estatus(idStatus),
    CONSTRAINT FK_Venta_UsuarioCliente FOREIGN KEY (idUsuarioCliente) REFERENCES Usuario(idUsuario)
+); */
+
+CREATE TABLE Venta (
+   idVenta INT(10) UNSIGNED AUTO_INCREMENT,
+   idUsuarioCliente INT(10) UNSIGNED NOT NULL,
+   idProducto INT(10) UNSIGNED NOT NULL,
+   idCarrito INT(10) UNSIGNED NOT NULL,
+   idStatus INT(10) UNSIGNED NOT NULL,
+   FechaHr_registro DATETIME NOT NULL,
+   Total DECIMAL(10, 2) NOT NULL,
+   Cantidad INT(5) UNSIGNED NOT NULL,
+   PRIMARY KEY (idVenta),
+   CONSTRAINT FK_DetalleVenta_Producto FOREIGN KEY (idProducto) REFERENCES Producto(idProducto),
+   CONSTRAINT FK_DetalleVenta_Carrito FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
+   CONSTRAINT FK_DetalleVenta_Estatus FOREIGN KEY (idStatus) REFERENCES Estatus(idStatus),
+   CONSTRAINT FK_Venta_UsuarioCliente FOREIGN KEY (idUsuarioCliente) REFERENCES Usuario(idUsuario)
 );
 
-CREATE TABLE DetalleVenta (
+/* CREATE TABLE DetalleVenta (
    idDetalleVenta INT(10) UNSIGNED AUTO_INCREMENT,
    idVenta INT(10) UNSIGNED NOT NULL,
    idProducto INT(10) UNSIGNED NOT NULL,
@@ -208,7 +233,7 @@ CREATE TABLE DetalleVenta (
    CONSTRAINT FK_DetalleVenta_Carrito FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
    CONSTRAINT FK_DetalleVenta_Estatus FOREIGN KEY (idStatus) REFERENCES Estatus(idStatus)
 );
-
+ */
 CREATE TABLE TipoPago (
    idTipoPago INT(10) UNSIGNED AUTO_INCREMENT,
    idStatus INT(10) UNSIGNED NOT NULL,

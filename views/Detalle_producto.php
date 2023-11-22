@@ -3,14 +3,20 @@ session_start();
 
 require_once './components/menu.php';
 
+//Sereedirige a home si no ha seleccionado ningun producto para mostrar
+if (!isset($_GET['idProductoIndex'])) {
+    header('Location: home.php');
+    exit;
+}
+
 require_once "../models/Producto.php";
 require_once "../models/user.php";
 require_once "../models/Comentario.php";
 require_once "../models/Archivo.php";
 
-$producto = Product::findProductoById($mysqli, 83);
-$archivos = Archivo::getArchivoByProduct($mysqli, 83);
-$comentarios = Comentario::getCommentsByProduct($mysqli, 83);
+$producto = Product::findProductoById($mysqli, $_GET['idProductoIndex']);
+$archivos = Archivo::getArchivoByProduct($mysqli, $_GET['idProductoIndex']);
+$comentarios = Comentario::getCommentsByProduct($mysqli, $_GET['idProductoIndex']);
 
 ?>
 <!DOCTYPE html>

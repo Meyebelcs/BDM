@@ -2,10 +2,13 @@
 class Venta
 {
     private $idVenta;
-    private $idStatus;
     private $idUsuarioCliente;
-    private $fechaRegistro;
+    private $idProducto;
+    private $idCarrito;
+    private $idStatus;
+    private $fechaHrRegistro;
     private $total;
+    private $cantidad;
 
     public function getIdVenta()
     {
@@ -15,16 +18,6 @@ class Venta
     public function setIdVenta($idVenta)
     {
         $this->idVenta = $idVenta;
-    }
-
-    public function getIdStatus()
-    {
-        return $this->idStatus;
-    }
-
-    public function setIdStatus($idStatus)
-    {
-        $this->idStatus = $idStatus;
     }
 
     public function getIdUsuarioCliente()
@@ -37,14 +30,44 @@ class Venta
         $this->idUsuarioCliente = $idUsuarioCliente;
     }
 
-    public function getFechaRegistro()
+    public function getIdProducto()
     {
-        return $this->fechaRegistro;
+        return $this->idProducto;
     }
 
-    public function setFechaRegistro($fechaRegistro)
+    public function setIdProducto($idProducto)
     {
-        $this->fechaRegistro = $fechaRegistro;
+        $this->idProducto = $idProducto;
+    }
+
+    public function getIdCarrito()
+    {
+        return $this->idCarrito;
+    }
+
+    public function setIdCarrito($idCarrito)
+    {
+        $this->idCarrito = $idCarrito;
+    }
+
+    public function getIdStatus()
+    {
+        return $this->idStatus;
+    }
+
+    public function setIdStatus($idStatus)
+    {
+        $this->idStatus = $idStatus;
+    }
+
+    public function getFechaHrRegistro()
+    {
+        return $this->fechaHrRegistro;
+    }
+
+    public function setFechaHrRegistro($fechaHrRegistro)
+    {
+        $this->fechaHrRegistro = $fechaHrRegistro;
     }
 
     public function getTotal()
@@ -57,26 +80,45 @@ class Venta
         $this->total = $total;
     }
 
-    // Constructor
-    public function __construct(
-        $idStatus,
-        $idUsuarioCliente,
-        $fechaRegistro,
-        $total
-    ) {
-        $this->idStatus = $idStatus;
-        $this->idUsuarioCliente = $idUsuarioCliente;
-        $this->fechaRegistro = $fechaRegistro;
-        $this->total = $total;
+    public function getCantidad()
+    {
+        return $this->cantidad;
     }
 
+    public function setCantidad($cantidad)
+    {
+        $this->cantidad = $cantidad;
+    }
+
+
+    // Constructor
+    public function __construct(
+        $idUsuarioCliente,
+        $idProducto,
+        $idCarrito,
+        $idStatus,
+        $fechaHrRegistro,
+        $total,
+        $cantidad
+    ) {
+        $this->idUsuarioCliente = $idUsuarioCliente;
+        $this->idProducto = $idProducto;
+        $this->idCarrito = $idCarrito;
+        $this->idStatus = $idStatus;
+        $this->fechaHrRegistro = $fechaHrRegistro;
+        $this->total = $total;
+        $this->cantidad = $cantidad;
+    }
     static public function parseJson($json)
     {
         $venta = new Venta(
-            isset($json["idStatus"]) ? $json["idStatus"] : null,
             isset($json["idUsuarioCliente"]) ? $json["idUsuarioCliente"] : null,
+            isset($json["idProducto"]) ? $json["idProducto"] : null,
+            isset($json["idCarrito"]) ? $json["idCarrito"] : null,
+            isset($json["idStatus"]) ? $json["idStatus"] : null,
             isset($json["FechaHr_registro"]) ? $json["FechaHr_registro"] : null,
-            isset($json["Total"]) ? $json["Total"] : null
+            isset($json["Total"]) ? $json["Total"] : null,
+            isset($json["Cantidad"]) ? $json["Cantidad"] : null
         );
         if (isset($json["idVenta"])) {
             $venta->setIdVenta((int) $json["idVenta"]);
@@ -87,13 +129,16 @@ class Venta
 
     public function insertVenta($mysqli)
     {
-        $stmt = $mysqli->prepare("CALL sp_InsertVenta(?, ?, ?, ?)");
+        $stmt = $mysqli->prepare("CALL sp_InsertVenta(?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param(
-            "ssss",
-            $this->idStatus,
+            "sssssss",
             $this->idUsuarioCliente,
-            $this->fechaRegistro,
-            $this->total
+            $this->idProducto,
+            $this->idCarrito,
+            $this->idStatus,
+            $this->fechaHrRegistro,
+            $this->total,
+            $this->cantidad
         );
 
         if ($stmt->execute()) {
@@ -103,7 +148,6 @@ class Venta
             return false; // Error en la inserción
         }
     }
-
     public function findVentaById($mysqli, $idVenta)
     {
         $stmt = $mysqli->prepare("CALL sp_FindVentaById(?)");
@@ -114,17 +158,18 @@ class Venta
 
         return $venta ? self::parseJson($venta) : null;
     }
-
     public function updateVenta($mysqli)
     {
-        $stmt = $mysqli->prepare("CALL sp_UpdateVenta(?, ?, ?, ?, ?)");
+        $stmt = $mysqli->prepare("CALL sp_UpdateVenta(?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param(
-            "sssss",
+            "sssssss",
             $this->idVenta,
             $this->idStatus,
             $this->idUsuarioCliente,
-            $this->fechaRegistro,
-            $this->total
+            $this->idProducto,
+            $this->idCarrito,
+            $this->total,
+            $this->cantidad
         );
 
         if ($stmt->execute()) {
@@ -133,7 +178,6 @@ class Venta
             return false; // Error en la actualización
         }
     }
-
 
     public function toJSON()
     {
