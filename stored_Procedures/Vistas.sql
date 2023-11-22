@@ -13,6 +13,8 @@ GROUP BY
     p.idUsuarioCreador;
 
 DELIMITER //
+
+
 CREATE PROCEDURE GetSellsTotalByUserStock(IN p_idUsuario INT)
 BEGIN
     SELECT
@@ -39,6 +41,8 @@ WHERE
     p.Tipo = 'Cotizacion'
 GROUP BY
     p.idUsuarioCreador;
+
+
 
 DELIMITER //
 CREATE PROCEDURE GetSellsTotalByUserCotizacion(IN p_idUsuario INT)
@@ -67,6 +71,9 @@ FROM
 JOIN
     Categoria c ON pc.idCategoria = c.idCategoria;
 
+
+
+
 DELIMITER //
 CREATE PROCEDURE GetCategoriasPorProducto(IN p_idProducto INT)
 BEGIN
@@ -81,3 +88,36 @@ BEGIN
         idProducto = p_idProducto;
 END //
 DELIMITER ;
+
+-----------------materiales--------------
+CREATE VIEW VistaMaterialesPorProducto AS
+SELECT
+    mi.idMaterial,
+    mi.idProducto,
+    mi.Nombre,
+    mi.Cantidad,
+    mi.Fecha_creacion
+FROM
+    material_inventario mi
+JOIN
+    Producto p ON p.idProducto = mi.idProducto;
+
+
+
+
+DELIMITER //
+CREATE PROCEDURE GetMaterialesPorProducto(IN p_idProducto INT)
+BEGIN
+    SELECT
+        idMaterial,
+        idProducto,
+        Nombre,
+        Cantidad,
+        Fecha_creacion
+    FROM
+        VistaMaterialesPorProducto
+    WHERE
+        idProducto = p_idProducto;
+END //
+DELIMITER ;
+

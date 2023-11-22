@@ -280,9 +280,8 @@ class POV_ReportesVendedor
         return $total;
     }
 
-    public static function getAllProductsFiltro($mysqli, $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion)
+    public static function getAllProductsFiltro($mysqli, $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion,  $tipo)
     {
-        $tipo=  'Stock';
         $products = array();
     
         // Ajusta el nombre del procedimiento almacenado y el número de parámetros

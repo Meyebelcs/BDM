@@ -1,9 +1,4 @@
-<!-- NOOO HA SIDO PROGRAMADA -->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
+<!-- -----------FALTA EDICION DE FOTO PERFIL------------------>
 <?php
 session_start();
 
@@ -13,11 +8,12 @@ require_once './components/POV_menu.php';
 
 require_once "../models/Reportes/POV_ReportesVendedor.php";
 require_once "../models/Archivo.php";
+require_once "../models/Material_Inventario.php";
 
 
 //$productosStock = POV_ReportesVendedor::getAllSellsProductsStock($mysqli, $idUser);
-$productosStock = POV_ReportesVendedor::getAllProductsFiltro($mysqli, $idUser, null, null, 0, null, 0);
-$productosCotizacion = POV_ReportesVendedor::getAllSellsProductsCotizacion($mysqli, $idUser);
+$productosStock = POV_ReportesVendedor::getAllProductsFiltro($mysqli, $idUser, null, null, 0, null, 0, 'Stock');
+$productosCotizacion = POV_ReportesVendedor::getAllProductsFiltro($mysqli, $idUser, null, null, 0, null, 0, 'Cotizacion');
 $VentasStock = POV_ReportesVendedor::GetSellsTotalByUserStock($mysqli, $idUser);
 $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli, $idUser);
 
@@ -164,7 +160,8 @@ $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli,
 
                 <div class="productosStock" id="productosStock">
                     <!-- Cards -->
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center" id="productosStockCard">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center"
+                        id="productosStockCard">
 
                         <?php
 
@@ -187,7 +184,7 @@ $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli,
 
                                             foreach ($categoriasbyproduct as $category) { ?>
                                                 <small class="card-text mb-1">
-                                                    <strong>#
+                                                    <strong> #
                                                         <?php echo $category->getNombre(); ?>
                                                     </strong>
                                                 </small>
@@ -245,7 +242,8 @@ $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli,
                 <div class="productosCotizacion">
                     <!-- Cards COTIZACION--------->
 
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center"
+                        id="productosCotizacionCard">
 
                         <?php
                         if ($productosCotizacion) {
@@ -277,39 +275,67 @@ $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli,
 
                                 foreach ($categoriasbyproduct as $category) { ?>
                                 <small class="card-text mb-1">
-                                    <strong>#
+                                    <strong> #
                                         <?php echo $category->getNombre(); ?>
                                     </strong>
                                 </small>
                                 <?php } ?>
 
                                 <hr class="mt-2">
-                                <p class="card-text mb-1">Cantidad Vendida:
-                                    <?php echo $cotizacion->getCantidadVendida(); ?>
-                                </p>
-                                <p class="card-text mb-1">Total de Ingresos: $
-                                    <?php echo $cotizacion->getTotalIngresos(); ?>
-                                </p>
-                                <p class="card-text mb-1">Fecha de publicación:
-                                    <?php echo $cotizacion->getFecha(); ?>
-                                </p>
-                                <p class="card-text mb-1">Hora de publicación:
-                                    <?php echo $cotizacion->getHora(); ?>
-                                </p>
-
-                                <div class="calificacion pb-2">
-                                    <?php
-                                    $calif = $cotizacion->getPromedioCalificacion();
-
-                                    for ($i = 1; $i <= 5; $i++) {
-                                        if ($calif >= $i) {
-                                            echo '<i class="bi bi-star-fill"></i>';
-                                        } else {
-                                            echo '<i class="bi bi-star"></i>';
-                                        }
-                                    }
-                                    ?>
+                                <div class="card-body">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td style="text-align: left;">
+                                                <p class="card-text mb-1">Cantidad Vendida:
+                                                    <?php echo $cotizacion->getCantidadVendida(); ?>
+                                                </p>
+                                                <p class="card-text mb-1">Total de Ingresos: $
+                                                    <?php echo $cotizacion->getTotalIngresos(); ?>
+                                                </p>
+                                                <p class="card-text mb-1">Fecha de publicación:
+                                                    <?php echo $cotizacion->getFecha(); ?>
+                                                </p>
+                                                <p class="card-text mb-1">Hora de publicación:
+                                                    <?php echo $cotizacion->getHora(); ?>
+                                                </p>
+                                                <?php
+                                                $calif = $cotizacion->getPromedioCalificacion();
+                                                for ($i = 1; $i <= 5; $i++) {
+                                                    if ($calif >= $i) {
+                                                        echo '<i class="bi bi-star-fill"></i>';
+                                                    } else {
+                                                        echo '<i class="bi bi-star"></i>';
+                                                    }
+                                                }
+                                                ?>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <p class="card-text mb-1"><strong>Materiales</strong></p>
+                                                <?php
+                                                $materialesbyproduct = MaterialInventario::GetMaterialesPorProducto($mysqli, $cotizacion->getIdProducto());
+                                                foreach ($materialesbyproduct as $material) { ?>
+                                                <p class="card-text mb-1" style="color:  #F4BFAD;">
+                                                    <strong>
+                                                        <?php echo $material->getNombre() ?>
+                                                    </strong>
+                                                </p>
+                                                <?php } ?>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <p class="card-text mb-1"><strong>Cantidad</strong></p>
+                                                <?php
+                                                foreach ($materialesbyproduct as $material) { ?>
+                                                <p class="card-text mb-1">
+                                                    <?php echo $material->getCantidad() ?>
+                                                </p>
+                                                <?php } ?>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
+
+
+
                                 <hr class="mt-2">
                                 <a href="Detalle_producto.php?idProductoIndex=<?php echo $cotizacion->getIdProducto(); ?>"
                                     class="btn btn-secondary mb-1 mt-2" id="">Ver

@@ -1,4 +1,4 @@
----------POV Vendedor Stock------
+/* ---------POV Vendedor Stock-------no se usa
 DELIMITER //
 
 CREATE PROCEDURE getAllProductPOVStock(IN idUsuarioCreadorParam INT)
@@ -40,7 +40,7 @@ BEGIN
 END //
 
 DELIMITER ;
----------POV Vendedor Cotizacion------
+---------POV Vendedor Cotizacion-------no se usa
 DELIMITER //
 
 CREATE PROCEDURE getAllProductPOVCotizacion(IN idUsuarioCreadorParam INT)
@@ -73,7 +73,7 @@ BEGIN
 
 END //
 
-DELIMITER ;
+DELIMITER ;  */
 
 --------filtro Stock-----------
 
@@ -189,146 +189,4 @@ END //
 
 DELIMITER ;
  
-
-
-/* DELIMITER //
-
-CREATE PROCEDURE getAllProductPOVStockFiltro(
-    IN idUsuarioCreadorParam INT,
-    IN fechaParam DATETIME,
-    IN horaParam TIME,
-    IN categoriaParam INT,
-    IN nombreProductoParam VARCHAR(255),
-    IN calificacionParam INT
-)
-BEGIN
-    SELECT
-        P.idProducto AS idProducto,
-        P.Nombre AS Nombre,
-        P.Descripción AS Descripción,
-        P.Precio AS Precio,
-        P.Inventario AS Inventario,
-        P.Fecha_Publicación AS Fecha_Hr,
-        (SELECT Archivo.Archivo
-            FROM Archivo
-            WHERE Archivo.idProducto = P.idProducto
-            ORDER BY Archivo.idArchivo DESC
-            LIMIT 1) AS Imagen,
-        (
-            SELECT COALESCE(SUM(Venta.Cantidad), 0)
-            FROM Venta
-            WHERE Venta.idProducto = P.idProducto
-        ) AS CantidadVendida,
-        (
-            SELECT COALESCE(SUM(Venta.Total), 0)
-            FROM Venta
-            WHERE Venta.idProducto = P.idProducto
-        ) AS TotalIngresos,
-        ROUND(COALESCE(AVG(C.Calificacion), 0)) AS PromedioCalificacion
-    FROM
-        Producto P
-    LEFT JOIN
-        Venta V ON P.idProducto = V.idProducto
-    LEFT JOIN
-        Comentario C ON P.idProducto = C.idProducto
-    LEFT JOIN
-        ProductosConCategoria PC ON P.idProducto = PC.idProducto
-    WHERE
-        P.idUsuarioCreador = idUsuarioCreadorParam
-        AND P.Tipo = 'Stock'
-        AND (fechaParam IS NULL OR DATE(P.Fecha_Publicación) = DATE(fechaParam))
-        AND (horaParam IS NULL OR TIME(P.Fecha_Publicación) = TIME(horaParam))
-        AND (categoriaParam IS NULL OR PC.idCategoria = categoriaParam)
-        AND (nombreProductoParam IS NULL OR P.Nombre LIKE CONCAT('%', nombreProductoParam, '%'))
-        AND (calificacionParam IS NULL OR ROUND(COALESCE(AVG(C.Calificacion), 0)) = calificacionParam)
-    GROUP BY
-        P.idProducto;
-END //
-
-DELIMITER ;
- */
-
-
-/* ---------POV Vendedor Stock------
-DELIMITER //
-
-CREATE PROCEDURE getAllSellsProductPOVStock(IN idUsuarioCreadorParam INT)
-BEGIN
-   SELECT
-    P.idProducto AS idProducto,
-    P.Nombre AS Nombre,
-    P.Descripción AS Descripción,
-    P.Precio AS Precio,
-    P.Fecha_Publicación AS Fecha_Hr,
-    ( SELECT Archivo.Archivo
-        FROM Archivo 
-        WHERE Archivo.idProducto = P.idProducto
-        ORDER BY Archivo.idArchivo DESC
-        LIMIT 1
-    ) AS Imagen,
-    ( SELECT SUM(Venta.Cantidad) 
-        FROM Venta 
-        WHERE Venta.idProducto = P.idProducto
-    ) AS CantidadVendida,
-    ( SELECT SUM(Venta.Total) 
-        FROM Venta 
-        WHERE Venta.idProducto = P.idProducto
-    ) AS TotalIngresos,
-    ROUND(COALESCE(AVG(C.Calificacion), 0)) AS PromedioCalificacion
-    FROM
-        Producto P
-    JOIN
-        Venta V ON P.idProducto = V.idProducto
-    LEFT JOIN
-        Comentario C ON P.idProducto = C.idProducto
-    WHERE
-        P.idUsuarioCreador = idUsuarioCreadorParam and P.Tipo= 'Stock'
-    GROUP BY
-        P.idProducto;
-
-END //
-
-DELIMITER ;
-
----------POV Vendedor Cotizacion------
-DELIMITER //
-
-CREATE PROCEDURE getAllSellsProductPOVCotizacion(IN idUsuarioCreadorParam INT)
-BEGIN
-   SELECT
-    P.idProducto AS idProducto,
-    P.Nombre AS Nombre,
-    P.Descripción AS Descripción,
-    P.Precio AS Precio,
-    P.Fecha_Publicación AS Fecha_Hr,
-    ( SELECT Archivo.Archivo
-        FROM Archivo 
-        WHERE Archivo.idProducto = P.idProducto
-        ORDER BY Archivo.idArchivo DESC
-        LIMIT 1
-    ) AS Imagen,
-    ( SELECT SUM(Venta.Cantidad) 
-        FROM Venta 
-        WHERE Venta.idProducto = P.idProducto
-    ) AS CantidadVendida,
-    ( SELECT SUM(Venta.Total) 
-        FROM Venta 
-        WHERE Venta.idProducto = P.idProducto
-    ) AS TotalIngresos,
-    ROUND(COALESCE(AVG(C.Calificacion), 0)) AS PromedioCalificacion
-    FROM
-        Producto P
-    JOIN
-        Venta V ON P.idProducto = V.idProducto
-    LEFT JOIN
-        Comentario C ON P.idProducto = C.idProducto
-    WHERE
-        P.idUsuarioCreador = idUsuarioCreadorParam and P.Tipo= 'Cotizacion'
-    GROUP BY
-        P.idProducto;
-
-END //
-
-DELIMITER ;
- */
 

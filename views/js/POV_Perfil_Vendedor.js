@@ -1,5 +1,5 @@
 /*----------- Switch Cotizacion Producto ----------*/
-
+var estado = 'Stock';
 $(document).ready(function () {
 
   $('.productosCotizacion').hide();
@@ -10,10 +10,12 @@ $(document).ready(function () {
       $('#switchText').text('Cotizaciones');
       $('.productosStock').hide();
       $('.productosCotizacion').show();
+      estado = 'Cotizacion';
     } else {
       $('#switchText').text('Productos');
       $('.productosCotizacion').hide();
       $('.productosStock').show();
+      estado = 'Stock';
     }
   });
 
@@ -28,11 +30,12 @@ $(document).ready(function () {
     var nombreProducto = $('#nombreProducto').val() ?? null;
     var calificacion = $('#calificacion').val() ?? '0';
 
-    console.log('Fecha:', fecha);
+/*     console.log('Fecha:', fecha);
     console.log('Hora:', hora);
     console.log('ID Categoría:', idcategoria);
     console.log('Nombre Producto:', nombreProducto);
     console.log('Calificación:', calificacion);
+    console.log('estado:', estado); */
 
     const formData = new FormData();
     formData.append('fecha', fecha);
@@ -40,7 +43,7 @@ $(document).ready(function () {
     formData.append('idcategoria', idcategoria);
     formData.append('nombreProducto', nombreProducto);
     formData.append('calificacion', calificacion);
-    formData.append('action', 'Stock');
+    formData.append('action', estado);
 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", '../controllers/Reportes/POV_VendedorFiltro.php', true);
@@ -58,68 +61,122 @@ $(document).ready(function () {
             });
             return;
           }
+       /*    console.log('tipoooo' + res.tipo); */
+          if (res.tipo === 'Stock') {
+            // Éxito...
+            const productosContainer = document.getElementById('productosStockCard');
+            productosContainer.innerHTML = ''; // Limpiar contenido existente
 
-          // Éxito...
-          const productosContainer = document.getElementById('productosStockCard');
-          productosContainer.innerHTML = ''; // Limpiar contenido existente
+            if (res.productosBD && res.productosBD.length > 0) {
+              res.productosBD.forEach(producto => {
+                const nuevoProducto = document.createElement('div');
+                nuevoProducto.className = 'col border mx-3 mb-3';
+                nuevoProducto.style.width = '20rem';
+                nuevoProducto.innerHTML = `
+                  <div class="card" style="width: 100%;">
+                      <img src="data:image/jpeg;base64,${producto.Imagen}" class="card-img card-img-top" alt="${producto.Nombre}" style="width: 300px; height: 300px;">
+                      <div class="card-body">
+                          <h5 class="card-title mb-1">${producto.Nombre}</h5>
+                          <small class="card-text mb-1">${producto.Descripción}</small>
+                          <!-- Muestra las categorías -->
+                          <div class="categorias">
+                              ${producto.Categorias.map(categoria => `<small class="card-text mb-1"><strong> #${categoria}</strong></small>`).join('')}
+                          </div>
+                          <!-- Resto del contenido del producto -->
+                          <hr class="mt-2">
+                          <p class="card-text mb-1">Precio: $
+                          ${producto.Precio}
+                          </p>
+                          <p class="card-text mb-1">Cantidad Vendida:
+                          ${producto.CantidadVendida}
+                          </p>
+                          <p class="card-text mb-1">Inventario:
+                          ${producto.Inventario}
+                          </p>
+                          <p class="card-text mb-1">Total de Ingresos: $
+                          ${producto.TotalIngresos}
+                          </p>
+                          <p class="card-text mb-1">Fecha de publicación:
+                          ${producto.Fecha}
+                          </p>
+                          <p class="card-text mb-1">Hora de publicación:
+                          ${producto.Hora}
+                          </p>
 
-          if (res.productosStock && res.productosStock.length > 0) {
-            res.productosStock.forEach(producto => {
-              const nuevoProducto = document.createElement('div');
-              nuevoProducto.className = 'col border mx-3 mb-3';
-              nuevoProducto.style.width = '20rem';
-              nuevoProducto.innerHTML = `
-              <div class="card" style="width: 100%;">
-                  <img src="data:image/jpeg;base64,${producto.Imagen}" class="card-img card-img-top" alt="${producto.Nombre}" style="width: 300px; height: 300px;">
+                          <div class="calificacion pb-2">
+                          ${'<i class="bi bi-star-fill"></i>'.repeat(Math.floor(producto.PromedioCalificacion))}
+                          ${'<i class="bi bi-star"></i>'.repeat(5 - Math.floor(producto.PromedioCalificacion))}
+                          </div>
+
+                          <a href="Detalle_producto.php?idProductoIndex=${producto.idProducto}"
+                          class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                      </div>
+                  </div>
+              `;
+                productosContainer.appendChild(nuevoProducto);
+              });
+            } else {
+              const mensajeNoProductos = document.createElement('div');
+              mensajeNoProductos.className = 'col border mx-3 mb-6 mt-6';
+              mensajeNoProductos.style.width = '20rem';
+              mensajeNoProductos.style.background = '#B7CBBF';
+              mensajeNoProductos.style.margin = '5rem';
+              mensajeNoProductos.innerText = 'Aún no hay productos registrados';
+              productosContainer.appendChild(mensajeNoProductos);
+            }
+          } else {
+            //cotizacion
+            // Éxito...
+            const cotizacionesContainer = document.getElementById('productosCotizacionCard');
+            cotizacionesContainer.innerHTML = ''; // Limpiar contenido existente
+
+            if (res.productosBD && res.productosBD.length > 0) {
+              res.productosBD.forEach(cotizacion => {
+                const nuevoCotizacion = document.createElement('div');
+                nuevoCotizacion.className = 'card border mb-5';
+                nuevoCotizacion.style.width = '50rem';
+                nuevoCotizacion.innerHTML = `
                   <div class="card-body">
-                      <h5 class="card-title mb-1">${producto.Nombre}</h5>
-                      <small class="card-text mb-1">${producto.Descripción}</small>
+                      <div class="d-flex justify-content-center mb-3" style="background: #B7CBBF; padding:1rem">
+                      ${cotizacion.Archivos ? cotizacion.Archivos.map(archivo => `<img src="data:image/jpeg;base64,${archivo}" class="card-img card-img-top mx-auto" alt="${cotizacion.Nombre}" style="width: 20%;">`).join('')
+                    : 'no hay datos'
+                  }
+                      </div>
+                      <h5 class="card-title mb-1">${cotizacion.Nombre}</h5>
+                      <small class="card-text mb-1">${cotizacion.Descripción} <br></small>
                       <!-- Muestra las categorías -->
                       <div class="categorias">
-                          ${producto.Categorias.map(categoria => `<small class="card-text mb-1"><strong># ${categoria}</strong></small>`).join('')}
+                          ${cotizacion.Categorias.map(categoria => `<small class="card-text mb-1"><strong> #${categoria}</strong></small>`).join('')}
                       </div>
                       <!-- Resto del contenido del producto -->
                       <hr class="mt-2">
-                      <p class="card-text mb-1">Precio: $
-                      ${producto.Precio}
-                      </p>
-                      <p class="card-text mb-1">Cantidad Vendida:
-                      ${producto.CantidadVendida}
-                      </p>
-                      <p class="card-text mb-1">Inventario:
-                      ${producto.Inventario}
-                      </p>
-                      <p class="card-text mb-1">Total de Ingresos: $
-                      ${producto.TotalIngresos}
-                      </p>
-                      <p class="card-text mb-1">Fecha de publicación:
-                      ${producto.Fecha}
-                      </p>
-                      <p class="card-text mb-1">Hora de publicación:
-                      ${producto.Hora}
-                      </p>
-
+                      <p class="card-text mb-1">Cantidad Vendida: ${cotizacion.CantidadVendida}</p>
+                      <p class="card-text mb-1">Total de Ingresos: $ ${cotizacion.TotalIngresos}</p>
+                      <p class="card-text mb-1">Fecha de publicación: ${cotizacion.Fecha}</p>
+                      <p class="card-text mb-1">Hora de publicación: ${cotizacion.Hora}</p>
                       <div class="calificacion pb-2">
-                      ${'<i class="bi bi-star-fill"></i>'.repeat(Math.floor(producto.PromedioCalificacion))}
-                      ${'<i class="bi bi-star"></i>'.repeat(5 - Math.floor(producto.PromedioCalificacion))}
+                          ${'<i class="bi bi-star-fill"></i>'.repeat(Math.floor(cotizacion.PromedioCalificacion))}
+                          ${'<i class="bi bi-star"></i>'.repeat(5 - Math.floor(cotizacion.PromedioCalificacion))}
                       </div>
-
-                      <a href="Detalle_producto.php?idProductoIndex=${producto.idProducto}"
-                      class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                      <hr class="mt-2">
+                      <a href="Detalle_producto.php?idProductoIndex=${cotizacion.idProducto}" class="btn btn-secondary mb-1 mt-2" id="">Ver detalles</a>
                   </div>
-              </div>
-          `;
-              productosContainer.appendChild(nuevoProducto);
-            });
-          } else {
-            const mensajeNoProductos = document.createElement('div');
-            mensajeNoProductos.className = 'col border mx-3 mb-6 mt-6';
-            mensajeNoProductos.style.width = '20rem';
-            mensajeNoProductos.style.background = '#B7CBBF';
-            mensajeNoProductos.style.margin = '5rem';
-            mensajeNoProductos.innerText = 'Aún no hay productos registrados';
-            productosContainer.appendChild(mensajeNoProductos);
+                `;
+                cotizacionesContainer.appendChild(nuevoCotizacion);
+              });
+            } else {
+              const mensajeNoCotizaciones = document.createElement('div');
+              mensajeNoCotizaciones.className = 'col border mx-3 mb-6 mt-6';
+              mensajeNoCotizaciones.style.width = '20rem';
+              mensajeNoCotizaciones.style.background = '#B7CBBF';
+              mensajeNoCotizaciones.style.margin = '5rem';
+              mensajeNoCotizaciones.innerText = 'Aún no hay cotizaciones registradas';
+              cotizacionesContainer.appendChild(mensajeNoCotizaciones);
+            }
+
           }
+
+
 
           console.log(res.msg);
         }

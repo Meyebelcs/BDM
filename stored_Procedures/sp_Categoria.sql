@@ -82,3 +82,15 @@ END //
 
 DELIMITER ;
 
+--------------getall categories by product-----------
+BEGIN
+    SELECT
+        idCategoria,
+        NombreCategoria,
+        DescripcionCategoria,
+        FechaCreacionCategoria
+    FROM
+        VistaCategoriasPorProducto
+    WHERE
+        idProducto = p_idProducto;
+END

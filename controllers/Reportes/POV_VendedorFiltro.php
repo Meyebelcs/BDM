@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../models/Reportes/POV_ReportesVendedor.php';
 require_once __DIR__ . '/../../models/Categoria.php';
+require_once __DIR__ . '/../../models/Archivo.php';
 session_start();
 $mysqli = db::connect();
 $idUser = $_SESSION["AUTH"];
@@ -17,43 +18,44 @@ try {
     $calificacion = !empty($_POST['calificacion']) ? $_POST['calificacion'] : 0;
     $action = !empty($_POST['action']) ? $_POST['action'] : null;
 
-/* 
-    var_dump($_POST);
-    var_dump($fecha, $hora, $idcategoria, $nombreProducto, $calificacion, $action); */
-
-
     // Realiza las acciones según el valor de 'action'
-    if ($action === 'Stock') {
-        $productosStock = POV_ReportesVendedor::getAllProductsFiltro($mysqli, $idUser, $fecha, $hora, $idcategoria, $nombreProducto, $calificacion);
-        // Convertir objetos a arrays asociativos
-        $formattedProductosStock = [];
+    $tipo = ($action === 'Stock') ? 'Stock' : 'Cotizacion';
 
-        foreach ($productosStock as $producto) {
-            $categoriasProducto = Categoria::GetCategoriasPorProducto($mysqli, $producto->getIdProducto());
+    $productos = POV_ReportesVendedor::getAllProductsFiltro($mysqli, $idUser, $fecha, $hora, $idcategoria, $nombreProducto, $calificacion, $tipo);
+    // Convertir objetos a arrays asociativos
+    $formattedProductos = [];
 
-            $formattedProductosStock[] = [
-                'idProducto' => $producto->getIdProducto(),
-                'Nombre' => $producto->getNombre(),
-                'Descripción' => $producto->getDescripcion(),
-                'Precio' => $producto->getPrecio(),
-                'Inventario' => $producto->getInventario(),
-                'Fecha_Hr' => $producto->getFecha_Hr(),
-                'Fecha' => $producto->getFecha(),
-                'Hora' => $producto->getHora(),
-                'Imagen' => base64_encode($producto->getImagen()),
-                'CantidadVendida' => $producto->getCantidadVendida(),
-                'TotalIngresos' => $producto->getTotalIngresos(),
-                'PromedioCalificacion' => $producto->getPromedioCalificacion(),
-                'Categorias' => obtenerNombresCategorias($categoriasProducto),
-            ];
-        }
-    
-        $json_response = [
-            "success" => true,
-            "msg" => "Se han cargado los productosStock con éxito",
-            "productosStock" => $formattedProductosStock,
+    foreach ($productos as $producto) {
+        $categoriasProducto = Categoria::GetCategoriasPorProducto($mysqli, $producto->getIdProducto());
+        $archivos = Archivo::getArchivoByProduct($mysqli, $producto->getIdProducto());
+       
+
+        $formattedProductos[] = [
+            'idProducto' => $producto->getIdProducto(),
+            'Nombre' => $producto->getNombre(),
+            'Descripción' => $producto->getDescripcion(),
+            'Precio' => $producto->getPrecio(),
+            'Inventario' => $producto->getInventario(),
+            'Fecha_Hr' => $producto->getFecha_Hr(),
+            'Fecha' => $producto->getFecha(),
+            'Hora' => $producto->getHora(),
+            'Imagen' => base64_encode($producto->getImagen()),
+            'CantidadVendida' => $producto->getCantidadVendida(),
+            'TotalIngresos' => $producto->getTotalIngresos(),
+            'PromedioCalificacion' => $producto->getPromedioCalificacion(),
+            'Categorias' => obtenerNombresCategorias($categoriasProducto),
+            'Archivos' => obtenerArhivosProducto($archivos)
         ];
     }
+
+
+    $json_response = [
+        "success" => true,
+        "msg" => "Se han cargado los productos con éxito",
+        "tipo" => $tipo,
+        "productosBD" => $formattedProductos,
+    ];
+
 
 
 } catch (Exception $e) {
@@ -71,6 +73,18 @@ function obtenerNombresCategorias($categorias)
 
     return $nombresCategorias;
 }
+function obtenerArhivosProducto($archivos)
+{
+    $imagenes = [];
+
+    foreach ($archivos as $archivo) {
+        $imagenes[] = base64_encode($archivo->getArchivo());
+    }
+
+    return $imagenes;
+}
+
+
 
 /* var_dump($json_response); */
 header('Content-Type: application/json');

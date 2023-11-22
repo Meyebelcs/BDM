@@ -148,6 +148,34 @@ class MaterialInventario
             return false; // Error en la actualización
         }
     }
+
+    public static function GetMaterialesPorProducto($mysqli, $idProducto)
+    {
+        $materiales = array();
+
+        $stmt = $mysqli->prepare("CALL GetMaterialesPorProducto(?)");
+        $stmt->bind_param("i", $idProducto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $material = new MaterialInventario(
+                $row['idProducto'],
+                1,
+                $row['Fecha_creacion'],
+                $row['Nombre'],
+                $row['Cantidad']
+            );
+            $material->setIdMaterial($row['idMaterial']);
+
+            // Agregar el comentario directamente al array
+            $materiales[] = $material;
+        }
+
+        $stmt->close();
+
+        return $materiales;
+    }
     
     public function toJSON()
     {
