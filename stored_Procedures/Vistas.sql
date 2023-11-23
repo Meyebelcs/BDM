@@ -121,3 +121,68 @@ BEGIN
 END //
 DELIMITER ;
 
+-----------------search--------------
+CREATE VIEW VistaSearchProducto AS
+  SELECT
+        P.idProducto AS idProducto,
+        P.Nombre AS Nombre,
+        P.Descripción AS Descripción,
+        P.Precio AS Precio,
+        (SELECT Archivo.Archivo
+            FROM Archivo
+            WHERE Archivo.idProducto = P.idProducto
+            ORDER BY Archivo.idArchivo DESC
+            LIMIT 1) AS Imagen,
+        (
+            SELECT COALESCE(SUM(Venta.Cantidad), 0)
+            FROM Venta
+            WHERE Venta.idProducto = P.idProducto
+        ) AS CantidadVendida,
+        COALESCE(PCA.promediocalificacion, 0) AS PromedioCalificacion
+        FROM Producto P
+        LEFT JOIN Venta V ON P.idProducto = V.idProducto
+        LEFT JOIN Comentario C ON P.idProducto = C.idProducto
+        LEFT JOIN promediocalificacion PCA ON P.idProducto = PCA.idProducto
+        LEFT JOIN ProductosConCategoria PC ON P.idProducto = PC.idProducto 
+
+DELIMITER //
+
+CREATE PROCEDURE SearchProductos(
+    IN categoriaParam INT,
+    IN nombreProductoParam VARCHAR(255),
+    IN tipobusqueda VARCHAR(20), /* //categoria o nombre */
+    IN tipoproducto VARCHAR(20) /* //cotizacion o stock */
+
+)
+BEGIN
+    IF tipobusqueda = 'categoria' THEN
+        -- Filtrar por categoría
+        SELECT
+            idProducto,
+            Nombre,
+            Descripción,
+            Precio,
+            Imagen,
+            CantidadVendida,
+            PromedioCalificacion
+        FROM VistaSearchProducto
+        WHERE PC.idCategoria = categoriaParam and P.Tipo = tipoproducto ;
+    ELSEIF tipobusqueda = 'nombre' THEN
+        -- Filtrar por nombre
+        SELECT
+            idProducto,
+            Nombre,
+            Descripción,
+            Precio,
+            Imagen,
+            CantidadVendida,
+            PromedioCalificacion
+        FROM VistaSearchProducto
+        WHERE P.Nombre LIKE CONCAT('%', nombreProductoParam, '%') and P.Tipo = tipoproducto ;
+    ELSE
+        -- Acción no reconocida
+        SELECT 'Acción no reconocida' AS Resultado;
+    END IF;
+END //
+
+DELIMITER ;

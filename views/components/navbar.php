@@ -11,8 +11,8 @@
                 <a href="home.php" class="me-5 navbar-brand text-decoration-none">Stock & Custom</a>
             </div>
 
-            <input class="form-control" type="search" name="searchBar" placeholder="Search" aria-label="Search">
-            <button type="submit" class="btn btn-secondary">Buscar</button>
+            <input class="form-control" type="search" name="searchBar" placeholder="Buscar productos..." aria-label="Search">
+            <button type="submit" class="btn btn-secondary" id="searchbutton">Buscar</button>
         </form>
         <!-- Fin de la barra de búsqueda -->
 
@@ -78,3 +78,5 @@
 
     </div>
 </div>
+
+

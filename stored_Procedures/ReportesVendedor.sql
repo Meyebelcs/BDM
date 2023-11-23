@@ -77,7 +77,7 @@ DELIMITER ;  */
 
 --------filtro Stock-----------
 
- DELIMITER //
+/*  DELIMITER //
 
 CREATE PROCEDURE sp_FiltroPOVVendedor(
     IN idUsuarioCreadorParam INT,
@@ -127,12 +127,16 @@ BEGIN
 
     IF (idUsuarioCreadorParam <> 0 OR fechaParam IS NOT NULL OR horaParam IS NOT NULL OR categoriaParam <> 0 OR nombreProductoParam IS NOT NULL OR calificacionParam <> 0) THEN
         SET `where` = 'WHERE ';
+        SET `where` = CONCAT(`where`, 'P.Tipo = \'', tipo, '\'');
+        SET filtro = TRUE;
     END IF;
 
     IF (idUsuarioCreadorParam <> 0) THEN
-        SET filtro = TRUE;
+        IF filtro THEN
+            SET `where` = CONCAT(`where`, ' AND ');
+        END IF;
         SET `where` = CONCAT(`where`, 'P.idUsuarioCreador = ', idUsuarioCreadorParam);
-         SET `where` = CONCAT(`where`, ' AND P.Tipo = \'', tipo, '\'');
+        SET filtro = TRUE;
     END IF;
 
     IF (fechaParam IS NOT NULL) THEN
@@ -187,6 +191,87 @@ BEGIN
     DEALLOCATE PREPARE stmt;
 END //
 
-DELIMITER ;
+DELIMITER ; */
  
+DELIMITER //
+
+CREATE PROCEDURE sp_FiltroPOVVendedor(
+    IN idUsuarioCreadorParam INT,
+    IN fechaParam DATETIME,
+    IN horaParam TIME,
+    IN categoriaParam INT,
+    IN nombreProductoParam VARCHAR(255),
+    IN calificacionParam INT,
+    IN tipo VARCHAR(255)
+)
+BEGIN
+    DECLARE query VARCHAR(2000);
+    DECLARE `where` VARCHAR(2000);
+
+    SET `where` = '';
+
+    SET query = 'SELECT
+        P.idProducto AS idProducto,
+        P.Nombre AS Nombre,
+        P.Descripción AS Descripción,
+        P.Precio AS Precio,
+        P.Inventario AS Inventario,
+        P.Fecha_Publicación AS Fecha_Hr,
+        (SELECT Archivo.Archivo
+            FROM Archivo
+            WHERE Archivo.idProducto = P.idProducto
+            ORDER BY Archivo.idArchivo DESC
+            LIMIT 1) AS Imagen,
+        (
+            SELECT COALESCE(SUM(Venta.Cantidad), 0)
+            FROM Venta
+            WHERE Venta.idProducto = P.idProducto
+        ) AS CantidadVendida,
+        (
+            SELECT COALESCE(SUM(Venta.Total), 0)
+            FROM Venta
+            WHERE Venta.idProducto = P.idProducto
+        ) AS TotalIngresos,
+        ROUND(COALESCE(AVG(C.Calificacion), 0)) AS PromedioCalificacion
+        FROM Producto P
+        LEFT JOIN Venta V ON P.idProducto = V.idProducto
+        LEFT JOIN Comentario C ON P.idProducto = C.idProducto
+        LEFT JOIN promediocalificacion PCA ON P.idProducto = PCA.idProducto
+        LEFT JOIN ProductosConCategoria PC ON P.idProducto = PC.idProducto ';
+
+    SET `where` = CONCAT(`where`, 'WHERE P.Tipo = \'', tipo, '\'');
+
+    IF (idUsuarioCreadorParam <> 0) THEN
+        SET `where` = CONCAT(`where`, ' AND P.idUsuarioCreador = ', idUsuarioCreadorParam);
+    END IF;
+
+    IF (fechaParam IS NOT NULL) THEN
+        SET `where` = CONCAT(`where`, ' AND DATE(P.Fecha_Publicación) = DATE(', QUOTE(fechaParam), ')');
+    END IF;
+
+    IF (horaParam IS NOT NULL) THEN
+        SET `where` = CONCAT(`where`, ' AND HOUR(P.Fecha_Publicación) = HOUR(', QUOTE(horaParam), ')');
+    END IF;
+
+    IF (categoriaParam <> 0) THEN
+        SET `where` = CONCAT(`where`, ' AND PC.idCategoria = ', categoriaParam);
+    END IF;
+
+    IF (nombreProductoParam IS NOT NULL) THEN
+        SET `where` = CONCAT(`where`, ' AND P.Nombre LIKE CONCAT(\'%\', ', QUOTE(nombreProductoParam), ', \'%\')');
+    END IF;
+
+    IF (calificacionParam <> 0) THEN
+        SET `where` = CONCAT(`where`, ' AND PCA.promedio = ', calificacionParam);
+    END IF;
+
+    SET query = CONCAT(query, `where`, ' GROUP BY P.idProducto');
+
+    -- Ejecuta la consulta dinámica
+    PREPARE stmt FROM query;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+END //
+
+DELIMITER ;
 
