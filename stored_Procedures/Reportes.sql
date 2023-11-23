@@ -335,7 +335,8 @@ BEGIN
     END IF;
 
     IF (PrecioParam <> 0) THEN
-        SET `where` = CONCAT(`where`, ' AND V.Total = ', PrecioParam);
+        -- Ordenar primero por precio exacto
+        SET `where` = CONCAT( `where`, ' AND V.Total = ', PrecioParam);
     END IF;
 
     IF (nombreProductoParam IS NOT NULL) THEN

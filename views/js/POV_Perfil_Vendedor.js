@@ -37,7 +37,7 @@ $(document).ready(function () {
     categoriaSelect.value = '';
     nombreProductoInput.value = '';
     calificacionSelect.value = '';
-}
+  }
 
   //--------------FILTROOO-------------------------
 
@@ -46,7 +46,7 @@ $(document).ready(function () {
     filtro();
   });
 
-  function filtro(){
+  function filtro() {
     var fecha = $('#fechaInicial').val() ?? null;
     var hora = $('#hora').val() ?? null;
     var idcategoria = $('#categoria').val() ?? '0';
@@ -77,7 +77,7 @@ $(document).ready(function () {
             });
             return;
           }
-       /*    console.log('tipoooo' + res.tipo); */
+          /*    console.log('tipoooo' + res.tipo); */
           if (res.tipo === 'Stock') {
             // Éxito...
             const productosContainer = document.getElementById('productosStockCard');

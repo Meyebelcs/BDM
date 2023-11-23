@@ -1,4 +1,3 @@
-
 <!-- ----------------FALTA QUE SE ACTUALICE EL FILTRO----------------------------------->
 <!-- ------------------QUE SE PUEDA EDITAR LA FOTO--------------------------------->
 <!-- ------------------------MODAL ALTA DELISTA--------------------------->
@@ -149,8 +148,8 @@ $productosCotizacion = POV_ReportesVendedor::getAllpurchasesFiltro($mysqli, $idU
                         Producto:</label>
                     <input id="nombreProducto" type="text" class="form-control buscar">
                 </div>
-                <div class="pb-3  d-flex col-xs-12 col-sm-12 col-md-12 col-lg-2 ">
-                    <label for="precioProducto" class="form-label" style="white-space: nowrap;">Precio:</label>
+                <div class="pb-3 d-flex col-xs-12 col-sm-12 col-md-12 col-lg-2">
+                    <label for="precioProducto" class="form-label" style="white-space: nowrap;">Total Pagado:</label>
                     <input id="precioProducto" type="text" class="form-control buscar">
                 </div>
                 <div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 select-box">
@@ -175,7 +174,8 @@ $productosCotizacion = POV_ReportesVendedor::getAllpurchasesFiltro($mysqli, $idU
 
                 <div class="productosStock">
                     <!-- Cards -->
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center"
+                        id="productosStockCard">
 
                         <?php if ($productosStock) {
                             foreach ($productosStock as $producto) { ?>
@@ -202,7 +202,20 @@ $productosCotizacion = POV_ReportesVendedor::getAllpurchasesFiltro($mysqli, $idU
                                                 </small>
                                             <?php } ?>
                                             <hr class="mt-2">
-                                            <p class="card-text mb-1">Cantidad:
+                                            <div class="calificacion pb-2">
+                                                <?php
+                                                $calif = $producto->getPromedioCalificacion();
+
+                                                for ($i = 1; $i <= 5; $i++) {
+                                                    if ($calif >= $i) {
+                                                        echo '<i class="bi bi-star-fill"></i>';
+                                                    } else {
+                                                        echo '<i class="bi bi-star"></i>';
+                                                    }
+                                                }
+                                                ?>
+                                            </div>
+                                            <p class="card-text mb-1">Cantidad Comprada:
                                                 <?php echo $producto->getCantidadComprada(); ?>
                                             </p>
                                             <p class="card-text mb-1">Precio: $
@@ -210,6 +223,12 @@ $productosCotizacion = POV_ReportesVendedor::getAllpurchasesFiltro($mysqli, $idU
                                             </p>
                                             <p class="card-text mb-1">Total: $
                                                 <?php echo $producto->getTotal(); ?>
+                                            </p>
+                                            <p class="card-text mb-1">Fecha de compra: $
+                                                <?php echo $producto->getFecha(); ?>
+                                            </p>
+                                            <p class="card-text mb-1">Hora de compra: $
+                                                <?php echo $producto->getHora(); ?>
                                             </p>
                                             <a href="Ticket.php?idProductoIndex=<?php echo $producto->getIdProducto(); ?>"
                                                 class="btn btn-secondary mb-1" id="">Ver Ticket</a>
@@ -219,120 +238,142 @@ $productosCotizacion = POV_ReportesVendedor::getAllpurchasesFiltro($mysqli, $idU
                                                 Producto</a>
                                         </div>
                                     </div>
-                                <?php }
+                                </div>
+                            <?php }
                         } else { ?>
-                                <div class="col border mx-3 mb-6 mt-6 "
-                                    style="width: 20rem; background:  #B7CBBF;  margin: 5rem;">
-                                    Aún no hay productos comprados
-                                </div>
-                            <?php } ?>
-
-                        </div>
-
-                    </div>
-                </div>
-                <div class="productosCotizacion">
-                    <!-- Cards COTIZACION--------->
-
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center">
-
-                        <?php
-                        if ($productosCotizacion) {
-                            foreach ($productosCotizacion as $cotizacion) { ?>
-                        <div class="card border mb-5" style="width: 50rem; ">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center mb-3">
-                                    <?php
-
-                                    $archivos = Archivo::getArchivoByProduct($mysqli, $cotizacion->getIdProducto());
-                                    foreach ($archivos as $imagen) { ?>
-                                    <img src="data:image/jpeg;base64,<?php echo base64_encode($imagen->getArchivo()); ?>"
-                                        class="card-img card-img-top mx-auto"
-                                        alt=" <?php echo $cotizacion->getNombre(); ?>" style="width: 20%;">
-
-                                    <?php } ?>
-                                </div>
-                                <h5 class="card-title mb-1">
-                                    <?php echo $cotizacion->getNombre(); ?>
-                                </h5>
-                                <small class="card-text mb-1">
-                                    <?php echo $cotizacion->getDescripcionCarrito(); ?>
-                                </small><br>
-                                <?php
-                                $categoriasbyproduct = Categoria::GetCategoriasPorProducto($mysqli, $cotizacion->getIdProducto());
-
-                                foreach ($categoriasbyproduct as $category) { ?>
-                                <small class="card-text mb-1">
-                                    <strong> #
-                                        <?php echo $category->getNombre(); ?>
-                                    </strong>
-                                </small>
-                                <?php } ?>
-                                <hr class="mt-2">
-                                <div class="card-body">
-                                    <table style="width:100%;">
-                                        <tr>
-                                            <td style="text-align: center;">
-                                                <p class="card-text mb-1"><strong>Materiales</strong></p>
-                                                <?php
-                                                $materialesbyproduct = MaterialCarrito::GetMaterialesPorProducto($mysqli, $cotizacion->getIdProducto());
-                                                foreach ($materialesbyproduct as $material) { ?>
-                                                <p class="card-text mb-1" style="color:  #F4BFAD;">
-                                                    <strong>
-                                                        <?php echo $material->getNombre() ?>
-                                                    </strong>
-                                                </p>
-                                                <?php } ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <p class="card-text mb-1"><strong>Cantidad</strong></p>
-                                                <?php
-                                                foreach ($materialesbyproduct as $material) { ?>
-                                                <p class="card-text mb-1">
-                                                    <?php echo $material->getCantidad() ?>
-                                                </p>
-                                                <?php } ?>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                                <p class="card-text mb-1">Cantidad:   <?php echo $cotizacion->getCantidadComprada(); ?></p>
-                                <p class="card-text mb-1">Total: $  <?php echo $cotizacion->getTotal(); ?></p>
-                                <a href="Detalle_producto.php?idProductoIndex=<?php echo $cotizacion->getIdProducto(); ?>" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-                                <a href="Ticket.php?idProductoIndex=<?php echo $cotizacion->getIdProducto(); ?>" class="btn btn-secondary mb-1" id="">Ver Ticket</a>
-
+                            <div class="col border mx-3 mb-6 mt-6 "
+                                style="width: 20rem; background:  #B7CBBF;  margin: 5rem;">
+                                Aún no hay productos comprados
                             </div>
-                        </div>
-                        <?php }
-                        } else { ?>
-                        <div class="col border mx-3 mb-6 mt-6 "
-                            style="width: 20rem; background:  #B7CBBF;  margin: 5rem;">
-                            Aún no hay cotizaciones registradas
-                        </div>
                         <?php } ?>
+
                     </div>
 
-                </div>
-
-                <div aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
                 </div>
             </div>
+            <div class="productosCotizacion">
+                <!-- Cards COTIZACION--------->
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center"
+                    id="productosCotizacionCard">
+
+                    <?php
+                    if ($productosCotizacion) {
+                        foreach ($productosCotizacion as $cotizacion) { ?>
+                    <div class="card border mb-5" style="width: 50rem; ">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center mb-3">
+                                <?php
+
+                                $archivos = Archivo::getArchivoByProduct($mysqli, $cotizacion->getIdProducto());
+                                foreach ($archivos as $imagen) { ?>
+                                <img src="data:image/jpeg;base64,<?php echo base64_encode($imagen->getArchivo()); ?>"
+                                    class="card-img card-img-top mx-auto" alt=" <?php echo $cotizacion->getNombre(); ?>"
+                                    style="width: 20%;">
+
+                                <?php } ?>
+                            </div>
+                            <h5 class="card-title mb-1">
+                                <?php echo $cotizacion->getNombre(); ?>
+                            </h5>
+                            <small class="card-text mb-1">
+                                <?php echo $cotizacion->getDescripcionCarrito(); ?>
+                            </small><br>
+                            <?php
+                            $categoriasbyproduct = Categoria::GetCategoriasPorProducto($mysqli, $cotizacion->getIdProducto());
+
+                            foreach ($categoriasbyproduct as $category) { ?>
+                            <small class="card-text mb-1">
+                                <strong> #
+                                    <?php echo $category->getNombre(); ?>
+                                </strong>
+                            </small>
+                            <?php } ?>
+                            <hr class="mt-2">
+                            <div class="card-body">
+                                <table style="width:100%;">
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <p class="card-text mb-1"><strong>Materiales</strong></p>
+                                            <?php
+                                            $materialesbyproduct = MaterialCarrito::GetMaterialesPorProducto($mysqli, $cotizacion->getIdProducto());
+                                            foreach ($materialesbyproduct as $material) { ?>
+                                            <p class="card-text mb-1" style="color:  #F4BFAD;">
+                                                <strong>
+                                                    <?php echo $material->getNombre() ?>
+                                                </strong>
+                                            </p>
+                                            <?php } ?>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <p class="card-text mb-1"><strong>Cantidad</strong></p>
+                                            <?php
+                                            foreach ($materialesbyproduct as $material) { ?>
+                                            <p class="card-text mb-1">
+                                                <?php echo $material->getCantidad() ?>
+                                            </p>
+                                            <?php } ?>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <?php
+                            $calif = $cotizacion->getPromedioCalificacion();
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($calif >= $i) {
+                                    echo '<i class="bi bi-star-fill"></i>';
+                                } else {
+                                    echo '<i class="bi bi-star"></i>';
+                                }
+                            }
+                            ?>
+                            <p class="card-text mb-1">Cantidad Comprada:
+                                <?php echo $cotizacion->getCantidadComprada(); ?>
+                            </p>
+                            <p class="card-text mb-1">Total: $
+                                <?php echo $cotizacion->getTotal(); ?>
+                            </p>
+                            <p class="card-text mb-1">Fecha de compra: $
+                                <?php echo $cotizacion->getFecha(); ?>
+                            </p>
+                            <p class="card-text mb-1">Hora de compra: $
+                                <?php echo $cotizacion->getHora(); ?>
+                            </p>
+                            <a href="Detalle_producto.php?idProductoIndex=<?php echo $cotizacion->getIdProducto(); ?>"
+                                class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                            <a href="Ticket.php?idProductoIndex=<?php echo $cotizacion->getIdProducto(); ?>"
+                                class="btn btn-secondary mb-1" id="">Ver Ticket</a>
+
+                        </div>
+                    </div>
+                    <?php }
+                    } else { ?>
+                    <div class="col border mx-3 mb-6 mt-6 " style="width: 20rem; background:  #B7CBBF;  margin: 5rem;">
+                        Aún no hay cotizaciones registradas
+                    </div>
+                    <?php } ?>
+                </div>
+
+            </div>
+
+            <div aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
         </div>
 
         <!-- Modal editar perfil-->
