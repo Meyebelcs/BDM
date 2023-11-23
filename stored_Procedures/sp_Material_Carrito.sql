@@ -64,3 +64,32 @@ BEGIN
 END //
 
 DELIMITER ;
+------------------sp_GetMaterialCarritoInfo
+DELIMITER //
+
+CREATE PROCEDURE sp_GetMaterialCarritoInfo(
+    IN idProductParam INT
+)
+BEGIN
+    SELECT
+        MC.idMaterialCarrito AS idMaterialCarrito,
+        MC.idCarrito AS idCarrito,
+        MC.idMaterial AS idMaterial,
+        MI.idProducto AS idProducto,
+        MC.idStatus AS idStatus,
+        MC.Fecha_agregado AS Fecha_creacion,
+        MI.Nombre AS Nombre,
+        MC.Cantidad AS CantidadEnCarrito
+    FROM
+        Material_Carrito MC
+    LEFT JOIN
+        Material_Inventario MI ON MC.idMaterial = MI.idMaterial
+    WHERE
+        MI.idProducto = idProductParam
+        AND MC.idStatus = 1 
+    GROUP BY MC.idMaterialCarrito;
+END//
+
+DELIMITER ;
+
+

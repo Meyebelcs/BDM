@@ -187,6 +187,7 @@ CREATE TABLE Material_Carrito (
    idMaterial INT(10) UNSIGNED NOT NULL,
    idStatus INT(10) UNSIGNED NOT NULL,
    Cantidad INT(10) NOT NULL,
+   Fecha_agregado DATE NOT NULL,
    PRIMARY KEY (idMaterialCarrito),
    CONSTRAINT FK_Material_Carrito_Carrito FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
    CONSTRAINT FK_Material_Carrito_MaterialInventario FOREIGN KEY (idMaterial) REFERENCES Material_Inventario(idMaterial),

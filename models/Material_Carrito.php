@@ -7,6 +7,9 @@ class MaterialCarrito
     private $idMaterial;
     private $idStatus;
     private $cantidad;
+    private $Fecha_creacion;
+    private $Nombre;
+    
 
     public function getIdMaterialCarrito()
     {
@@ -17,6 +20,27 @@ class MaterialCarrito
     {
         $this->idMaterialCarrito = $idMaterialCarrito;
     }
+
+    public function getNombre()
+    {
+        return $this->Nombre;
+    }
+
+    public function setNombre($Nombre)
+    {
+        $this->Nombre = $Nombre;
+    }
+
+    public function getFecha_creacion()
+    {
+        return $this->Fecha_creacion;
+    }
+
+    public function setFecha_creacion($Fecha_creacion)
+    {
+        $this->Fecha_creacion = $Fecha_creacion;
+    }
+
 
     public function getIdCarrito()
     {
@@ -134,6 +158,37 @@ class MaterialCarrito
             return false; // Error en la actualización
         }
     }
+
+    public static function GetMaterialesPorProducto($mysqli, $idProducto)
+    {
+        $materiales = array();
+
+        $stmt = $mysqli->prepare("CALL sp_GetMaterialCarritoInfo(?)");
+        $stmt->bind_param("i", $idProducto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $material = new MaterialCarrito(
+                $row['idCarrito'],
+                $row['idMaterial'],
+                $row['idStatus'],
+                $row['CantidadEnCarrito']
+            );
+            
+            $material->setIdMaterialCarrito($row['idMaterialCarrito']);
+            $material->setFecha_creacion($row['Fecha_creacion']);
+            $material->setNombre($row['Nombre']);
+
+            // Agregar el comentario directamente al array
+            $materiales[] = $material;
+        }
+
+        $stmt->close();
+
+        return $materiales;
+    }
+    
 
 
     public function toJSON()

@@ -14,8 +14,10 @@ class POV_ReportesVendedor
     private $PromedioCalificacion;
     private $Fecha;
     private $Hora;
-
-
+    private $CantidadComprada;
+    private $Total;
+    private $DescripcionCarrito;
+    
     public function getIdProducto()
     {
         return $this->idProducto;
@@ -24,6 +26,36 @@ class POV_ReportesVendedor
     public function setIdProducto($idProducto)
     {
         $this->idProducto = $idProducto;
+    }
+
+    public function getDescripcionCarrito()
+    {
+        return $this->DescripcionCarrito;
+    }
+
+    public function setDescripcionCarrito($DescripcionCarrito)
+    {
+        $this->DescripcionCarrito = $DescripcionCarrito;
+    }
+
+    public function getTotal()
+    {
+        return $this->Total;
+    }
+
+    public function setTotal($Total)
+    {
+        $this->Total = $Total;
+    }
+
+    public function getCantidadComprada()
+    {
+        return $this->CantidadComprada;
+    }
+
+    public function setCantidadComprada($CantidadComprada)
+    {
+        $this->CantidadComprada = $CantidadComprada;
     }
 
     public function getInventario()
@@ -160,6 +192,9 @@ class POV_ReportesVendedor
 
         // Divide la cadena en fecha y hora
         list($this->Fecha, $this->Hora) = explode(' ', $this->Fecha_Hr);
+        $this->CantidadComprada = ' ';
+        $this->Total = ' ';
+
     }
 
     static public function parseJson($json)
@@ -304,6 +339,45 @@ class POV_ReportesVendedor
                 $row['PromedioCalificacion']
             );
 
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+    
+        $stmt->close();
+    
+        return $products;
+    }
+
+    public static function getAllpurchasesFiltro($mysqli, $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion,  $precio, $tipo)
+    {
+        $products = array();
+    
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL sp_FiltroCompras(?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssss", $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion,$precio, $tipo); 
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        while ($row = $result->fetch_assoc()) {
+
+            $producto = new POV_ReportesVendedor(
+                $row['idProducto'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                0,
+                $row['Fecha_Hr'],
+                $row['Imagen'],
+                0,
+                0,
+                $row['PromedioCalificacion']
+            );
+            
+            $producto->setDescripcionCarrito( $row['DescripcionCarrito']);
+            $producto->setCantidadComprada( $row['CantidadComprada']);
+            $producto->setTotal( $row['Total']);
+            
+            
             // Agregar el comentario directamente al array
             $products[] = $producto;
         }

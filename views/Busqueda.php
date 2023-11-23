@@ -1,9 +1,3 @@
-<!-- NOOO HA SIDO PROGRAMADA -->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
 <?php
 session_start();
 
@@ -22,7 +16,7 @@ require_once "../models/Material_Inventario.php";
 if (!empty($_GET['searchBar'])) {
     $busqueda = $_GET['searchBar'];
     $productosStock = POV_ReportesVendedor::getAllProductsFiltro($mysqli, 0, null, null, 0, $busqueda, 0, 'Stock');
-    $productosCotizacion = POV_ReportesVendedor::getAllProductsFiltro($mysqli, 0, null, null, 0, $busqueda, 0, 'Cotizacion'); 
+    $productosCotizacion = POV_ReportesVendedor::getAllProductsFiltro($mysqli, 0, null, null, 0, $busqueda, 0, 'Cotizacion');
 }
 
 if (!empty($_GET['idCategoria'])) {
@@ -129,10 +123,15 @@ if (!empty($_GET['idCategoria'])) {
                                         <a href="Detalle_producto.php?idProductoIndex=<?php echo $producto->getIdProducto(); ?>"
                                             class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
-                                        <div style="position: absolute; bottom: 10px; right: 10px;">
-                                            <i class="bi bi-heart"></i>
-                                            <i class="bi bi-plus-circle ml-2"></i>
-                                        </div>
+                                        <?php
+                                        if ($rol != 'Vendedor') { ?>
+                                            <div style="position: absolute; bottom: 10px; right: 10px;">
+                                                <i class="bi bi-heart" style="margin-right: 10px; font-size: 24px;"></i>
+                                                <i class="bi bi-plus-circle ml-2" style="font-size: 24px;"></i>
+                                            </div>
+                                        <?php } ?>
+
+
 
                                     </div>
                                 </div>
@@ -226,7 +225,17 @@ if (!empty($_GET['idCategoria'])) {
                                     </tr>
                                 </table>
                             </div>
-                            <a href="chat.php" class="btn btn-secondary mb-1" id="">Enviar Mensaje</a>
+                            <a href="Detalle_producto.php?idProductoIndex=<?php echo $cotizacion->getIdProducto(); ?>"
+                                class="btn btn-secondary mb-1" id="">Ver Detalles</a>
+
+                            <?php
+                            if ($rol != 'Vendedor') { ?>
+                            <div style="position: absolute; bottom: 10px; right: 10px;">
+                                <i class="bi bi-heart" style="margin-right: 10px; font-size: 24px;"></i>
+                                <i class="bi bi-plus-circle ml-2" style="font-size: 24px; padding-right:1rem;"></i>
+                            </div>
+                            <?php } ?>
+
                         </div>
                     </div>
                     <?php }
