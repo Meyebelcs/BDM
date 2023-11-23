@@ -285,7 +285,7 @@ class POV_ReportesVendedor
         $products = array();
     
         // Ajusta el nombre del procedimiento almacenado y el número de parámetros
-        $stmt = $mysqli->prepare("CALL sp_FiltroPOVVendedor2(?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $mysqli->prepare("CALL sp_Filtro(?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssss", $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion, $tipo); 
         $stmt->execute();
         $result = $stmt->get_result();
