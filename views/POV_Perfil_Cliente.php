@@ -1,8 +1,4 @@
-<!-- ----------------FALTA QUE SE ACTUALICE EL FILTRO----------------------------------->
 <!-- ------------------QUE SE PUEDA EDITAR LA FOTO--------------------------------->
-<!-- ------------------------MODAL ALTA DELISTA--------------------------->
-<!-- --------------------ALTA DE LISTA------------------------------->
-<!-- --------------------------------------------------->
 <?php
 session_start();
 
@@ -98,8 +94,8 @@ $productosCotizacion = POV_ReportesVendedor::getAllpurchasesFiltro($mysqli, $idU
                                         data-bs-target="#changePhoto">Cambiar foto</a>
                                     <a class="btn btn-secondary mb-3" data-bs-toggle="modal"
                                         data-bs-target="#editProfile">Editar perfil</a>
-                                    <a class="btn btn-secondary mb-3" href="Alta_Lista.php"> Crear Lista</a>
-
+                                    <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal"
+                                        data-bs-target="#altaLista">Crear Lista</button>
                                 </div>
                             </div>
                         </div>
@@ -492,6 +488,57 @@ $productosCotizacion = POV_ReportesVendedor::getAllpurchasesFiltro($mysqli, $idU
             </div>
         </div>
 
+        <!-- add lista -->
+        <div class="modal fade" id="altaLista" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Agregar Lista</h4>
+                    </div>
+                    <form method="post" action="../controllers/Lista/Alta_Lista.php" id="add-list-form"
+                        enctype="multipart/form-data">
+                        <input type="hidden" name="idUserSesion" id="idUserSesion" value="<?php echo $idUser; ?>">
+                        <div class="modal-body">
+                            <div class="wrapper">
+                                <div class="box">
+                                    <div class="input-bx">
+                                        <label for="Uploadlist" class="uploadlabel" id="img-Uploadlist">
+                                            <span class=""><i class="bi bi-cloud-arrow-up-fill"></i></span>
+                                            <p>Añade una imagen</p>
+                                        </label>
+                                        <img src="" id="preview-img-Uploadlist" alt="">
+                                        <input type="file" id="Uploadlist" class="form-control mt-3">
+                                        <span class="text-danger" id="photolist_error_message"></span>
+                                    </div>
+                                </div>
+                            </div><br>
+                            <label for="Nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="name-list" id="category-list">
+                            <span class="text-danger" id="list_name_error_message"></span><br>
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="list-desc" name="desc-list" rows="3"></textarea>
+                            <span class="text-danger" id="list_description_error_message"></span>
+                            <div class="col-lg-4 col-md-10 col-sm-10 col-xs-10 select-box">
+                                <label for="descripcion" class="form-label">Modalidad:</label>
+                                <select id="modo" class="form-select">
+                                    <option value="" selected></option>
+                                    <option value="Público">Público</option>
+                                    <option value="Privado">Privado</option>
+                                </select>
+                            </div>
+                            <span class="text-danger" id="list_Modalidad_error_message"></span>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button id="closeList-btn" type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cerrar</button>
+                            <button id="savelist-btn" type="submit" class="btn btn-secondary">Guardar Lista</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Footer -->
         <?php include('./components/footer.php'); ?>
 
@@ -501,6 +548,7 @@ $productosCotizacion = POV_ReportesVendedor::getAllpurchasesFiltro($mysqli, $idU
         <?php include_once "./libs/bootstrapJS.php" ?>
         <script src="./js/POV_Perfil_Cliente.js"></script>
         <script src="./js/Profile_edition.js"></script>
+        <script src="./js/Alta_Lista.js"></script>
 
     </main>
 </body>

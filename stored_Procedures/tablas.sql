@@ -71,7 +71,7 @@ CREATE TABLE Lista (
    idUsuarioCreador INT(10) UNSIGNED NOT NULL,
    Nombre VARCHAR(255) NOT NULL,
    Descripción TEXT NOT NULL,
-   Imagen VARCHAR(255) NOT NULL,
+   Imagen LONGBLOB NOT NULL,
    Fecha_creacion DATETIME NOT NULL,
    Modo VARCHAR(50) NOT NULL,
    PRIMARY KEY (idLista),

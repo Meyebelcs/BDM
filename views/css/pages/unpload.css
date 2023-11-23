@@ -46,6 +46,14 @@
     align-items: center;
 }
 
+#preview-img-Uploadlist{
+    max-width: 465px;
+    max-height: 400px;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
 td{
     min-height: 40px;
 }
