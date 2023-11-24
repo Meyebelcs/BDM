@@ -1,4 +1,4 @@
-------------insert status------------
+------------insert sp_InsertLista------------
 DELIMITER //
 
 CREATE PROCEDURE sp_InsertLista(
@@ -32,7 +32,7 @@ BEGIN
 END //
 
 DELIMITER ;
-------------find status------------
+------------find sp_FindListaById------------
 DELIMITER //
 
 CREATE PROCEDURE sp_FindListaById(
@@ -55,7 +55,7 @@ END //
 
 DELIMITER ;
 
-------------update status------------
+------------update sp_UpdateLista------------
 DELIMITER //
 
 CREATE PROCEDURE sp_UpdateLista(

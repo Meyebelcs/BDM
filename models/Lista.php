@@ -150,7 +150,7 @@ class Lista
         }
     }
 
-    public function findListaById($mysqli, $idLista)
+    public static function findListaById($mysqli, $idLista)
     {
         $stmt = $mysqli->prepare("CALL sp_FindListaById(?)");
         $stmt->bind_param("i", $idLista);
@@ -158,8 +158,9 @@ class Lista
         $result = $stmt->get_result();
         $lista = $result->fetch_assoc();
 
-        return $lista ? self::parseJson($lista) : null;
+        return $lista ? Lista::parseJson($lista) : null;
     }
+    
 
     public function updateLista($mysqli)
     {

@@ -17,7 +17,7 @@ class POV_ReportesVendedor
     private $CantidadComprada;
     private $Total;
     private $DescripcionCarrito;
-    
+
     public function getIdProducto()
     {
         return $this->idProducto;
@@ -315,16 +315,16 @@ class POV_ReportesVendedor
         return $total;
     }
 
-    public static function getAllProductsFiltro($mysqli, $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion,  $tipo)
+    public static function getAllProductsFiltro($mysqli, $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion, $tipo)
     {
         $products = array();
-    
+
         // Ajusta el nombre del procedimiento almacenado y el número de parámetros
         $stmt = $mysqli->prepare("CALL sp_Filtro(?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssss", $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion, $tipo); 
+        $stmt->bind_param("sssssss", $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion, $tipo);
         $stmt->execute();
         $result = $stmt->get_result();
-    
+
         while ($row = $result->fetch_assoc()) {
             $producto = new POV_ReportesVendedor(
                 $row['idProducto'],
@@ -342,22 +342,24 @@ class POV_ReportesVendedor
             // Agregar el comentario directamente al array
             $products[] = $producto;
         }
-    
+
+
+
         $stmt->close();
-    
+
         return $products;
     }
 
-    public static function getAllpurchasesFiltro($mysqli, $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion,  $precio, $tipo)
+    public static function getAllpurchasesFiltro($mysqli, $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion, $precio, $tipo)
     {
         $products = array();
-    
+
         // Ajusta el nombre del procedimiento almacenado y el número de parámetros
         $stmt = $mysqli->prepare("CALL sp_FiltroCompras(?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssss", $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion,$precio, $tipo); 
+        $stmt->bind_param("ssssssss", $idUsuarioCreador, $fecha, $hora, $categoria, $nombreProducto, $calificacion, $precio, $tipo);
         $stmt->execute();
         $result = $stmt->get_result();
-    
+
         while ($row = $result->fetch_assoc()) {
 
             $producto = new POV_ReportesVendedor(
@@ -372,18 +374,88 @@ class POV_ReportesVendedor
                 0,
                 $row['PromedioCalificacion']
             );
-            
-            $producto->setDescripcionCarrito( $row['DescripcionCarrito']);
-            $producto->setCantidadComprada( $row['CantidadComprada']);
-            $producto->setTotal( $row['Total']);
-            
-            
+
+            $producto->setDescripcionCarrito($row['DescripcionCarrito']);
+            $producto->setCantidadComprada($row['CantidadComprada']);
+            $producto->setTotal($row['Total']);
+
+
             // Agregar el comentario directamente al array
             $products[] = $producto;
         }
-    
+
         $stmt->close();
-    
+
+        return $products;
+    }
+
+    public static function getAllProductsListaStock($mysqli, $idLista, $idUsuarioCliente)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL getProductsListStock(?, ?)");
+        $stmt->bind_param("ss", $idUsuarioCliente, $idLista);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new POV_ReportesVendedor(
+                $row['idProducto'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                0,
+                $row['Fecha_Hr'],
+                $row['Imagen'],
+                $row['CantidadVendida'],
+                0,
+                $row['PromedioCalificacion']
+            );
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+
+
+        $stmt->close();
+
+        return $products;
+    }
+
+    public static function getAllProductsListaCotizacion($mysqli, $idLista, $idUsuarioCliente)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL getProductsListCotizacion(?, ?)");
+        $stmt->bind_param("ss", $idUsuarioCliente, $idLista);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new POV_ReportesVendedor(
+                $row['idProducto'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                0,
+                $row['Fecha_Hr'],
+                $row['Imagen'],
+                $row['CantidadVendida'],
+                0,
+                $row['PromedioCalificacion']
+            );
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+
+
+        $stmt->close();
+
         return $products;
     }
 

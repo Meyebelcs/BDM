@@ -358,3 +358,18 @@ END //
 DELIMITER ;
 
 -----------
+/* vista para traer toda la info de la listas que coincidan con el idUsuarioCliente
+idLista
+idUsuarioCreador
+Modo
+NombreDescripcion
+Imagen
+Fecha_creacion
+
+vista para traer todos los productos que haya en una lista especifica
+ */
+
+
+
+
+

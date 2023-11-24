@@ -11,7 +11,8 @@
                 <a href="home.php" class="me-5 navbar-brand text-decoration-none">Stock & Custom</a>
             </div>
 
-            <input class="form-control" type="search" name="searchBar" placeholder="Buscar productos..." aria-label="Search">
+            <input class="form-control" type="search" name="searchBar" placeholder="Buscar productos..."
+                aria-label="Search">
             <button type="submit" class="btn btn-secondary" id="searchbutton">Buscar</button>
         </form>
         <!-- Fin de la barra de búsqueda -->
@@ -71,6 +72,11 @@
             <a href=<?php echo $urlPerfil ?>>Cuenta</a>
             <a href="Carrito.php">Carrito</a>
             <a href="chat.php">Chat</a>
+            <?php
+            if ($rol == 'Comprador') { ?>
+                <a href="Perfil_Listas.php">Mis Listas</a>
+            <?php }
+            ?>
             <a href=<?php echo $url ?>><?php echo $titulo ?></a>
             <a href="Terminos.php">Términos y Condiciones</a>
             <a href="../controllers/logout.php">Salir</a>
@@ -78,5 +84,3 @@
 
     </div>
 </div>
-
-
