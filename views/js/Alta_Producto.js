@@ -326,7 +326,7 @@ $(document).ready(function () {
             formDataCotizacion.append('Inventario', ' ');
             formDataCotizacion.append('Fecha_actualizacion', formattedDate);
             formDataCotizacion.append('Fecha_publicación', formattedDate);
-            formDataCotizacion.append('idStatus', '2');
+            formDataCotizacion.append('idStatus', '1');
             formDataCotizacion.append('idAdminAutorización', $('#idUser').val());
             formDataCotizacion.append('idUsuarioCreador', $('#idUser').val());
             formDataCotizacion.append('Tipo', 'Cotizacion');

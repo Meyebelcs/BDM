@@ -8,7 +8,7 @@ if (empty($_GET['searchBar']) && empty($_GET['idCategoria'])) {
 
 require_once './components/menu.php';
 
-require_once "../models/Reportes/POV_ReportesVendedor.php";
+require_once "../models/Reportes/POV_Reportes.php";
 require_once "../models/Archivo.php";
 require_once "../models/Material_Inventario.php";
 
@@ -81,7 +81,7 @@ if (!empty($_GET['idCategoria'])) {
                             <div class=" col border mx-3 mb-3 " style="width: 20rem;">
                                 <div class="card" style="width: 100%;">
                                     <img src="data:image/jpeg;base64,<?php echo base64_encode($producto->getImagen()); ?>"
-                                        class="card-img card-img-top" alt="<?php echo $producto->getNombre(); ?>" style="width: 300px; height: 300px;">
+                                        class="card-img card-img-top" alt="Imagen actual" style="width: 300px; height: 300px;">
                                     <div class="card-body">
                                         <h5 class="card-title mb-1">
                                             <?php echo $producto->getNombre(); ?>

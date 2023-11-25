@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../db.php';
-require_once __DIR__ . '/../../models/Reportes/POV_ReportesVendedor.php';
+require_once __DIR__ . '/../../models/Reportes/POV_Reportes.php';
 require_once __DIR__ . '/../../models/Categoria.php';
 require_once __DIR__ . '/../../models/Archivo.php';
 session_start();

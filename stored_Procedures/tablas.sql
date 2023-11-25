@@ -215,6 +215,7 @@ CREATE TABLE Venta (
    FechaHr_registro DATETIME NOT NULL,
    Total DECIMAL(10, 2) NOT NULL,
    Cantidad INT(5) UNSIGNED NOT NULL,
+   identificador INT(10) NOT NULL ,
    PRIMARY KEY (idVenta),
    CONSTRAINT FK_DetalleVenta_Producto FOREIGN KEY (idProducto) REFERENCES Producto(idProducto),
    CONSTRAINT FK_DetalleVenta_Carrito FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),

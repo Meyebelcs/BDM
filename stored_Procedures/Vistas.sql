@@ -283,3 +283,56 @@ BEGIN
 END //
 
 DELIMITER ;
+
+---------VistaInfoProductoEnCarrito--------
+CREATE VIEW VistaInfoProductoEnCarrito AS
+SELECT
+    C.idProducto AS idProducto,
+    P.Nombre AS Nombre,
+    C.Tipo AS Tipo,
+    C.idCarrito AS idCarrito,
+    C.Cantidad AS Cantidad,
+    C.PrecioUnitario AS PrecioUnitario,
+    C.Subtotal AS Subtotal,
+    C.Descripcion AS Descripcion,
+    C.Fecha_agregado AS Fecha_agregado,
+    C.idStatus AS idStatus,
+    C.idUsuarioCliente AS idUsuarioCliente, 
+    (SELECT Archivo.Archivo
+        FROM Archivo
+        WHERE Archivo.idProducto = P.idProducto
+        ORDER BY Archivo.idArchivo DESC
+        LIMIT 1) AS Imagen
+    FROM Producto P
+    JOIN Carrito C ON P.idProducto = C.idProducto
+    WHERE P.idStatus = 1;
+
+DELIMITER //
+
+CREATE PROCEDURE ObtenerInfoCarrito(
+    IN p_IdUsuario INT,
+    IN p_idStatus VARCHAR(50)
+)
+BEGIN
+    SELECT
+    idProducto,
+    Nombre,
+    Tipo,
+    idCarrito,
+    Cantidad,
+    PrecioUnitario,
+    Subtotal,
+    Descripcion,
+    Fecha_agregado,
+    idStatus,
+    idUsuarioCliente, 
+    Imagen
+
+    FROM VistaInfoProductoEnCarrito
+    WHERE idUsuarioCliente = p_IdUsuario
+    AND idStatus = p_idStatus;
+END //
+
+DELIMITER ;
+
+

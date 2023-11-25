@@ -9,6 +9,20 @@ session_start();
 
 require_once './components/menu.php';
 
+
+require_once "../models/Carrito.php";
+$totalAPagar = 0;
+// Verificar si se recibieron los ID de carritos en la URL
+if (isset($_GET['idCarritos'])) {
+    // Obtener los ID de carritos desde la URL y convertirlos a un array
+    $idCarritos = explode(',', $_GET['idCarritos']);
+    
+
+} else {
+    // Si no se proporcionaron los ID de carritos, muestra un mensaje de error o realiza otra acción
+    echo "Error: No se proporcionaron ID de carritos.";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,17 +131,53 @@ require_once './components/menu.php';
                             <h4>Detalles del pedido</h4>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-2">
-                            <img src="./css/assets/vangogh.png" alt="" height="50px">
+
+                    <?php
+                    foreach ($idCarritos as $idCarrito) {
+                        $productosAPagar = Carrito::getAllProductsCarritoById($mysqli, $idCarrito);
+                        $Producto = $productosAPagar[0];
+                        $totalAPagar += $Producto->getSubtotal();
+                        ?>
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="./css/assets/vangogh.png" alt="" height="50px">
+                            </div>
+                            <div class="col-8 ms-3">
+                                <label for="inputEmail4" class="form-label">
+                                    <?php echo $Producto->getNombre(); ?>
+                                </label><br>
+                                <label for="inputEmail4" class="form-label">Cantidad:
+                                    <?php echo $Producto->getCantidad(); ?>
+                                </label>
+                            </div>
+                            <div class="col-4 ms-auto">
+                                <label for="inputEmail4" class="form-label">Precio: $
+                                    <?php echo $Producto->getPrecioUnitario(); ?> MXN
+                                </label>
+                                <label for="inputEmail4" class="form-label">Total: $
+                                    <?php echo $Producto->getSubtotal(); ?> MXN
+                                </label>
+                            </div>
                         </div>
-                        <div class="col-8 ms-3">
-                            <label for="inputEmail4" class="form-label">Pintura en oleo</label>
+
+                    <?php }
+                    ?>
+
+                    <div class="row border-top">
+                        <div class="col-8 ms-3 pt-1">
+                            <small style="color:#72706e;">Total a Pagar:</small>
                         </div>
-                        <div class="col-3 ms-auto">
-                            <label for="inputEmail4" class="form-label">$150 MXN</label>
+                        <div class="col-3 ms-auto bt-5  pt-1">
+                            <!-- Mostrar la suma de subtotales en la interfaz -->
+                            <label style="color:#72706e;" class="form-label" id="total">$
+                                <?php echo number_format($totalAPagar, 2); ?> MXN
+                            </label>
                         </div>
                     </div>
+
+
+                    <input type="hidden" id="idCarritosInput" name="idCarritos" value="<?php echo implode(',', $idCarritos); ?>">
+
                     <div class="row mt-3 mb-3 align-items-center">
                         <div class="col-12">
                             <button type="submit" id="pay-btn" idCurso="" total_pago=""
@@ -136,8 +186,7 @@ require_once './components/menu.php';
                     </div>
                 </form>
                 <div class="col-lg-7 col-xxl-6 col-md-12">
-                    <img style=" width:100%;" src="./css/assets/online-shopping.png" class="img-pay"
-                        alt="">
+                    <img style=" width:100%;" src="./css/assets/online-shopping.png" class="img-pay" alt="">
                 </div>
             </div>
         </div>
@@ -151,7 +200,7 @@ require_once './components/menu.php';
     <?php include_once "./libs/jqueryJS.php" ?>
     <?php include_once "./libs/bootstrapJS.php" ?>
     <?php include_once "./libs/sweetalertJS.php" ?>
-    <script src="./js/POV_Perfil_Cliente.js"></script>
+    <script src="./js/Pago.js"></script>
 
 </body>
 

@@ -8,7 +8,8 @@ CREATE PROCEDURE sp_InsertVenta(
     IN p_idStatus INT,
     IN p_fechaHrRegistro DATETIME,
     IN p_total DECIMAL(10, 2),
-    IN p_cantidad INT
+    IN p_cantidad INT,
+    IN p_identificador INT
 )
 BEGIN
     INSERT INTO Venta (
@@ -18,7 +19,8 @@ BEGIN
         idStatus,
         FechaHr_registro,
         Total,
-        Cantidad
+        Cantidad,
+        identificador
     )
     VALUES (
         p_idUsuarioCliente,
@@ -27,7 +29,8 @@ BEGIN
         p_idStatus,
         p_fechaHrRegistro,
         p_total,
-        p_cantidad
+        p_cantidad,
+        p_identificador
     );
 END //
 

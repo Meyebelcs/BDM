@@ -194,13 +194,18 @@ class Comentario
         $stmt->execute();
         $result = $stmt->get_result();
     
+   
+
         while ($row = $result->fetch_assoc()) {
+            $fecha = strftime('%d %b %Y', strtotime( $row['Fecha_publicacion']));
+
+    
             $comment = new Comentario(
                 $row['idProducto'],
                 $row['idUsuarioCreador'],
                 $row['idStatus'],
                 $row['Calificacion'],
-                $row['Fecha_publicacion'],
+                $fecha ,
                 $row['Comentario']
             );
     

@@ -5,7 +5,7 @@ session_start();
 
 require_once './components/menu.php';
 
-require_once "../models/Reportes/POV_ReportesVendedor.php";
+require_once "../models/Reportes/POV_Reportes.php";
 require_once "../models/Archivo.php";
 require_once "../models/Material_Inventario.php";
 require_once "../models/Lista.php";

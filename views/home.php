@@ -33,7 +33,7 @@ require_once './components/menu.php';
   <!-- navbar.php -->
   <?php include('./components/navbar.php'); ?>
 
-  <main m-0 p-0>
+  <main m-0 p-0 class="background">
 
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
@@ -88,466 +88,280 @@ require_once './components/menu.php';
       </button>
     </div>
 
+    <div class="text-center mb-3" >
+
+      <br>
+      <h3 class=" p-2 pt-3" id="switchText">Productos en Stock </h3>
+      <br>
+
+      <!-- Interruptor de bolita -->
+      <label class="switch">
+        <input type="checkbox" id="switchInput">
+        <span class="slider round"></span>
+      </label>
+    </div>
+
     <!-- Contenido -->
     <div class="container mb-5">
 
-      <!-- ======================= MÁS RECIENTES ======================== -->
+      <div class="productosStock" id="productosStock">
+        <!-- ======================= MÁS RECIENTES ======================== -->
 
-      <h3 class="border-bottom p-2 text-center">Más recientes</h3>
+        <h3 class="border-bottom p-2 text-center">Más recientes</h3>
 
-      <!-- Slider main container -->
-      <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-
-
-
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
-
-                <p class="card-text me-2">
-                  5
+        <!-- Slider main container -->
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="card swiper-slide" style="width: 23rem;">
+              <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h4 class="card-title mb-0">Pintura de oleo
+                </h4>
+                <small class="card-title mb-0 pb-0">
+                  @arleth_mel
+                </small>
+                <hr class="mt-2">
+                <p class="card-text mb-0 pb-0">
+                  Pinturas inspiradas en el arte de vangogh
                 </p>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
+                <div class="d-flex">
 
+                  <p class="card-text me-2">
+                    5
+                  </p>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+
+                </div>
+                <h6 class="card-text mb-3 fw-bolder">$
+                  34 MXN
+                </h6>
+                <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
               </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-              <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
+
           </div>
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
-
-                <p class="card-text me-2">
-                  5
-                </p>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-
-              </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-              <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-            </div>
-          </div>
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
-
-                <p class="card-text me-2">
-                  5
-                </p>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-
-              </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-              <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-            </div>
-          </div>
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
-
-                <p class="card-text me-2">
-                  5
-                </p>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-
-              </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-            </div>
-          </div>
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
-
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-
-              </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-              <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-            </div>
-          </div>
-
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
         </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-      </div>
 
-      <!-- ======================= MEJOR VENDIDOS ======================== -->
+        <!-- ======================= MEJOR VENDIDOS ======================== -->
 
-      <h3 class="border-bottom mt-4 p-2 text-center">Mejor vendidos</h3>
+        <h3 class="border-bottom mt-4 p-2 text-center">Mejor vendidos</h3>
 
-      <!-- Slider main container -->
-      <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
+        <!-- Slider main container -->
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
 
 
 
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
+            <div class="card swiper-slide" style="width: 23rem;">
+              <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h4 class="card-title mb-0">Pintura de oleo
+                </h4>
+                <small class="card-title mb-0 pb-0">
+                  @arleth_mel
+                </small>
+                <hr class="mt-2">
+                <p class="card-text mb-0 pb-0">
+                  Pinturas inspiradas en el arte de vangogh
+                </p>
+                <div class="d-flex">
 
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
 
+                </div>
+                <h6 class="card-text mb-3 fw-bolder">$
+                  34 MXN
+                </h6>
+                <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
               </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-              <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
+
           </div>
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
-
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-
-              </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-            </div>
-          </div>
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
-
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-
-              </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-            </div>
-          </div>
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
-
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-
-              </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-            </div>
-          </div>
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
-
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-
-              </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-            </div>
-          </div>
-
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
         </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+
+        <!-- ======================= MEJOR VALORADOS ======================== -->
+
+        <h3 class="border-bottom mt-4 p-2 text-center">Mejor valorados</h3>
+
+        <!-- Slider main container -->
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+
+            <div class="card swiper-slide" style="width: 23rem;">
+              <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h4 class="card-title mb-0">Pintura de oleo
+                </h4>
+                <small class="card-title mb-0 pb-0">
+                  @arleth_mel
+                </small>
+                <hr class="mt-2">
+                <p class="card-text mb-0 pb-0">
+                  Pinturas inspiradas en el arte de vangogh
+                </p>
+                <div class="d-flex">
+
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+
+                </div>
+                <h6 class="card-text mb-3 fw-bolder">$
+                  34 MXN
+                </h6>
+                <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
+              </div>
+            </div>
+
+          </div>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+
       </div>
+      <div class="productosCotizacion" id="productosCotizacion">
+        <!-- ======================= MÁS RECIENTES ======================== -->
 
-      <!-- ======================= MEJOR VALORADOS ======================== -->
+        <h3 class="border-bottom p-2 text-center">Más recientes</h3>
 
-      <h3 class="border-bottom mt-4 p-2 text-center">Mejor valorados</h3>
+        <!-- Slider main container -->
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
 
-      <!-- Slider main container -->
-      <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
 
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
 
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
+            <div class="card swiper-slide" style="width: 23rem;">
+              <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h4 class="card-title mb-0">Pintura de oleo
+                </h4>
+                <small class="card-title mb-0 pb-0">
+                  @arleth_mel
+                </small>
+                <hr class="mt-2">
+                <p class="card-text mb-0 pb-0">
+                  Pinturas inspiradas en el arte de vangogh
+                </p>
+                <div class="d-flex">
 
+                  <p class="card-text me-2">
+                    5
+                  </p>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+
+                </div>
+                <h6 class="card-text mb-3 fw-bolder">$
+                  34 MXN
+                </h6>
+                <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
               </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
+
           </div>
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
 
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
+        <!-- ======================= MEJOR VENDIDOS ======================== -->
 
+        <h3 class="border-bottom mt-4 p-2 text-center">Mejor vendidos</h3>
+
+        <!-- Slider main container -->
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+
+
+
+            <div class="card swiper-slide" style="width: 23rem;">
+              <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h4 class="card-title mb-0">Pintura de oleo
+                </h4>
+                <small class="card-title mb-0 pb-0">
+                  @arleth_mel
+                </small>
+                <hr class="mt-2">
+                <p class="card-text mb-0 pb-0">
+                  Pinturas inspiradas en el arte de vangogh
+                </p>
+                <div class="d-flex">
+
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+
+                </div>
+                <h6 class="card-text mb-3 fw-bolder">$
+                  34 MXN
+                </h6>
+                <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
               </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
+
           </div>
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
 
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
+        <!-- ======================= MEJOR VALORADOS ======================== -->
 
+        <h3 class="border-bottom mt-4 p-2 text-center">Mejor valorados</h3>
+
+        <!-- Slider main container -->
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+
+            <div class="card swiper-slide" style="width: 23rem;">
+              <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h4 class="card-title mb-0">Pintura de oleo
+                </h4>
+                <small class="card-title mb-0 pb-0">
+                  @arleth_mel
+                </small>
+                <hr class="mt-2">
+                <p class="card-text mb-0 pb-0">
+                  Pinturas inspiradas en el arte de vangogh
+                </p>
+                <div class="d-flex">
+
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+
+                </div>
+                <h6 class="card-text mb-3 fw-bolder">$
+                  34 MXN
+                </h6>
+                <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
               </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-            </div>
-          </div>
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
-
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-
-              </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-            </div>
-          </div>
-          <div class="card swiper-slide" style="width: 23rem;">
-            <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-title mb-0">Pintura de oleo
-              </h4>
-              <small class="card-title mb-0 pb-0">
-                @arleth_mel
-              </small>
-              <hr class="mt-2">
-              <p class="card-text mb-0 pb-0">
-                Pinturas inspiradas en el arte de vangogh
-              </p>
-              <div class="d-flex">
-
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-
-              </div>
-              <h6 class="card-text mb-3 fw-bolder">$
-                34 MXN
-              </h6>
-             <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
             </div>
           </div>
 
@@ -558,15 +372,37 @@ require_once './components/menu.php';
       </div>
 
     </div>
+    </div>
 
     <!-- Footer -->
     <?php include('./components/footer.php'); ?>
 
 
+
     <!-- -----------scripts-------------->
+    <?php include_once "./libs/jqueryJS.php" ?>
     <?php include_once "./libs/bootstrapJS.php" ?>
     <?php include_once "./libs/swiperJS.php" ?>
     <script src="./js/Home.js"></script>
+    <script>
+      $(document).ready(function () {
+
+        $('.productosCotizacion').hide();
+        $('.productosStock').show();
+
+        $('#switchInput').change(function () {
+          if ($(this).is(':checked')) {
+            $('#switchText').text('Cotizaciones');
+            $('.productosStock').hide();
+            $('.productosCotizacion').show();
+          } else {
+            $('#switchText').text('Productos en Stock');
+            $('.productosCotizacion').hide();
+            $('.productosStock').show();
+          }
+        });
+      });
+    </script>
 
 </body>
 

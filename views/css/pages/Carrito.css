@@ -1,10 +1,4 @@
-@import url('../navbar.css');
-@import url('../card.css');
-@import url('../footer.css');
-@import url('../body.css');
-@import url('../backgrounds.css');
-@import url('../breakpoints.css');
-@import url('../hero.css');
+
 
 :root {
     --primary: #F4BFAD; 

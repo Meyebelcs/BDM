@@ -1,4 +1,70 @@
+.background {
+    background-color: #ffffff;
+}
 
+
+/* Estilos para el interruptor */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+/* Estilos para la bolita */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #B7CBBF;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+
+
+/* Estilos para la bolita cuando está activada */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+
+/* Estilos para el interruptor cuando está activado */
+input:checked+.slider {
+    background-color: #F4BFAD;
+}
+
+
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+
+
+}
+
+
+
+.slider.round {
+    border-radius: 34px;
+}
+
+/* Estilos para la bolita redonda */
+.slider.round:before {
+    border-radius: 50%;
+}
 .btn-menu {
     position: absolute;
     top: 24px;

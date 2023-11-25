@@ -9,7 +9,17 @@ class Venta
     private $fechaHrRegistro;
     private $total;
     private $cantidad;
+    private $identificador;
 
+    public function getidentificador()
+    {
+        return $this->identificador;
+    }
+
+    public function setidentificador($identificador)
+    {
+        $this->identificador = $identificador;
+    }
     public function getIdVenta()
     {
         return $this->idVenta;
@@ -99,7 +109,8 @@ class Venta
         $idStatus,
         $fechaHrRegistro,
         $total,
-        $cantidad
+        $cantidad,
+        $identificador
     ) {
         $this->idUsuarioCliente = $idUsuarioCliente;
         $this->idProducto = $idProducto;
@@ -108,6 +119,7 @@ class Venta
         $this->fechaHrRegistro = $fechaHrRegistro;
         $this->total = $total;
         $this->cantidad = $cantidad;
+        $this->identificador = $identificador;
     }
     static public function parseJson($json)
     {
@@ -118,7 +130,8 @@ class Venta
             isset($json["idStatus"]) ? $json["idStatus"] : null,
             isset($json["FechaHr_registro"]) ? $json["FechaHr_registro"] : null,
             isset($json["Total"]) ? $json["Total"] : null,
-            isset($json["Cantidad"]) ? $json["Cantidad"] : null
+            isset($json["Cantidad"]) ? $json["Cantidad"] : null,
+            isset($json["identificador"]) ? $json["identificador"] : null
         );
         if (isset($json["idVenta"])) {
             $venta->setIdVenta((int) $json["idVenta"]);
@@ -129,16 +142,17 @@ class Venta
 
     public function insertVenta($mysqli)
     {
-        $stmt = $mysqli->prepare("CALL sp_InsertVenta(?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $mysqli->prepare("CALL sp_InsertVenta(?, ?, ?, ?, ?, ?, ?,?)");
         $stmt->bind_param(
-            "sssssss",
+            "ssssssss",
             $this->idUsuarioCliente,
             $this->idProducto,
             $this->idCarrito,
             $this->idStatus,
             $this->fechaHrRegistro,
             $this->total,
-            $this->cantidad
+            $this->cantidad,
+            $this->identificador
         );
 
         if ($stmt->execute()) {
@@ -169,7 +183,8 @@ class Venta
             $this->idProducto,
             $this->idCarrito,
             $this->total,
-            $this->cantidad
+            $this->cantidad,
+            $this->identificador
         );
 
         if ($stmt->execute()) {

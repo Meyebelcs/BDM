@@ -238,7 +238,16 @@ class Product
         }
     }
 
+    public static function validateExist($mysqli, $idProducto)
+    {
+        $stmt = $mysqli->prepare("CALL VerificarProductoAgotado(?)");
+        $stmt->bind_param("i", $idProducto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $agotado = $result->fetch_assoc();
 
+        return $agotado ;
+    }
     public function toJSON()
     {
         return get_object_vars($this);

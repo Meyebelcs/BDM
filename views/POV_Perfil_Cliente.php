@@ -7,7 +7,7 @@ $perfil = "PerfilCliente";
 require_once './components/POV_menu.php';
 
 
-require_once "../models/Reportes/POV_ReportesVendedor.php";
+require_once "../models/Reportes/POV_Reportes.php";
 require_once "../models/Archivo.php";
 require_once "../models/Material_Carrito.php";
 

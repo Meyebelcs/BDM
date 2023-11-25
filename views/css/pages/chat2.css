@@ -1,0 +1,662 @@
+
+.cotizacion {
+    width: 550px;
+    height: 420px;
+    background-color: #ffffff;
+    margin-left: 1150px; /* Puedes ajustar el valor según sea necesario */
+    /* Otros estilos */
+    margin-top: -850px;
+   
+}
+
+.cotizacion-titulo {
+    margin-bottom: 10px; /* Ajusta el valor del margen según la separación que desees */
+    text-size-adjust: 6;
+
+    display: block; /* Asegura que ocupen todo el ancho disponible */
+    width: 50%; /* Ocupan el 50% del ancho del contenedor principal */
+    text-align: left;
+    box-sizing: border-box; 
+    margin-bottom: 70px;
+}
+
+
+.cotizacion-titulo h1 {
+   
+    font-size: 2em;
+    margin-top: 40px;
+    text-align: left;
+    color: #000000;
+    display: inline-block; /* Para que el fondo ocupe solo el ancho del texto */
+    padding: 1px; /* Añadir espaciado para hacer el fondo visible */
+    font-weight: bold; /* Esto hace que el texto esté en negritas */
+  }
+  
+  .cotizacion-titulo h2 {
+    text-align: left;
+    text-align: center;
+    color: #000000;
+    margin-top: 40px;
+    font-size: 1.5em;
+    display: inline-block; /* Para que el fondo ocupe solo el ancho del texto */
+    padding: 1px; /* Añadir espaciado para hacer el fondo visible */
+    font-weight: bold; /* Esto hace que el texto esté en negritas */
+  }
+  .cotizacion-titulo h3 {
+    text-align: left;
+    
+    color: #000000;
+    margin-top: 40px;
+    font-size: 1em;
+    display: inline-block; /* Para que el fondo ocupe solo el ancho del texto */
+    padding: .5px; /* Añadir espaciado para hacer el fondo visible */
+    width: 550px;
+  }
+
+.img-course {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+  }
+.img{
+    display: block;
+    width: 100%;
+}
+.round-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  
+#container {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    margin: 0; /* Elimina el margen automático */
+    display: flex; /* Usa flexbox para organizar aside y main */
+    
+}
+
+/* Aside y Main */
+aside, main {
+    /* Asegura que estén alineados arriba */
+    display: block; /* Asegura que ocupen todo el ancho disponible */
+    width: 50%; /* Ocupan el 50% del ancho del contenedor principal */
+    
+    box-sizing: border-box; /* Incluye el padding y el borde en el ancho y alto */
+    padding: 20px; /* Añade espacio interno */
+}
+.btn-menu {
+    position: absolute;
+    top: 24px;
+    left: 70px;
+    margin: 110;
+    padding: 110;
+    z-index: 10001; 
+    align-items: left;
+    
+}
+
+
+.btn-menu label {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+
+#btn-menu {
+    display: none;
+}
+
+.container-menu .cont-menu label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px; 
+    height: 40px; 
+    font-size: 20px; 
+    right: 130px;
+}
+
+.container-menu {
+    
+    position: fixed; /* Cambia a "fixed" para mantener el menú en la pantalla */
+    background: #00000080;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transition: all 500ms ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 9999; /* Establece un valor alto de z-index para el menú */
+}
+
+#btn-menu:checked ~ .container-menu {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+
+
+.cont-menu {
+    width: 100%;
+    max-width: 250px;
+    background: #00000080;
+    height: 100vh;
+    position: relative;
+    transition: all 500ms ease;
+    transform: translateX(-250px); 
+    z-index: 10000; 
+}
+
+
+
+
+#btn-menu:checked ~ .container-menu .cont-menu {
+    transform: translateX(0%);
+}
+
+/* Agrega estos estilos para dar formato al texto dentro del menú lateral */
+.cont-menu nav a {
+    display: block;
+    text-decoration: none;
+    padding: 10px 20px;
+    color: #424242;
+    border-left: 5px solid transparent;
+    transition: all 400ms ease;
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+/* Añade espacio vertical entre cada elemento del menú */
+.cont-menu nav a + a {
+    margin-top: 10px;
+}
+
+.cont-menu nav a:hover {
+    border-left: 15px solid #111111;
+    background: #1f1f1f;
+}
+
+
+/* =================== COLORS ======================= */
+:root {
+    --primary-color: #B7CBBF;
+    --primary-dark-color: #ebe6a8;
+    --secondary-color: #F4BFAD;
+    --accent-color: #B7CBBF;
+    --dark-color: #000000;
+    --light-color: #ffffff;
+}
+
+/* ==================== NAVBAR ====================== */
+nav {
+    background-color: var(--primary-color);
+}
+
+.navbar-brand{
+    color: var(--light-color);
+    font-size: 1000;
+    font-weight: 500;
+    margin-left: 30px;
+}
+
+.navbar-brand:hover{
+    color: var(--accent-color);
+}
+
+/*================= FOOTER =====================  */
+
+.footer{
+    color:white;
+    margin-top: auto;
+    
+}
+
+
+.content-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .content-right textarea,
+  .content-right a {
+    margin-left: 10px; /* Ajusta el margen entre los elementos si es necesario */
+  }
+
+/* ===================== BODY =================== */
+
+
+body{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: var(--dark-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ======================= BACKGROUND ==================== */
+
+.bg-tertiary{
+    background-color: var(--primary-dark-color);
+}
+
+
+.bg-primary{
+    background-color: var(--primary-color)
+    !important;
+}
+
+/* ========================== BUTTON ========================= */
+
+.btn-secondary{
+    --bs-btn-color:white;
+    --bs-btn-bg:var(--secondary-color);
+    --bs-btn-border-color:none;
+    --bs-btn-hover-color:white;
+    --bs-btn-hover-bg:var(--accent-color);
+    --bs-btn-hover-border-color:none;
+    --bs-btn-focus-shadow-rgb:none;
+    --bs-btn-active-color:#fff;
+    --bs-btn-active-bg:var(--secondary-color);
+    --bs-btn-active-border-color:none;
+    --bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color:#fff;
+    --bs-btn-disabled-bg:#7d6c6c;
+    --bs-btn-disabled-border-color:none;
+}
+
+
+/* =============================== SEARCHBAR ================================ */
+
+.search-results {
+    position: absolute;
+    width: 23%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 1;
+  }
+  
+  .search-results ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .search-results li {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .search-results li:hover {
+    background-color: #f0f0f0;
+  }
+  
+
+/* ======================= FORM CONTROL ======================== */
+.form-control:focus{
+    border-color:#dee2e6;
+    box-shadow:none
+}
+
+/*-----------MAIN-----------*/
+
+
+
+.container-fluid img{
+    display: block;
+    width: 100%;
+    color:#B7CBBF;
+}
+
+.contenedor-comentarios a {
+    text-decoration: none;
+}
+
+.contenedor-comentarios {
+    height: 570px;
+    width: 100px;
+}
+
+
+
+.nombre-usuario {
+    font-weight: bold;
+    margin-right: .5rem;
+    color: inherit;
+}
+
+.messages-container{
+    border-left: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    
+    width: 800px;
+}
+
+
+
+
+.message{
+    margin-left: .5rem;
+}
+
+.myMessage{
+    margin-right: .5rem;
+}
+
+.message .texto{
+    background-color: #F0F0F0;
+    border-radius: 12px;
+    padding: 10px 15px;
+    margin-bottom: .5rem;
+    font-size: 0.9rem;
+    max-width: 25rem;
+    /* border: 0;
+    display: inline-block;
+    max-width: 100%;
+    position: relative; */
+}
+
+.myMessage .texto{
+    background-color: var(--primary-color);
+    border-radius: 12px;
+    padding: 10px 15px;
+    margin-bottom: .5rem;
+    font-size: 0.9rem;
+    color: white;
+    max-width: 25rem;
+    /* border: 0;
+    display: inline-block;
+    position: relative; */
+}
+
+.avatar{
+    width: 45px;
+    height: 45px;
+}
+
+/* ============================ FECHA ======================================== */
+
+.fecha-chiquita {
+    font-size: 12px;
+    color: #999999;
+}
+
+.fecha-chiquita-me {
+    font-size: 12px;
+    color: #dadada;
+}
+
+/* ====================== BREAKPOINTS =================== */
+@media (max-width:575px){
+    .col-xs-1{flex:0 0 auto;width:8.33333333%;}
+    .col-xs-2{flex:0 0 auto;width:16.66666667%;}
+    .col-xs-3{flex:0 0 auto;width:25%;}
+    .col-xs-4{flex:0 0 auto;width:33.33333333%;}
+    .col-xs-5{flex:0 0 auto;width:41.66666667%;}
+    .col-xs-6{flex:0 0 auto;width:50%;}
+    .col-xs-7{flex:0 0 auto;width:58.33333333%;}
+    .col-xs-8{flex:0 0 auto;width:66.66666667%;}
+    .col-xs-9{flex:0 0 auto;width:75%;}
+    .col-xs-10{flex:0 0 auto;width:83.33333333%;}
+    .col-xs-11{flex:0 0 auto;width:91.66666667%;}
+    .col-xs-12{flex:0 0 auto;width:100%;}
+    .text-xs-center{text-align:center !important;}
+    .d-xs-none{display:none!important}
+}
+
+@media((min-width:576px) and (max-width:767px)){
+    .text-sm-center{text-align:center !important;}
+}
+
+
+.messages-container {
+    border-left: 1px solid #cccccc;
+    width: 99%; /* Divide el espacio en dos */
+    overflow-y: auto;
+    padding: 10px; /* Ajusta el espaciado según tus necesidades */
+}
+
+/* Estilo específico para la segunda messages-container (derecha) */
+.messages-container-right {
+    border-left: none; /* Elimina el borde izquierdo de la segunda messages-container */
+    border-right: 1px solid #cccccc; /* Agrega un borde derecho a la segunda messages-container */
+}
+
+/* Ajusta la distribución de ambas messages-container en pantallas pequeñas */
+@media (max-width: 767px) {
+    .d-flex {
+        flex-direction: column; /* Apila ambas messages-container en pantallas pequeñas */
+    }
+    .messages-container {
+        width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+        border-left: none; /* Elimina el borde izquierdo en pantallas pequeñas */
+        border-right: none; /* Elimina el borde derecho en pantallas pequeñas */
+    }
+}
+
+.button-cotizar {
+    background-color: #F4BFAD;
+    color: white;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 1rem;
+    
+}
+
+
+
+.button-cotizar:hover {
+    background-color: #B7CBBF;
+}
+
+.navbar-brand {
+    font-size: 30px; /* Cambia el valor a tu preferencia */
+}
+
+*{
+    box-sizing:border-box;
+  }
+  body{
+    background-color:#ffffff;
+    font-family:Arial;
+    text-align:left;
+  }
+  
+  aside{
+    width:360px;
+    height:900px;
+    background-color:#B7CBBF;
+    display:inline-block;
+    font-size:15px;
+    vertical-align:top;
+  }
+  main{
+    width:490px;
+    height:900px;
+    display:inline-block;
+    font-size:15px;
+    vertical-align:top;
+  }
+  
+  aside header{
+    padding:30px 20px;
+  }
+  aside input{
+    width:100%;
+    height:50px;
+    line-height:50px;
+    padding:0 50px 0 20px;
+    background-color:#F4BFAD;
+    border:none;
+    border-radius:3px;
+    color:#fff;
+    background-image:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_search.png);
+    background-repeat:no-repeat;
+    background-position:170px;
+    background-size:40px;
+  }
+  aside input::placeholder{
+    color:#fff;
+  }
+  aside ul{
+    padding-left:0;
+    margin:0;
+    list-style-type:none;
+    overflow-y:scroll;
+    height:690px;
+  }
+  aside li{
+    padding:10px 0;
+  }
+  aside li:hover{
+    background-color:#F4BFAD;
+  }
+  h2,h3{
+    margin:0;
+  }
+  aside li img{
+    border-radius:50%;
+    margin-left:20px;
+    margin-right:8px;
+    color:#B7CBBF;
+  }
+  aside li div{
+    display:inline-block;
+    vertical-align:top;
+    margin-top:12px;
+  }
+  aside li h2{
+    font-size:14px;
+    color:#fff;
+    font-weight:normal;
+    margin-bottom:5px;
+  }
+  aside li h3{
+    font-size:12px;
+    color:#7e818a;
+    font-weight:normal;
+  }
+  
+  .status{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    display:inline-block;
+    margin-right:7px;
+  }
+
+  
+  main header{
+    height:110px;
+    padding:30px 20px 30px 40px;
+  }
+  main header > *{
+    display:inline-block;
+    vertical-align:top;
+  }
+  main header img:first-child{
+    border-radius:50%;
+  }
+  main header img:last-child{
+    width:24px;
+    margin-top:8px;
+  }
+  main header div{
+    margin-left:10px;
+    margin-right:145px;
+  }
+  main header h2{
+    font-size:16px;
+    margin-bottom:5px;
+  }
+  main header h3{
+    font-size:14px;
+    font-weight:normal;
+    color:#B7CBBF;
+  }
+  
+  #chat{
+    padding-left:0;
+    margin:0;
+    list-style-type:none;
+    overflow-y:scroll;
+    height:700px;
+    width:735px;
+    border-top:2px solid #fff;
+    border-bottom:2px solid #fff;
+  }
+  #chat li{
+    padding:10px 30px;
+  }
+  #chat h2,#chat h3{
+    display:inline-block;
+    font-size:13px;
+    font-weight:normal;
+  }
+  #chat h3{
+    color:#bbb;
+  }
+  #chat .entete{
+    margin-bottom:5px;
+  }
+  #chat .message{
+    padding:20px;
+    color:#fff;
+    line-height:25px;
+    max-width:90%;
+    display:inline-block;
+    text-align:left;
+    border-radius:5px;
+  }
+  #chat .me{
+    text-align:right;
+  }
+  #chat .you .message{
+    background-color:#F4BFAD;
+  }
+  #chat .me .message{
+    background-color:#B7CBBF;
+  }
+
+  main footer{
+    height:155px;
+    padding:20px 30px 10px 20px;
+  }
+  main footer textarea{
+    resize:none;
+    border:none;
+    display:block;
+    width:735px;
+    height:80px;
+    border-radius:3px;
+    padding:20px;
+    font-size:13px;
+    margin-bottom:13px;
+  }
+  main footer textarea::placeholder{
+    color:#ddd;
+  }
+  main footer img{
+    height:30px;
+    cursor:pointer;
+    
+  }
+  main footer a{
+    text-decoration:none;
+    text-transform:uppercase;
+    font-weight:bold;
+    color:#B7CBBF;
+    vertical-align:top;
+    margin-left:333px;
+    margin-top:5px;
+    display:inline-block;
+  }
+

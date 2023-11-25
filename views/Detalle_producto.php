@@ -13,10 +13,12 @@ require_once "../models/Producto.php";
 require_once "../models/user.php";
 require_once "../models/Comentario.php";
 require_once "../models/Archivo.php";
+$idProductoSelected = $_GET['idProductoIndex'];
+$producto = Product::findProductoById($mysqli, $idProductoSelected);
+$archivos = Archivo::getArchivoByProduct($mysqli, $idProductoSelected);
+$comentarios = Comentario::getCommentsByProduct($mysqli, $idProductoSelected);
+$agotado = Product::validateExist($mysqli, $idProductoSelected);
 
-$producto = Product::findProductoById($mysqli, $_GET['idProductoIndex']);
-$archivos = Archivo::getArchivoByProduct($mysqli, $_GET['idProductoIndex']);
-$comentarios = Comentario::getCommentsByProduct($mysqli, $_GET['idProductoIndex']);
 
 ?>
 <!DOCTYPE html>
@@ -93,6 +95,7 @@ $comentarios = Comentario::getCommentsByProduct($mysqli, $_GET['idProductoIndex'
                     </div>
 
                 </div>
+
                 <div class="col-md-4">
                     <div class="card h-200 w-200 border-0 shadow-sm mb-3">
                         <div class="card-body">
@@ -136,17 +139,49 @@ $comentarios = Comentario::getCommentsByProduct($mysqli, $_GET['idProductoIndex'
                                 }
                                 ?>
                             </div>
+                            <?php
+                            if ($agotado['EstaAgotado'] == 1) { ?>
+                                <a class="btn w-100" style="color:red;">
+                                    AGOTADO
+                                </a>
+                            <?php } else if ($producto->getTipo() == 'Cotizacion') { ?>
+                                <a href="chat.php?idProductoIndex=<?php echo $idProductoSelected ?>" class="btn w-100">
+                                   Enviar Mensaje
+                                </a>
+                            <?php }else{ ?>
+                                <a href="Carrito.php?idProductoIndex=<?php echo $idProductoSelected ?>" class="btn w-100"><i
+                                        class="bi bi-cart-fill"></i>
+                                    Agregar al carrito
+                                </a>
+                            <?php } ?>
 
-                            <a href="Carrito.php" class="btn w-100"><i class="bi bi-cart-fill"></i>
-                                Comprar
-                            </a>
 
                         </div>
                     </div>
                 </div>
 
             </div>
-            <div class="stars" id="stars">
+
+            <div class="row">
+                <h4 class="mt-4">Deja tu reseña</h4>
+                <div class="valoracion pt-0 fs-5 rating">
+                    <i class="bi bi-star" star="1"></i>
+                    <i class="bi bi-star" star="2"></i>
+                    <i class="bi bi-star" star="3"></i>
+                    <i class="bi bi-star" star="4"></i>
+                    <i class="bi bi-star" star="5"></i>
+                </div>
+                <form id="makeReview">
+                    <input type="hidden" name="ReviewidProduct" value="<?php echo $idProductoSelected; ?>">
+                    <input type="hidden" name="ReviewidUsuario" value="<?php echo $idUser; ?>">
+                    <textarea class="form-control" id="review" rows="3"></textarea>
+                    <span class="text-danger" id="error_message"></span><br>
+                    <button type="submit" class="btn btn-secondary mt-3 rounded-pill mb-3" style="width: auto;">Enviar
+                        reseña</button>
+                </form>
+            </div>
+
+            <!--  <div class="stars" id="stars">
                 <span class="star" onclick="rate(1)">&#9733;</span>
                 <span class="star" onclick="rate(2)">&#9733;</span>
                 <span class="star" onclick="rate(3)">&#9733;</span>
@@ -158,7 +193,7 @@ $comentarios = Comentario::getCommentsByProduct($mysqli, $_GET['idProductoIndex'
             <div class="comment-box">
                 <label for="comment">Comentario:</label><br>
                 <textarea id="comment" rows="4" cols="50"></textarea><br>
-                <button onclick="saveComment()">Enviar</button>
+                <button>Enviar</button>
             </div>
             <script>
                 let selectedValue = 0;
@@ -175,46 +210,13 @@ $comentarios = Comentario::getCommentsByProduct($mysqli, $_GET['idProductoIndex'
                     });
                     document.getElementById('selectedValue').innerText = value;
                 }
-            </script>
-            <script>
-                function saveComment() {
-                    const comment = document.getElementById('comment').value;
-                    const data = {
-                        selectedValue: selectedValue,
-                        comment: comment
-                    };
-
-                    fetch('guardar_comentario.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data),
-                    })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Hubo un problema con la solicitud');
-                            }
-                            return response.json();
-                        })
-                        .then(result => {
-                            // Manejar la respuesta del servidor si es necesario
-                            console.log('Comentario guardado:', result);
-                            // Por ejemplo, podrías redirigir al usuario a la página del producto
-                            // window.location.href = 'pagina_producto.php';
-                        })
-                        .catch(error => {
-                            console.error('Error al guardar el comentario:', error);
-                            // Manejar errores, mostrar un mensaje al usuario, etc.
-                        });
-                }
-            </script>
+            </script> -->
 
             <div class="row w-100">
                 <h4 class="mt-4 mb-0">Reseñas</h4>
             </div>
 
-            <div class="mt-2 w-200 border-top" style="margin-top: 90px;">
+            <div class="mt-2 w-200 border-top" style="margin-top: 90px;" id="comentarioslist">
 
                 <?php
 
@@ -253,6 +255,8 @@ $comentarios = Comentario::getCommentsByProduct($mysqli, $_GET['idProductoIndex'
         <?php include_once "./libs/jqueryJS.php" ?>
         <?php include_once "./libs/swiperJS.php" ?>
         <?php include_once "./libs/bootstrapJS.php" ?>
+        <script type="module" src="./js/Detalle_producto.js"></script>
+
 
     </main>
 

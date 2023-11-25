@@ -11,7 +11,27 @@ class Carrito
     private $descripcion;
     private $fechaAgregado;
     private $tipo;
+    private $Imagen;
+    private $Nombre;
 
+    public function getNombre()
+    {
+        return $this->Nombre;
+    }
+
+    public function setNombre($Nombre)
+    {
+        $this->Nombre = $Nombre;
+    }
+    public function getImagen()
+    {
+        return $this->Imagen;
+    }
+
+    public function setImagen($Imagen)
+    {
+        $this->Imagen = $Imagen;
+    }
     public function getIdCarrito()
     {
         return $this->idCarrito;
@@ -211,6 +231,97 @@ class Carrito
         } else {
             return false; // Error en la actualización
         }
+    }
+    public static function updateCarritoCantidad($mysqli, $idCarrito, $accion)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateCarritoCantidad(?, ?)");
+        $stmt->bind_param(
+            "ss",
+            $idCarrito,
+            $accion
+        );
+
+        $success = $stmt->execute();
+        $message = ($success) ? "Cantidad Carrito actualizado con éxito." : "Error al actualizar Cantidad Carrito: " . $stmt->error;
+
+        $stmt->close(); // Cerrar la declaración
+        $mysqli->close(); // Cerrar la conexión
+
+        return ["success" => $success, "msg" => $message];
+    }
+
+    public static function getAllProductsCarrito($mysqli, $idUsuarioCliente, $idStatus)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerInfoCarrito(?, ?)");
+        $stmt->bind_param("ss", $idUsuarioCliente, $idStatus);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Carrito(
+                $row['idUsuarioCliente'],
+                $row['idProducto'],
+                $row['idStatus'],
+                $row['Cantidad'],
+                $row['PrecioUnitario'],
+                $row['Subtotal'],
+                $row['Descripcion'],
+                $row['Fecha_agregado'],
+                $row['Tipo']
+            );
+            $producto->setIdCarrito($row['idCarrito']);
+            $producto->setImagen($row['Imagen']);
+            $producto->setNombre($row['Nombre']);
+
+
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+
+    public static function getAllProductsCarritoById($mysqli, $idCarrito)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerInfoProductoEnCarritobyID(?)");
+        $stmt->bind_param("s", $idCarrito);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Carrito(
+                $row['idUsuarioCliente'],
+                $row['idProducto'],
+                $row['idStatus'],
+                $row['Cantidad'],
+                $row['PrecioUnitario'],
+                $row['Subtotal'],
+                $row['Descripcion'],
+                $row['Fecha_agregado'],
+                $row['Tipo']
+            );
+            $producto->setIdCarrito($row['idCarrito']);
+            $producto->setImagen($row['Imagen']);
+            $producto->setNombre($row['Nombre']);
+
+
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
     }
 
     public function toJSON()
