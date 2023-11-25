@@ -70,11 +70,15 @@
         <nav>
 
             <a href=<?php echo $urlPerfil ?>>Cuenta</a>
-            <a href="Carrito.php">Carrito</a>
+            <?php
+            if ($rol == 'Comprador') { ?>
+                 <a href="Carrito.php">Carrito</a>
+            <?php }
+            ?>
             <a href="chat.php">Chat</a>
             <?php
             if ($rol == 'Comprador') { ?>
-                <a href="Perfil_Listas.php">Mis Listas</a>
+                <a href="Perfil_Cliente.php">Mis Listas</a>
             <?php }
             ?>
             <a href=<?php echo $url ?>><?php echo $titulo ?></a>

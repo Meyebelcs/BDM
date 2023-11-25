@@ -10,6 +10,7 @@ require_once './components/menu.php';
 
 require_once "../models/Reportes/POV_Reportes.php";
 require_once "../models/Archivo.php";
+require_once "../models/Categoria.php";
 require_once "../models/Material_Inventario.php";
 
 
@@ -126,7 +127,7 @@ if (!empty($_GET['idCategoria'])) {
                                         <?php
                                         if ($rol != 'Vendedor') { ?>
                                             <div style="position: absolute; bottom: 10px; right: 10px;">
-                                                <i class="bi bi-heart" style="margin-right: 10px; font-size: 24px;"></i>
+                                             
                                                 <i class="bi bi-plus-circle ml-2" style="font-size: 24px;"></i>
                                             </div>
                                         <?php } ?>
@@ -231,7 +232,7 @@ if (!empty($_GET['idCategoria'])) {
                             <?php
                             if ($rol != 'Vendedor') { ?>
                             <div style="position: absolute; bottom: 10px; right: 10px;">
-                                <i class="bi bi-heart" style="margin-right: 10px; font-size: 24px;"></i>
+                            
                                 <i class="bi bi-plus-circle ml-2" style="font-size: 24px; padding-right:1rem;"></i>
                             </div>
                             <?php } ?>

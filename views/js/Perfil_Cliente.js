@@ -2,18 +2,6 @@ $(document).ready(function() {
 
     $('.PerfilPrivado').hide();
     $('.PerfilPublico').show();
-
-  $('#switchInput').change(function() {
-      if ($(this).is(':checked')) {
-          $('#switchText').text('Perfil Privado');
-          $('.PerfilPublico').hide();
-          $('.PerfilPrivado').show();
-      } else {
-          $('#switchText').text('Perfil Público');
-          $('.PerfilPrivado').hide();
-          $('.PerfilPublico').show();
-      }
-  });
 });
 
 // Obtén referencias a los elementos del DOM

@@ -1,15 +1,19 @@
-<!-- NOOO HA SIDO PROGRAMADA -->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
 <?php
 session_start();
 
 require_once './components/menu.php';
 
+require_once "../models/Producto.php";
+require_once "../models/Categoria.php";
 
+
+$MasVenStock = Product::getMasVendStock($mysqli);
+$MasRecStock = Product::getMasRecStock($mysqli);
+$MejCalifStock = Product::getMejorCalifStock($mysqli);
+
+$MasVenCoti = Product::getMasVendCoti($mysqli);
+$MasRecCoti = Product::getMasRecCoti($mysqli);
+$MejCalifCoti = Product::getMejorCalifCoti($mysqli);
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +92,7 @@ require_once './components/menu.php';
       </button>
     </div>
 
-    <div class="text-center mb-3" >
+    <div class="text-center mb-3">
 
       <br>
       <h3 class=" p-2 pt-3" id="switchText">Productos en Stock </h3>
@@ -112,36 +116,67 @@ require_once './components/menu.php';
         <!-- Slider main container -->
         <div class="swiper mySwiper">
           <div class="swiper-wrapper">
-            <div class="card swiper-slide" style="width: 23rem;">
-              <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h4 class="card-title mb-0">Pintura de oleo
-                </h4>
-                <small class="card-title mb-0 pb-0">
-                  @arleth_mel
-                </small>
-                <hr class="mt-2">
-                <p class="card-text mb-0 pb-0">
-                  Pinturas inspiradas en el arte de vangogh
-                </p>
-                <div class="d-flex">
 
-                  <p class="card-text me-2">
-                    5
-                  </p>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
 
+            <?php if ($MasRecStock) {
+              foreach ($MasRecStock as $producto) { ?>
+
+                <div class="card swiper-slide" style="width: 20rem;">
+                  <img src="data:image/jpeg;base64,<?php echo base64_encode($producto->getImagen()); ?>"
+                    class="card-img card-img-top mx-auto d-block" alt="Imagen actual" style="width: 300px; height: 300px;">
+                  <div class="card-body">
+                    <h5 class="card-title mb-1">
+                      <?php echo $producto->getNombre(); ?>
+                    </h5>
+                    <small class="card-text mb-1">
+                      <?php echo $producto->getDescripcion(); ?>
+                    </small><br>
+                    <?php
+                    $categoriasbyproduct = Categoria::GetCategoriasPorProducto($mysqli, $producto->getIdProducto());
+
+                    foreach ($categoriasbyproduct as $category) { ?>
+                      <small class="card-text mb-1">
+                        <strong> #
+                          <?php echo $category->getNombre(); ?>
+                        </strong>
+                      </small>
+                    <?php } ?>
+                    <hr class="mt-2">
+                    <p class="card-text mb-1">Precio: $
+                      <?php echo $producto->getPrecio(); ?>
+                    </p>
+                    <p class="card-text mb-1">Cantidad Vendida:
+                      <?php echo $producto->getTotalVendido(); ?>
+                    </p>
+                    <p class="card-text mb-1">Fecha de publicación:
+                      <?php echo $producto->getFecha(); ?>
+                    </p>
+                    <p class="card-text mb-1">Hora de publicación:
+                      <?php echo $producto->getHora(); ?>
+                    </p>
+                    <div class="calificacion pb-2">
+                      <?php
+                      $calif = $producto->getpromedio();
+
+                      for ($i = 1; $i <= 5; $i++) {
+                        if ($calif >= $i) {
+                          echo '<i class="bi bi-star-fill"></i>';
+                        } else {
+                          echo '<i class="bi bi-star"></i>';
+                        }
+                      }
+                      ?>
+                    </div>
+
+                    <a href="Detalle_producto.php?idProductoIndex=<?php echo $producto->getIdProducto(); ?>"
+                      class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                  </div>
                 </div>
-                <h6 class="card-text mb-3 fw-bolder">$
-                  34 MXN
-                </h6>
-                <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-              </div>
-            </div>
+              <?php }
+            }
+            ?>
+
+
 
           </div>
           <div class="swiper-pagination"></div>
@@ -158,34 +193,63 @@ require_once './components/menu.php';
           <div class="swiper-wrapper">
 
 
+          <?php if ($MasVenStock) {
+              foreach ($MasVenStock as $producto) { ?>
 
-            <div class="card swiper-slide" style="width: 23rem;">
-              <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h4 class="card-title mb-0">Pintura de oleo
-                </h4>
-                <small class="card-title mb-0 pb-0">
-                  @arleth_mel
-                </small>
-                <hr class="mt-2">
-                <p class="card-text mb-0 pb-0">
-                  Pinturas inspiradas en el arte de vangogh
-                </p>
-                <div class="d-flex">
+                <div class="card swiper-slide" style="width: 20rem;">
+                  <img src="data:image/jpeg;base64,<?php echo base64_encode($producto->getImagen()); ?>"
+                    class="card-img card-img-top mx-auto d-block" alt="Imagen actual" style="width: 300px; height: 300px;">
+                  <div class="card-body">
+                    <h5 class="card-title mb-1">
+                      <?php echo $producto->getNombre(); ?>
+                    </h5>
+                    <small class="card-text mb-1">
+                      <?php echo $producto->getDescripcion(); ?>
+                    </small><br>
+                    <?php
+                    $categoriasbyproduct = Categoria::GetCategoriasPorProducto($mysqli, $producto->getIdProducto());
 
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
+                    foreach ($categoriasbyproduct as $category) { ?>
+                      <small class="card-text mb-1">
+                        <strong> #
+                          <?php echo $category->getNombre(); ?>
+                        </strong>
+                      </small>
+                    <?php } ?>
+                    <hr class="mt-2">
+                    <p class="card-text mb-1">Precio: $
+                      <?php echo $producto->getPrecio(); ?>
+                    </p>
+                    <p class="card-text mb-1">Cantidad Vendida:
+                      <?php echo $producto->getTotalVendido(); ?>
+                    </p>
+                    <p class="card-text mb-1">Fecha de publicación:
+                      <?php echo $producto->getFecha(); ?>
+                    </p>
+                    <p class="card-text mb-1">Hora de publicación:
+                      <?php echo $producto->getHora(); ?>
+                    </p>
+                    <div class="calificacion pb-2">
+                      <?php
+                      $calif = $producto->getpromedio();
 
+                      for ($i = 1; $i <= 5; $i++) {
+                        if ($calif >= $i) {
+                          echo '<i class="bi bi-star-fill"></i>';
+                        } else {
+                          echo '<i class="bi bi-star"></i>';
+                        }
+                      }
+                      ?>
+                    </div>
+
+                    <a href="Detalle_producto.php?idProductoIndex=<?php echo $producto->getIdProducto(); ?>"
+                      class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                  </div>
                 </div>
-                <h6 class="card-text mb-3 fw-bolder">$
-                  34 MXN
-                </h6>
-                <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-              </div>
-            </div>
+              <?php }
+            }
+            ?>
 
           </div>
           <div class="swiper-pagination"></div>
@@ -201,33 +265,63 @@ require_once './components/menu.php';
         <div class="swiper mySwiper">
           <div class="swiper-wrapper">
 
-            <div class="card swiper-slide" style="width: 23rem;">
-              <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h4 class="card-title mb-0">Pintura de oleo
-                </h4>
-                <small class="card-title mb-0 pb-0">
-                  @arleth_mel
-                </small>
-                <hr class="mt-2">
-                <p class="card-text mb-0 pb-0">
-                  Pinturas inspiradas en el arte de vangogh
-                </p>
-                <div class="d-flex">
+          <?php if ($MejCalifStock) {
+              foreach ($MejCalifStock as $producto) { ?>
 
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
+                <div class="card swiper-slide" style="width: 20rem;">
+                  <img src="data:image/jpeg;base64,<?php echo base64_encode($producto->getImagen()); ?>"
+                    class="card-img card-img-top mx-auto d-block" alt="Imagen actual" style="width: 300px; height: 300px;">
+                  <div class="card-body">
+                    <h5 class="card-title mb-1">
+                      <?php echo $producto->getNombre(); ?>
+                    </h5>
+                    <small class="card-text mb-1">
+                      <?php echo $producto->getDescripcion(); ?>
+                    </small><br>
+                    <?php
+                    $categoriasbyproduct = Categoria::GetCategoriasPorProducto($mysqli, $producto->getIdProducto());
 
+                    foreach ($categoriasbyproduct as $category) { ?>
+                      <small class="card-text mb-1">
+                        <strong> #
+                          <?php echo $category->getNombre(); ?>
+                        </strong>
+                      </small>
+                    <?php } ?>
+                    <hr class="mt-2">
+                    <p class="card-text mb-1">Precio: $
+                      <?php echo $producto->getPrecio(); ?>
+                    </p>
+                    <p class="card-text mb-1">Cantidad Vendida:
+                      <?php echo $producto->getTotalVendido(); ?>
+                    </p>
+                    <p class="card-text mb-1">Fecha de publicación:
+                      <?php echo $producto->getFecha(); ?>
+                    </p>
+                    <p class="card-text mb-1">Hora de publicación:
+                      <?php echo $producto->getHora(); ?>
+                    </p>
+                    <div class="calificacion pb-2">
+                      <?php
+                      $calif = $producto->getpromedio();
+
+                      for ($i = 1; $i <= 5; $i++) {
+                        if ($calif >= $i) {
+                          echo '<i class="bi bi-star-fill"></i>';
+                        } else {
+                          echo '<i class="bi bi-star"></i>';
+                        }
+                      }
+                      ?>
+                    </div>
+
+                    <a href="Detalle_producto.php?idProductoIndex=<?php echo $producto->getIdProducto(); ?>"
+                      class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                  </div>
                 </div>
-                <h6 class="card-text mb-3 fw-bolder">$
-                  34 MXN
-                </h6>
-                <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-              </div>
-            </div>
+              <?php }
+            }
+            ?>
 
           </div>
           <div class="swiper-pagination"></div>
@@ -247,36 +341,63 @@ require_once './components/menu.php';
 
 
 
-            <div class="card swiper-slide" style="width: 23rem;">
-              <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h4 class="card-title mb-0">Pintura de oleo
-                </h4>
-                <small class="card-title mb-0 pb-0">
-                  @arleth_mel
-                </small>
-                <hr class="mt-2">
-                <p class="card-text mb-0 pb-0">
-                  Pinturas inspiradas en el arte de vangogh
-                </p>
-                <div class="d-flex">
+          <?php if ($MasRecCoti) {
+              foreach ($MasRecCoti as $producto) { ?>
 
-                  <p class="card-text me-2">
-                    5
-                  </p>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
+                <div class="card swiper-slide" style="width: 20rem;">
+                  <img src="data:image/jpeg;base64,<?php echo base64_encode($producto->getImagen()); ?>"
+                    class="card-img card-img-top mx-auto d-block" alt="Imagen actual" style="width: 300px; height: 300px;">
+                  <div class="card-body">
+                    <h5 class="card-title mb-1">
+                      <?php echo $producto->getNombre(); ?>
+                    </h5>
+                    <small class="card-text mb-1">
+                      <?php echo $producto->getDescripcion(); ?>
+                    </small><br>
+                    <?php
+                    $categoriasbyproduct = Categoria::GetCategoriasPorProducto($mysqli, $producto->getIdProducto());
 
+                    foreach ($categoriasbyproduct as $category) { ?>
+                      <small class="card-text mb-1">
+                        <strong> #
+                          <?php echo $category->getNombre(); ?>
+                        </strong>
+                      </small>
+                    <?php } ?>
+                    <hr class="mt-2">
+                    <p class="card-text mb-1">Precio: $
+                      <?php echo $producto->getPrecio(); ?>
+                    </p>
+                    <p class="card-text mb-1">Cantidad Vendida:
+                      <?php echo $producto->getTotalVendido(); ?>
+                    </p>
+                    <p class="card-text mb-1">Fecha de publicación:
+                      <?php echo $producto->getFecha(); ?>
+                    </p>
+                    <p class="card-text mb-1">Hora de publicación:
+                      <?php echo $producto->getHora(); ?>
+                    </p>
+                    <div class="calificacion pb-2">
+                      <?php
+                      $calif = $producto->getpromedio();
+
+                      for ($i = 1; $i <= 5; $i++) {
+                        if ($calif >= $i) {
+                          echo '<i class="bi bi-star-fill"></i>';
+                        } else {
+                          echo '<i class="bi bi-star"></i>';
+                        }
+                      }
+                      ?>
+                    </div>
+
+                    <a href="Detalle_producto.php?idProductoIndex=<?php echo $producto->getIdProducto(); ?>"
+                      class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                  </div>
                 </div>
-                <h6 class="card-text mb-3 fw-bolder">$
-                  34 MXN
-                </h6>
-                <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-              </div>
-            </div>
+              <?php }
+            }
+            ?>
 
           </div>
           <div class="swiper-pagination"></div>
@@ -294,33 +415,63 @@ require_once './components/menu.php';
 
 
 
-            <div class="card swiper-slide" style="width: 23rem;">
-              <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h4 class="card-title mb-0">Pintura de oleo
-                </h4>
-                <small class="card-title mb-0 pb-0">
-                  @arleth_mel
-                </small>
-                <hr class="mt-2">
-                <p class="card-text mb-0 pb-0">
-                  Pinturas inspiradas en el arte de vangogh
-                </p>
-                <div class="d-flex">
+          <?php if ($MasVenCoti) {
+              foreach ($MasVenCoti as $producto) { ?>
 
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
+                <div class="card swiper-slide" style="width: 20rem;">
+                  <img src="data:image/jpeg;base64,<?php echo base64_encode($producto->getImagen()); ?>"
+                    class="card-img card-img-top mx-auto d-block" alt="Imagen actual" style="width: 300px; height: 300px;">
+                  <div class="card-body">
+                    <h5 class="card-title mb-1">
+                      <?php echo $producto->getNombre(); ?>
+                    </h5>
+                    <small class="card-text mb-1">
+                      <?php echo $producto->getDescripcion(); ?>
+                    </small><br>
+                    <?php
+                    $categoriasbyproduct = Categoria::GetCategoriasPorProducto($mysqli, $producto->getIdProducto());
 
+                    foreach ($categoriasbyproduct as $category) { ?>
+                      <small class="card-text mb-1">
+                        <strong> #
+                          <?php echo $category->getNombre(); ?>
+                        </strong>
+                      </small>
+                    <?php } ?>
+                    <hr class="mt-2">
+                    <p class="card-text mb-1">Precio: $
+                      <?php echo $producto->getPrecio(); ?>
+                    </p>
+                    <p class="card-text mb-1">Cantidad Vendida:
+                      <?php echo $producto->getTotalVendido(); ?>
+                    </p>
+                    <p class="card-text mb-1">Fecha de publicación:
+                      <?php echo $producto->getFecha(); ?>
+                    </p>
+                    <p class="card-text mb-1">Hora de publicación:
+                      <?php echo $producto->getHora(); ?>
+                    </p>
+                    <div class="calificacion pb-2">
+                      <?php
+                      $calif = $producto->getpromedio();
+
+                      for ($i = 1; $i <= 5; $i++) {
+                        if ($calif >= $i) {
+                          echo '<i class="bi bi-star-fill"></i>';
+                        } else {
+                          echo '<i class="bi bi-star"></i>';
+                        }
+                      }
+                      ?>
+                    </div>
+
+                    <a href="Detalle_producto.php?idProductoIndex=<?php echo $producto->getIdProducto(); ?>"
+                      class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                  </div>
                 </div>
-                <h6 class="card-text mb-3 fw-bolder">$
-                  34 MXN
-                </h6>
-                <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-              </div>
-            </div>
+              <?php }
+            }
+            ?>
 
           </div>
           <div class="swiper-pagination"></div>
@@ -336,35 +487,63 @@ require_once './components/menu.php';
         <div class="swiper mySwiper">
           <div class="swiper-wrapper">
 
-            <div class="card swiper-slide" style="width: 23rem;">
-              <img src="./css/assets/vangogh.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h4 class="card-title mb-0">Pintura de oleo
-                </h4>
-                <small class="card-title mb-0 pb-0">
-                  @arleth_mel
-                </small>
-                <hr class="mt-2">
-                <p class="card-text mb-0 pb-0">
-                  Pinturas inspiradas en el arte de vangogh
-                </p>
-                <div class="d-flex">
+          <?php if ($MejCalifCoti) {
+              foreach ($MejCalifCoti as $producto) { ?>
 
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
+                <div class="card swiper-slide" style="width: 20rem;">
+                  <img src="data:image/jpeg;base64,<?php echo base64_encode($producto->getImagen()); ?>"
+                    class="card-img card-img-top mx-auto d-block" alt="Imagen actual" style="width: 300px; height: 300px;">
+                  <div class="card-body">
+                    <h5 class="card-title mb-1">
+                      <?php echo $producto->getNombre(); ?>
+                    </h5>
+                    <small class="card-text mb-1">
+                      <?php echo $producto->getDescripcion(); ?>
+                    </small><br>
+                    <?php
+                    $categoriasbyproduct = Categoria::GetCategoriasPorProducto($mysqli, $producto->getIdProducto());
 
+                    foreach ($categoriasbyproduct as $category) { ?>
+                      <small class="card-text mb-1">
+                        <strong> #
+                          <?php echo $category->getNombre(); ?>
+                        </strong>
+                      </small>
+                    <?php } ?>
+                    <hr class="mt-2">
+                    <p class="card-text mb-1">Precio: $
+                      <?php echo $producto->getPrecio(); ?>
+                    </p>
+                    <p class="card-text mb-1">Cantidad Vendida:
+                      <?php echo $producto->getTotalVendido(); ?>
+                    </p>
+                    <p class="card-text mb-1">Fecha de publicación:
+                      <?php echo $producto->getFecha(); ?>
+                    </p>
+                    <p class="card-text mb-1">Hora de publicación:
+                      <?php echo $producto->getHora(); ?>
+                    </p>
+                    <div class="calificacion pb-2">
+                      <?php
+                      $calif = $producto->getpromedio();
+
+                      for ($i = 1; $i <= 5; $i++) {
+                        if ($calif >= $i) {
+                          echo '<i class="bi bi-star-fill"></i>';
+                        } else {
+                          echo '<i class="bi bi-star"></i>';
+                        }
+                      }
+                      ?>
+                    </div>
+
+                    <a href="Detalle_producto.php?idProductoIndex=<?php echo $producto->getIdProducto(); ?>"
+                      class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                  </div>
                 </div>
-                <h6 class="card-text mb-3 fw-bolder">$
-                  34 MXN
-                </h6>
-                <a href="Detalle_producto.php" class="btn btn-secondary">Saber más</a>
-              </div>
-            </div>
-          </div>
-
+              <?php }
+            }
+            ?>
         </div>
         <div class="swiper-pagination"></div>
         <div class="swiper-button-prev"></div>

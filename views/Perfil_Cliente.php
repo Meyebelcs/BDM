@@ -1,13 +1,24 @@
-<!-- NOOO HA SIDO PROGRAMADA -->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
 <?php
 session_start();
 
 require_once './components/menu.php';
+if (empty($_GET['idUsuario'])) {
+    header("Location: home.php");
+    exit;
+}
+
+$idUsuario = $_GET['idUsuario'];
+
+if ($idUser != $idUsuario) {
+    //validar que tipo de perfil es, priv o publico
+ /*    if ($perfilEsPrivado) { 
+        echo '$(".PerfilPrivado").show();';
+        echo '$(".PerfilPublico").hide();';
+    } else {
+        echo '$(".PerfilPrivado").hide();';
+        echo '$(".PerfilPublico").show();';
+    } */
+}
 
 ?>
 <!DOCTYPE html>
@@ -47,10 +58,10 @@ require_once './components/menu.php';
                         <div class="text-center col-12 mb-3 ">
                             <h6 class="p-1 pt-3" id="switchText">Perfil Privado</h6>
                             <!-- Interruptor de bolita -->
-                            <label class="switch">
+                            <!--  <label class="switch">
                                 <input type="checkbox" id="switchInput">
                                 <span class="slider round"></span>
-                            </label>
+                            </label> -->
                         </div>
                     </div>
                 </div>
@@ -81,7 +92,8 @@ require_once './components/menu.php';
                                 <p class="card-text mb-2">15 elementos</p>
 
 
-                                <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
+                                <a href="Perfil_Listas.php?idLista=3" class="btn btn-secondary mb-1" id="">Ver
+                                    detalles</a>
                             </div>
                         </div>
                     </div>

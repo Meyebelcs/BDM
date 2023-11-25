@@ -78,6 +78,7 @@ BEGIN
     SELECT
         c.*, 
         u.Username,
+        u.idUsuario,
         u.Imagen AS ImagenUsuario
     FROM
         Comentario c

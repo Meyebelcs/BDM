@@ -11,9 +11,56 @@ class Product
     private $precio;
     private $inventario;
     private $fechaPublicacion;
+    private $Fecha;
+    private $Hora;
     private $fechaActualizacion;
     private $tipo;
+    private $imagen;
+    private $promedio;
+    private $TotalVendido;
+    public function getFecha()
+    {
+        return $this->Fecha;
+    }
+    public function setFecha($Fecha)
+    {
+        $this->Fecha = $Fecha;
+    }
+    public function getHora()
+    {
+        return $this->Hora;
+    }
+    public function setHora($Hora)
+    {
+        $this->Hora = $Hora;
+    }
+    public function getTotalVendido()
+    {
+        return $this->TotalVendido;
+    }
 
+    public function setTotalVendido($TotalVendido)
+    {
+        $this->TotalVendido = $TotalVendido;
+    }
+    public function getimagen()
+    {
+        return $this->imagen;
+    }
+
+    public function setimagen($imagen)
+    {
+        $this->imagen = $imagen;
+    }
+    public function getpromedio()
+    {
+        return $this->promedio;
+    }
+
+    public function setpromedio($promedio)
+    {
+        $this->promedio = $promedio;
+    }
     public function getIdProducto()
     {
         return $this->idProducto;
@@ -147,6 +194,10 @@ class Product
         $this->fechaPublicacion = $fechaPublicacion;
         $this->fechaActualizacion = $fechaActualizacion;
         $this->tipo = $tipo;
+
+        // Divide la cadena en fecha y hora
+        list($this->Fecha, $this->Hora) = explode(' ', $this->fechaPublicacion);
+       
     }
 
     static public function parseJson($json)
@@ -246,8 +297,228 @@ class Product
         $result = $stmt->get_result();
         $agotado = $result->fetch_assoc();
 
-        return $agotado ;
+        return $agotado;
     }
+
+    public static function getMasRecStock($mysqli)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerProductosMasRecientesYTipoStock()");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Product(
+                $row['idAdminAutorización'],
+                $row['idStatus'],
+                $row['idUsuarioCreador'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                $row['Inventario'],
+                $row['Fecha_publicación'],
+                $row['Fecha_actualizacion'],
+                $row['Tipo']
+            );
+            $producto->setimagen($row['Imagen']);
+            $producto->setTotalVendido($row['TotalVendido']);
+            $producto->setIdProducto($row['idProducto']);
+            $producto->setpromedio($row['promedio']);
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+    public static function getMasVendCoti($mysqli)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerProductosMasVendidosTipoCotizacion()");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Product(
+                $row['idAdminAutorización'],
+                $row['idStatus'],
+                $row['idUsuarioCreador'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                $row['Inventario'],
+                $row['Fecha_publicación'],
+                $row['Fecha_actualizacion'],
+                $row['Tipo']
+            );
+            $producto->setimagen($row['Imagen']);
+            $producto->setTotalVendido($row['TotalVendido']);
+            $producto->setIdProducto($row['idProducto']);
+            $producto->setpromedio($row['promedio']);
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+    public static function getMasRecCoti($mysqli)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerProductosMasRecientesYTipoCotizacion()");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Product(
+                $row['idAdminAutorización'],
+                $row['idStatus'],
+                $row['idUsuarioCreador'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                $row['Inventario'],
+                $row['Fecha_publicación'],
+                $row['Fecha_actualizacion'],
+                $row['Tipo']
+            );
+            $producto->setimagen($row['Imagen']);
+            $producto->setTotalVendido($row['TotalVendido']);
+            $producto->setIdProducto($row['idProducto']);
+            $producto->setpromedio($row['promedio']);
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+    public static function getMejorCalifCoti($mysqli)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerProductosMejorCalificadosYTipoCotizacion()");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Product(
+                $row['idAdminAutorización'],
+                $row['idStatus'],
+                $row['idUsuarioCreador'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                $row['Inventario'],
+                $row['Fecha_publicación'],
+                $row['Fecha_actualizacion'],
+                $row['Tipo']
+            );
+            $producto->setimagen($row['Imagen']);
+            $producto->setTotalVendido($row['TotalVendido']);
+            $producto->setIdProducto($row['idProducto']);
+            $producto->setpromedio($row['promedio']);
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+    public static function getMasVendStock($mysqli)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerProductosMasVendidosTipoStock()");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Product(
+                $row['idAdminAutorización'],
+                $row['idStatus'],
+                $row['idUsuarioCreador'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                $row['Inventario'],
+                $row['Fecha_publicación'],
+                $row['Fecha_actualizacion'],
+                $row['Tipo']
+            );
+            $producto->setimagen($row['Imagen']);
+            $producto->setTotalVendido($row['TotalVendido']);
+            $producto->setIdProducto($row['idProducto']);
+            $producto->setpromedio($row['promedio']);
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+
+    public static function getMejorCalifStock($mysqli)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerProductosMejorCalificadosYTipoStock()");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Product(
+                $row['idAdminAutorización'],
+                $row['idStatus'],
+                $row['idUsuarioCreador'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                $row['Inventario'],
+                $row['Fecha_publicación'],
+                $row['Fecha_actualizacion'],
+                $row['Tipo']
+            );
+            $producto->setimagen($row['Imagen']);
+            $producto->setTotalVendido($row['TotalVendido']);
+            $producto->setIdProducto($row['idProducto']);
+            $producto->setpromedio($row['promedio']);
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+
+
     public function toJSON()
     {
         return get_object_vars($this);

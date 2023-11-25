@@ -44,10 +44,7 @@ require_once './components/menu.php';
                         <h4 id="nombre_Inst">Melany Arleth Jiménez Gómez</h4>
                         <h6>@arleth_mel</h6>
                     </div>
-                    <div class="col-12 text-center mt-3">
-                        <a href="chat.php" class="btn btn-secondary">Enviar
-                            Mensaje</a>
-                    </div>
+                   
                 </div>
             </div>
         </div>

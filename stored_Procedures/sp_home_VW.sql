@@ -12,9 +12,17 @@ CREATE VIEW ObtenerProducMejorCalifiStock  AS
         p.Inventario AS Inventario,
         p.Fecha_publicación AS Fecha_publicación,
         p.Fecha_actualizacion AS Fecha_actualizacion,
-        p.Tipo AS Tipo
+        p.Tipo AS Tipo,
+         pc.promedio AS promedio,
+          (SELECT Archivo.Archivo
+            FROM Archivo
+            WHERE Archivo.idProducto = P.idProducto
+            ORDER BY Archivo.idArchivo DESC
+            LIMIT 1) AS Imagen,
+          SUM(v.Cantidad) AS TotalVendido
     FROM Producto p
     INNER JOIN PromedioCalificacion pc ON p.idProducto = pc.idProducto
+      LEFT JOIN Venta v ON p.idProducto = v.idProducto
     WHERE p.Tipo = 'Stock'
     ORDER BY pc.promedio DESC
     LIMIT 6;
@@ -36,8 +44,11 @@ BEGIN
         Inventario,
         Fecha_publicación,
         Fecha_actualizacion,
-        Tipo
-    FROM ObtenerProducMejorCalifiStock
+        Tipo,
+        promedio,
+        TotalVendido,
+        Imagen
+    FROM ObtenerProducMejorCalifiStock;
 END // 
 
 DELIMITER ;
@@ -56,8 +67,17 @@ CREATE VIEW ObtenerProducMasReciStock AS
         p.Inventario AS Inventario,
         p.Fecha_publicación AS Fecha_publicación,
         p.Fecha_actualizacion AS Fecha_actualizacion,
-        p.Tipo AS Tipo
+        p.Tipo AS Tipo,
+          pc.promedio AS promedio,
+           (SELECT Archivo.Archivo
+            FROM Archivo
+            WHERE Archivo.idProducto = P.idProducto
+            ORDER BY Archivo.idArchivo DESC
+            LIMIT 1) AS Imagen,
+           SUM(v.Cantidad) AS TotalVendido
     FROM Producto p
+     INNER JOIN PromedioCalificacion pc ON p.idProducto = pc.idProducto
+       LEFT JOIN Venta v ON p.idProducto = v.idProducto
     WHERE p.Tipo = 'Stock'
     ORDER BY p.Fecha_publicación DESC
     LIMIT 6;
@@ -79,8 +99,11 @@ BEGIN
         Inventario,
         Fecha_publicación,
         Fecha_actualizacion,
-        Tipo
-    FROM ObtenerProducMasReciStock
+        Tipo,
+        promedio,
+        TotalVendido,
+        Imagen
+    FROM ObtenerProducMasReciStock;
 END //
 
 DELIMITER ;
@@ -99,9 +122,16 @@ CREATE VIEW ObtenerProductosMasVendiStock AS
         p.Fecha_publicación AS Fecha_publicación,
         p.Fecha_actualizacion AS Fecha_actualizacion,
         p.Tipo AS Tipo,
-        SUM(v.Cantidad) AS TotalVendido
+         (SELECT Archivo.Archivo
+            FROM Archivo
+            WHERE Archivo.idProducto = P.idProducto
+            ORDER BY Archivo.idArchivo DESC
+            LIMIT 1) AS Imagen,
+        SUM(v.Cantidad) AS TotalVendido,
+         pc.promedio AS promedio
     FROM Producto p
     LEFT JOIN Venta v ON p.idProducto = v.idProducto
+     INNER JOIN PromedioCalificacion pc ON p.idProducto = pc.idProducto
     WHERE p.Tipo = 'Stock'
     GROUP BY p.idProducto, p.idAdminAutorización, p.idStatus, p.idUsuarioCreador, p.Nombre, p.Descripción, p.Precio, p.Inventario, p.Fecha_publicación, p.Fecha_actualizacion, p.Tipo
     ORDER BY TotalVendido DESC
@@ -125,8 +155,10 @@ BEGIN
         Fecha_publicación,
         Fecha_actualizacion,
         Tipo,
-        TotalVendido
-    FROM ObtenerProductosMasVendiStock
+        TotalVendido,
+        promedio,
+        Imagen
+    FROM ObtenerProductosMasVendiStock;
 END //
 
 DELIMITER ;
@@ -147,9 +179,16 @@ CREATE VIEW ObtenerProduCMejorCalifiCotizacion AS
         p.Fecha_publicación AS Fecha_publicación,
         p.Fecha_actualizacion AS Fecha_actualizacion,
         p.Tipo AS Tipo,
-        pc.promedio AS promedio
+        pc.promedio AS promedio,
+         (SELECT Archivo.Archivo
+            FROM Archivo
+            WHERE Archivo.idProducto = P.idProducto
+            ORDER BY Archivo.idArchivo DESC
+            LIMIT 1) AS Imagen,
+         SUM(v.Cantidad) AS TotalVendido
     FROM Producto p
     JOIN PromedioCalificacion pc ON p.idProducto = pc.idProducto
+      LEFT JOIN Venta v ON p.idProducto = v.idProducto
     WHERE p.Tipo = 'Cotización'
     ORDER BY pc.promedio DESC
     LIMIT 6;
@@ -172,8 +211,10 @@ BEGIN
         Fecha_publicación,
         Fecha_actualizacion,
         Tipo,
-        promedio
-    FROM ObtenerProduCMejorCalifiCotizacion
+        promedio,
+        TotalVendido,
+        Imagen
+    FROM ObtenerProduCMejorCalifiCotizacion;
 END //
 
 DELIMITER ;
@@ -193,8 +234,17 @@ CREATE VIEW ObtenerProduCMasReciCotizacion AS
         p.Inventario AS Inventario,
         p.Fecha_publicación AS Fecha_publicación,
         p.Fecha_actualizacion AS Fecha_actualizacion,
-        p.Tipo AS Tipo
+        p.Tipo AS Tipo,
+         pc.promedio AS promedio,
+          (SELECT Archivo.Archivo
+            FROM Archivo
+            WHERE Archivo.idProducto = P.idProducto
+            ORDER BY Archivo.idArchivo DESC
+            LIMIT 1) AS Imagen,
+          SUM(v.Cantidad) AS TotalVendido
     FROM Producto p
+    JOIN PromedioCalificacion pc ON p.idProducto = pc.idProducto
+      LEFT JOIN Venta v ON p.idProducto = v.idProducto
     WHERE p.Tipo = 'Cotización'
     ORDER BY p.Fecha_publicación DESC
     LIMIT 6;
@@ -216,8 +266,11 @@ BEGIN
         Inventario,
          Fecha_publicación,
         Fecha_actualizacion,
-        Tipo
-    FROM ObtenerProduCMasReciCotizacion
+        Tipo,
+        promedio,
+        TotalVendido,
+        Imagen
+    FROM ObtenerProduCMasReciCotizacion;
 END //
 
 DELIMITER ;
@@ -238,9 +291,16 @@ CREATE VIEW ObtenerProducMasVendCotizacion AS
         p.Fecha_publicación AS Fecha_publicación,
         p.Fecha_actualizacion AS Fecha_actualizacion,
         p.Tipo AS Tipo,
-        SUM(v.Cantidad) AS TotalVendido
+        SUM(v.Cantidad) AS TotalVendido,
+         (SELECT Archivo.Archivo
+            FROM Archivo
+            WHERE Archivo.idProducto = P.idProducto
+            ORDER BY Archivo.idArchivo DESC
+            LIMIT 1) AS Imagen,
+          pc.promedio AS promedio
     FROM Producto p
     LEFT JOIN Venta v ON p.idProducto = v.idProducto
+     JOIN PromedioCalificacion pc ON p.idProducto = pc.idProducto
     WHERE p.Tipo = 'Cotización'
     GROUP BY p.idProducto, p.idAdminAutorización, p.idStatus, p.idUsuarioCreador, p.Nombre, p.Descripción, p.Precio, p.Inventario, p.Fecha_publicación, p.Fecha_actualizacion, p.Tipo
     ORDER BY TotalVendido DESC
@@ -266,8 +326,10 @@ BEGIN
         Fecha_publicación,
         Fecha_actualizacion,
         Tipo,
-        TotalVendido
-    FROM ObtenerProducMasVendCotizacion
+        TotalVendido,
+        promedio,
+        Imagen
+    FROM ObtenerProducMasVendCotizacion;
 END //
 
 DELIMITER ;

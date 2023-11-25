@@ -48,10 +48,10 @@ $ListaInfo = Lista::findListaById($mysqli, (int) $idLista );
             <div class="container-fluid bg-tertiary">
                 <div class="profile_Section row p-4">
                     <div class="col-12 text-center mb-3">
-                    <img src="data:image/jpeg;base64,<?php echo base64_encode($ListaInfo->getImagen()); ?>"
+                  <!--   <img src="data:image/jpeg;base64,<?php echo base64_encode($ListaInfo->getImagen()); ?>"
                                     class="card-img card-img-top" alt="Imagen actual" style="width: 300px; height: 300px;">
                         <img src="data:image/jpeg;base64,<?php echo base64_encode($ListaInfo->getImagen()); ?>"
-                            id="foto_perfil" class="img-hero square-image" alt="">
+                            id="foto_perfil" class="img-hero square-image" alt=""> -->
                     </div>
                     <div class="col-12 text-center">
                         <h4><?php echo $ListaInfo->getNombre(); ?></h4>
@@ -135,7 +135,7 @@ $ListaInfo = Lista::findListaById($mysqli, (int) $idLista );
                                     <?php
                                     if ($rol != 'Vendedor') { ?>
                                         <div style="position: absolute; bottom: 10px; right: 10px;">
-                                            <i class="bi bi-heart" style="margin-right: 10px; font-size: 24px;"></i>
+                                           
                                             <i class="bi bi-plus-circle ml-2" style="font-size: 24px;"></i>
                                         </div>
                                     <?php } ?>
@@ -235,7 +235,7 @@ $ListaInfo = Lista::findListaById($mysqli, (int) $idLista );
                                 <?php
                                 if ($rol != 'Vendedor') { ?>
                                     <div style="position: absolute; bottom: 10px; right: 10px;">
-                                        <i class="bi bi-heart" style="margin-right: 10px; font-size: 24px;"></i>
+                                      
                                         <i class="bi bi-plus-circle ml-2" style="font-size: 24px; padding-right:1rem;"></i>
                                     </div>
                                 <?php } ?>

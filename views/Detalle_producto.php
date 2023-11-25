@@ -140,20 +140,23 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                                 ?>
                             </div>
                             <?php
-                            if ($agotado['EstaAgotado'] == 1) { ?>
-                                <a class="btn w-100" style="color:red;">
-                                    AGOTADO
-                                </a>
-                            <?php } else if ($producto->getTipo() == 'Cotizacion') { ?>
-                                <a href="chat.php?idProductoIndex=<?php echo $idProductoSelected ?>" class="btn w-100">
-                                   Enviar Mensaje
-                                </a>
-                            <?php }else{ ?>
-                                <a href="Carrito.php?idProductoIndex=<?php echo $idProductoSelected ?>" class="btn w-100"><i
-                                        class="bi bi-cart-fill"></i>
-                                    Agregar al carrito
-                                </a>
-                            <?php } ?>
+                            if ($rol != 'Vendedor') {
+                                if ($agotado['EstaAgotado'] == 1) { ?>
+                                    <a class="btn w-100" style="color:red;">
+                                        AGOTADO
+                                    </a>
+                                <?php } else if ($producto->getTipo() == 'Cotizacion') { ?>
+                                        <a href="chat.php?idProductoIndex=<?php echo $idProductoSelected ?>" class="btn w-100">
+                                            Enviar Mensaje
+                                        </a>
+                                <?php } else { ?>
+                                        <a href="Carrito.php?idProductoIndex=<?php echo $idProductoSelected ?>" class="btn w-100"><i
+                                                class="bi bi-cart-fill"></i>
+                                            Agregar al carrito
+                                        </a>
+                                <?php }
+                            } ?>
+
 
 
                         </div>
@@ -227,7 +230,8 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                         echo '<img src="../Files/' . $comment->getimagenUsuario() . '" alt="Imagen de usuario" style="width: 35px; height: 35px; border-radius: 50%;">';
 
                         echo "<br>";
-                        echo '<strong>' . $comment->getusername() . "</strong><br>";
+                        echo '<a href="Perfil_Cliente.php?idUsuario=' . $comment->getidUsuario() . '"><strong>' . $comment->getUsername() . '</strong></a><br>';
+
                         $calificacion = $comment->getCalificacion();
                         echo 'Calificación: ';
                         for ($i = 1; $i <= 5; $i++) {

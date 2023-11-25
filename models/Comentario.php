@@ -10,6 +10,16 @@ class Comentario
     private $comentario;
     private $username;
     private $imagenUsuario;
+    private $idUsuario;
+    public function setidUsuario($idUsuario)
+    {
+        $this->idUsuario = $idUsuario;
+    }
+
+    public function getidUsuario()
+    {
+        return $this->idUsuario;
+    }
     public function setUsername($username)
     {
         $this->username = $username;
@@ -210,6 +220,7 @@ class Comentario
             );
     
             $comment->setIdComentario($row['idComentario']);
+            $comment->setidUsuario($row['idUsuario']);
             $comment->setUsername($row['Username']);
             $comment->setImagenUsuario($row['ImagenUsuario']);
     
