@@ -459,6 +459,41 @@ class POV_ReportesVendedor
         return $products;
     }
 
+    public static function getCotichat($mysqli, $idProducto)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL sp_Filtro(?)");
+        $stmt->bind_param("s", $idProducto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new POV_ReportesVendedor(
+                $row['idProducto'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                $row['Inventario'],
+                $row['Fecha_Hr'],
+                $row['Imagen'],
+                $row['CantidadVendida'],
+                $row['TotalIngresos'],
+                $row['PromedioCalificacion']
+            );
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+
+
+        $stmt->close();
+
+        return $products;
+    }
+
     
     public function toJSON()
     {

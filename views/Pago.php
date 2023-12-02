@@ -16,7 +16,7 @@ $totalAPagar = 0;
 if (isset($_GET['idCarritos'])) {
     // Obtener los ID de carritos desde la URL y convertirlos a un array
     $idCarritos = explode(',', $_GET['idCarritos']);
-    
+
 
 } else {
     // Si no se proporcionaron los ID de carritos, muestra un mensaje de error o realiza otra acción
@@ -140,7 +140,8 @@ if (isset($_GET['idCarritos'])) {
                         ?>
                         <div class="row">
                             <div class="col-2">
-                                <img src="./css/assets/vangogh.png" alt="" height="50px">
+                                <img src="data:image/jpeg;base64,<?php echo base64_encode($Producto->getImagen()); ?>"
+                                    alt="" height="50px">
                             </div>
                             <div class="col-8 ms-3">
                                 <label for="inputEmail4" class="form-label">
@@ -176,7 +177,8 @@ if (isset($_GET['idCarritos'])) {
                     </div>
 
 
-                    <input type="hidden" id="idCarritosInput" name="idCarritos" value="<?php echo implode(',', $idCarritos); ?>">
+                    <input type="hidden" id="idCarritosInput" name="idCarritos"
+                        value="<?php echo implode(',', $idCarritos); ?>">
 
                     <div class="row mt-3 mb-3 align-items-center">
                         <div class="col-12">

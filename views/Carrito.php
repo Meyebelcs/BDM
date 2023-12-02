@@ -4,6 +4,12 @@ session_start();
 require_once './components/menu.php';
 require_once "../models/Carrito.php";
 
+
+
+
+
+
+
 $productosStock = Carrito::getAllProductsCarrito($mysqli, $idUser, 5);
 $productosCotizacion = Carrito::getAllProductsCarrito($mysqli, $idUser, 6);
 

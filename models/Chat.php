@@ -7,6 +7,59 @@ class Chat
     private $idStatus;
     private $idProducto;
     private $fechaCreacion;
+    private $ImagenCliente;
+    private $ImagenVendedor;
+    private $NombreVendedor;
+
+    private $NombreCliente;
+    private $idCarrito;
+
+    public function getidCarrito()
+    {
+        return $this->idCarrito;
+    }
+
+    public function setidCarrito($idCarrito)
+    {
+        $this->idCarrito = $idCarrito;
+    }
+    public function getNombreVendedor()
+    {
+        return $this->NombreVendedor;
+    }
+
+    public function setNombreVendedor($NombreVendedor)
+    {
+        $this->NombreVendedor = $NombreVendedor;
+    }
+    public function getNombreCliente()
+    {
+        return $this->NombreCliente;
+    }
+
+    public function setNombreCliente($NombreCliente)
+    {
+        $this->NombreCliente = $NombreCliente;
+    }
+    public function getImagenVendedor()
+    {
+        return $this->ImagenVendedor;
+    }
+
+    public function setImagenVendedor($ImagenVendedor)
+    {
+        $this->ImagenVendedor = $ImagenVendedor;
+    }
+    public function getImagenCliente()
+    {
+        return $this->ImagenCliente;
+    }
+
+    public function setImagenCliente($ImagenCliente)
+    {
+        $this->ImagenCliente = $ImagenCliente;
+    }
+
 
     public function getIdChat()
     {
@@ -132,6 +185,52 @@ class Chat
         return $chat ? self::parseJson($chat) : null;
     }
 
+    public static function findifexist($mysqli, $idChat, $idProduct)
+    {
+        $stmt = $mysqli->prepare("CALL sp_ifExistCarritoProduct(?, ?)");
+        $stmt->bind_param("ii", $idProduct, $idChat);  // Cambio en esta línea
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $chat = $result->fetch_assoc();
+
+        return $chat ? self::parseJson($chat) : null;
+    }
+
+    public static function findifexist2($mysqli, $idChat, $idProduct)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL sp_ifExistCarritoProduct2(?, ?)");
+        $stmt->bind_param("ii", $idProduct, $idChat);  // Cambio en esta línea
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Chat(
+                0,
+                0,
+                0,
+                0,
+                0
+            );
+            $producto->setidCarrito($row['idCarrito']);
+
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+
+
+
+
     public function updateChat($mysqli)
     {
         $stmt = $mysqli->prepare("CALL sp_UpdateChat(?, ?, ?)");
@@ -147,6 +246,52 @@ class Chat
         } else {
             return false; // Error en la actualización
         }
+    }
+
+    public static function getChatsByUser($mysqli, $idUser)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerChatsPorUsuario(?)");
+        $stmt->bind_param("i", $idUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Chat(
+                $row['idUsuarioCliente'],
+                $row['idUsuarioVendedor'],
+                $row['idStatus'],
+                $row['idProducto'],
+                $row['Fecha_creacion']
+            );
+            $producto->setIdChat($row['idChat']);
+            $producto->setImagenCliente($row['ImagenCliente']);
+            $producto->setImagenVendedor($row['ImagenVendedor']);
+            $producto->setNombreCliente($row['NombreCliente']);
+            $producto->setNombreVendedor($row['NombreVendedor']);
+
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+    public static function getLastidChat($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL GetLastChatId()");
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $chat = $result->fetch_assoc();
+        $stmt->close();
+        return $chat ? Chat::parseJson($chat) : null;
     }
 
 

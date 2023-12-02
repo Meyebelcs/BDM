@@ -61,3 +61,20 @@ END;
 //
 
 DELIMITER ;
+---------
+DELIMITER //
+
+CREATE TRIGGER after_insert_carrito
+AFTER INSERT
+ON Carrito FOR EACH ROW
+
+BEGIN
+
+        -- Actualizar el inventario en la tabla Producto
+        UPDATE Producto
+        SET Inventario = Inventario - NEW.Cantidad
+        WHERE idProducto = NEW.idProducto;
+   
+END //
+
+DELIMITER ;

@@ -68,3 +68,66 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-----------LAST idProducto----------
+DELIMITER //
+
+CREATE FUNCTION getLastIdChat() RETURNS INT
+BEGIN
+    DECLARE ultimoId INT;
+
+    -- Seleccionar el último idProducto 
+    SELECT idChat INTO ultimoId
+    FROM Chat
+    ORDER BY idChat DESC
+    LIMIT 1;
+
+    RETURN ultimoId;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetLastChatId()
+BEGIN
+    DECLARE result INT;
+    
+    -- Llamar a la función 
+    SET result = getLastIdChat();
+    
+    SELECT result AS 'idChat';
+END //
+
+DELIMITER ;
+---------------
+DELIMITER //
+
+CREATE FUNCTION getLastIdCarrito() RETURNS INT
+BEGIN
+    DECLARE ultimoId INT;
+
+    -- Seleccionar el último idProducto 
+    SELECT idCarrito INTO ultimoId
+    FROM Carrito
+    ORDER BY idCarrito DESC
+    LIMIT 1;
+
+    RETURN ultimoId;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetLastCarritoId()
+BEGIN
+    DECLARE result INT;
+    
+    -- Llamar a la función 
+    SET result = getLastIdCarrito();
+    
+    SELECT result AS 'idCarrito';
+END //
+
+DELIMITER ;

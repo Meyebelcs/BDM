@@ -149,6 +149,33 @@ class Mensaje
         }
     }
 
+    public static function getMessagesByUser($mysqli, $idChat)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerMensajesDeChat(?)");
+        $stmt->bind_param("i", $idChat);
+        $stmt->execute();
+        $result = $stmt->get_result();
+      
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Mensaje(
+                $row['idStatus'],
+                $row['idChat'],
+                $row['idUsuarioCreador'],
+                $row['Mensaje'],
+                $row['Fecha_creacion']
+            );
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
 
     public function toJSON()
     {

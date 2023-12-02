@@ -9,7 +9,7 @@ class MaterialCarrito
     private $cantidad;
     private $Fecha_creacion;
     private $Nombre;
-    
+
 
     public function getIdMaterialCarrito()
     {
@@ -175,7 +175,7 @@ class MaterialCarrito
                 $row['idStatus'],
                 $row['CantidadEnCarrito']
             );
-            
+
             $material->setIdMaterialCarrito($row['idMaterialCarrito']);
             $material->setFecha_creacion($row['Fecha_creacion']);
             $material->setNombre($row['Nombre']);
@@ -188,7 +188,6 @@ class MaterialCarrito
 
         return $materiales;
     }
-    
 
 
     public function toJSON()

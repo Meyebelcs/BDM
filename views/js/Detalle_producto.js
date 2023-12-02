@@ -9,6 +9,8 @@ $("#review").on('keyup', function () {
     }
 });
 
+
+
 var idProducto = document.querySelector('input[name="ReviewidProduct"]').value;
 var idUsuario = document.querySelector('input[name="ReviewidUsuario"]').value;
 

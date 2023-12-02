@@ -64,3 +64,47 @@ BEGIN
 END //
 
 DELIMITER ;
+------------
+DELIMITER //
+
+CREATE PROCEDURE ObtenerChatsPorUsuario(IN usuario_id INT)
+BEGIN
+    SELECT
+        idChat,
+        idUsuarioCliente,
+        idUsuarioVendedor,
+        idStatus,
+        idProducto,
+         (SELECT Archivo.Archivo
+            FROM Archivo
+            WHERE Archivo.idProducto = C.idProducto
+            ORDER BY Archivo.idArchivo DESC
+            LIMIT 1) AS Imagen,
+        Fecha_creacion
+    FROM Chat C
+    WHERE idUsuarioCliente = usuario_id OR idUsuarioVendedor = usuario_id;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE ObtenerChatsPorUsuario(IN usuario_id INT)
+BEGIN
+    SELECT
+        C.idChat,
+        C.idUsuarioCliente,
+        C.idUsuarioVendedor,
+        C.idStatus,
+        C.idProducto,
+        (SELECT U.Username FROM Usuario U WHERE U.idUsuario = C.idUsuarioVendedor) AS NombreVendedor,
+        (SELECT U.Username FROM Usuario U WHERE U.idUsuario = C.idUsuarioCliente) AS NombreCliente,
+        (SELECT U.Imagen FROM Usuario U WHERE U.idUsuario = C.idUsuarioCliente) AS ImagenCliente,
+        (SELECT U.Imagen FROM Usuario U WHERE U.idUsuario = C.idUsuarioVendedor) AS ImagenVendedor,
+        C.Fecha_creacion
+    FROM Chat C
+    WHERE C.idUsuarioCliente = usuario_id OR C.idUsuarioVendedor = usuario_id;
+END //
+
+DELIMITER ;
+

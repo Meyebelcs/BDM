@@ -146,13 +146,14 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                                         AGOTADO
                                     </a>
                                 <?php } else if ($producto->getTipo() == 'Cotizacion') { ?>
-                                        <a href="chat.php?idProductoIndex=<?php echo $idProductoSelected ?>" class="btn w-100">
-                                            Enviar Mensaje
+
+                                        <a id="<?php echo $idProductoSelected ?>" class="btn w-100" onclick="capturarClicCotizacion(this)">
+                                            <i class="bi bi-cart-fill"></i> Enviar Mensaje
                                         </a>
+
                                 <?php } else { ?>
-                                        <a href="Carrito.php?idProductoIndex=<?php echo $idProductoSelected ?>" class="btn w-100"><i
-                                                class="bi bi-cart-fill"></i>
-                                            Agregar al carrito
+                                        <a id="<?php echo $idProductoSelected ?>" class="btn w-100" onclick="capturarClic(this)">
+                                            <i class="bi bi-cart-fill"></i> Agregar al carrito
                                         </a>
                                 <?php }
                             } ?>
@@ -300,8 +301,119 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
         imagenes[indiceImagenActual].style.display = "block";
     }
 
+    function capturarClic(enlace) {
+        // Obtener el ID del enlace
+        var idProducto = enlace.id;
+
+        const now = new Date();
+
+        const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
+
+        var formData = new FormData();
+        formData.append('idProducto', idProducto);
+        formData.append('fECHA', formattedDate);
 
 
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "../controllers/Carrito/Alta_Carrito.php", true);
+        xhr.onreadystatechange = function () {
+            try {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    let res = JSON.parse(xhr.response);
+                    if (res.success !== true) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: res.msg, // El mensaje de error que obtiene del servidor
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor: '#F47B8F'
+                        });
+                        return;
+                    }
+                    Swal.fire({
+                        title: res.msg,
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#F47B8F'
+                    }).then((willDelete) => {
+                        if (willDelete) {
+                            window.location.href = "./Carrito.php";
+
+                        } else {
+                            alert("error");
+                        }
+                    });
+                    console.log(res.msg);
+                }
+            } catch (error) {
+                // Imprimir error del servidor
+                console.error(xhr.response);
+            }
+        };
+
+        // Enviar FormData en lugar de JSON
+        xhr.send(formData);
+
+
+    }    
+    function capturarClicCotizacion(enlace) {
+        // Obtener el ID del enlace
+        var idProducto = enlace.id;
+
+        const now = new Date();
+
+        const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
+
+        var formData = new FormData();
+        formData.append('idProducto', idProducto);
+        formData.append('fECHA', formattedDate);
+
+
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "../controllers/Chat/Alta_Chat.php", true);
+        xhr.onreadystatechange = function () {
+            try {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    let res = JSON.parse(xhr.response);
+                    if (res.success !== true) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: res.msg, // El mensaje de error que obtiene del servidor
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor: '#F47B8F'
+                        });
+                        return;
+                    }
+                    Swal.fire({
+                        title: res.msg,
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#F47B8F'
+                    }).then((willDelete) => {
+                        if (willDelete) {
+                            window.location.href = `./chat.php?idNewChat=${res.idNewChat}`;
+   
+
+                        } else {
+                            alert("error");
+                        }
+                    });
+                    console.log(res.msg);
+                }
+            } catch (error) {
+                // Imprimir error del servidor
+                console.error(xhr.response);
+            }
+        };
+
+        // Enviar FormData en lugar de JSON
+        xhr.send(formData);
+
+
+    }      
 </script>
 
 </html>

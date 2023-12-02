@@ -232,6 +232,18 @@ class Carrito
             return false; // Error en la actualización
         }
     }
+    public static function updateCarritoStatus($mysqli, $idCarrito)
+    {
+        $stmt = $mysqli->prepare("CALL sp_UpdateCarritostatus(?)");
+        $stmt->bind_param("i", $idCarrito);
+
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
+
     public static function updateCarritoCantidad($mysqli, $idCarrito, $accion)
     {
         $stmt = $mysqli->prepare("CALL sp_UpdateCarritoCantidad(?, ?)");
@@ -287,6 +299,73 @@ class Carrito
         return $products;
     }
 
+    public static function traeridcarrito($mysqli, $idProduct, $idChat)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL sp_ifExistCarritoProduct2(?, ?)");
+        $stmt->bind_param("ii", $idProduct, $idChat);  // Cambio en esta línea
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Carrito(
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            );
+            $producto->setIdCarrito($row['idCarrito']);
+
+
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+
+    public static function findifexist2($mysqli, $idChat, $idProduct)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL sp_ifExistCarritoProduct2(?, ?)");
+        $stmt->bind_param("ii", $idProduct, $idChat);  // Cambio en esta línea
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Chat(
+                0,
+                0,
+                0,
+                0,
+                0
+            );
+            $producto->setidCarrito($row['idCarrito']);
+
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+
     public static function getAllProductsCarritoById($mysqli, $idCarrito)
     {
         $products = array();
@@ -323,7 +402,16 @@ class Carrito
 
         return $products;
     }
+    public static function getLastidCarrito($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL GetLastCarritoId()");
 
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $producto = $result->fetch_assoc();
+        $stmt->close();
+        return $producto ? Carrito::parseJson($producto) : null;
+    }
     public function toJSON()
     {
         return get_object_vars($this);

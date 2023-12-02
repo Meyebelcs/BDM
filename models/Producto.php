@@ -195,9 +195,12 @@ class Product
         $this->fechaActualizacion = $fechaActualizacion;
         $this->tipo = $tipo;
 
-        // Divide la cadena en fecha y hora
-        list($this->Fecha, $this->Hora) = explode(' ', $this->fechaPublicacion);
-       
+        if ($fechaPublicacion != null) {
+            // Divide la cadena en fecha y hora
+            list($this->Fecha, $this->Hora) = explode(' ', $this->fechaPublicacion);
+        }
+
+
     }
 
     static public function parseJson($json)
@@ -408,6 +411,42 @@ class Product
 
         return $products;
     }
+    public static function getMejorCalifStock($mysqli)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerProductosMejorCalificadosYTipoStock()");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Product(
+                $row['idAdminAutorización'],
+                $row['idStatus'],
+                $row['idUsuarioCreador'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                $row['Inventario'],
+                $row['Fecha_publicación'],
+                $row['Fecha_actualizacion'],
+                $row['Tipo']
+            );
+            $producto->setimagen($row['Imagen']);
+            $producto->setTotalVendido($row['TotalVendido']);
+            $producto->setIdProducto($row['idProducto']);
+            $producto->setpromedio($row['promedio']);
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
     public static function getMejorCalifCoti($mysqli)
     {
         $products = array();
@@ -481,12 +520,51 @@ class Product
         return $products;
     }
 
-    public static function getMejorCalifStock($mysqli)
+    public static function getInfoProductCoti($mysqli, $idProducto, $idChat)
     {
         $products = array();
 
         // Ajusta el nombre del procedimiento almacenado y el número de parámetros
-        $stmt = $mysqli->prepare("CALL ObtenerProductosMejorCalificadosYTipoStock()");
+        $stmt = $mysqli->prepare("CALL sp_getInfoProductCoti(?, ?)");
+
+        // Cambia "ss" a "ii" para indicar que son enteros
+        $stmt->bind_param("ii", $idProducto, $idChat);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Product(
+                0,
+                0,
+                0,
+                $row['Nombre'],
+                $row['Descripción'],
+                0,
+                $row['Inventario'],
+                '2023-11-15 34:34:34',
+                0,
+                0
+            );
+
+            $producto->setIdProducto($row['idProducto']);
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+
+
+    public static function sp_getInfoProductCoti($mysqli)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL sp_getInfoProductCoti()");
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -517,8 +595,6 @@ class Product
 
         return $products;
     }
-
-
     public function toJSON()
     {
         return get_object_vars($this);

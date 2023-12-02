@@ -22,11 +22,13 @@ $(function () {
         if (name.length < 1) {
             $("#material_name_error_message").html("Favor de ingresar el nombre del material")
             $("#material_name_error_message").show();
-            $("#material-namee").css("border", "2px solid #F90A0A");
+            $("#material-name").css("border", "2px solid #F90A0A");
             error_name = true;
         } else {
             $("#material_name_error_message").hide();
             $("#material-name").css("border", "2px solid #34f458", "margin-bottom", "0px");
+            error_name = false;
+
         }
     }
     function check_cantidad() {
@@ -48,6 +50,8 @@ $(function () {
         else {
             $("#material_cantidad_error_message").hide();
             $("#material-cantidad").css("border", "2px solid #34f458", "margin-bottom", "0px");
+            error_cantidad = false;
+
         }
     }
 

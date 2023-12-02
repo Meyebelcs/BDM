@@ -65,3 +65,21 @@ BEGIN
 END //
 
 DELIMITER ;
+---------------------
+DELIMITER //
+
+CREATE PROCEDURE ObtenerMensajesDeChat(IN chat_id INT)
+BEGIN
+    SELECT
+        idMensaje,
+        idStatus,
+        idChat,
+        idUsuarioCreador,
+        Mensaje,
+        Fecha_creacion
+    FROM Mensaje
+    WHERE idChat = chat_id
+    ORDER BY Fecha_creacion ASC;
+END //
+
+DELIMITER ;

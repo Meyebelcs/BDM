@@ -277,3 +277,17 @@ BEGIN
 END //
 
 DELIMITER ; */
+------
+DELIMITER //
+
+CREATE PROCEDURE sp_UpdateCarritostatus(
+    IN p_idCarrito INT
+)
+BEGIN
+    UPDATE Carrito
+    SET
+        idStatus = 6
+    WHERE idCarrito = p_idCarrito;
+END //
+
+DELIMITER ;
