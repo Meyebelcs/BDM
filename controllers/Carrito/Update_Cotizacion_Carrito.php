@@ -2,6 +2,7 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once __DIR__ . '/../../db.php';
     require_once __DIR__ . '/../../models/Carrito.php';
+    require_once __DIR__ . '/../../models/Chat.php';
 
     session_start();
 
@@ -11,8 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     try {
-
+        var_dump($_POST["idCarrito"]);
+        var_dump($_POST["idChat"]);
+        var_dump($_POST["idProducto"]);
         $result = Carrito::updateCarritoStatus($mysqli, $_POST["idCarrito"]);
+        //se actualiza el status del boton
+        Chat::updateCotizacionTemporalStatusActivo($mysqli, $_POST["idChat"], $_POST["idProducto"]);
         $json_response = ["success" => true, "msg" => 'se agregó a carrito'];
 
     } catch (Exception $e) {

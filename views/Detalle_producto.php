@@ -141,14 +141,16 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                             </div>
                             <?php
                             if ($rol != 'Vendedor') {
-                                if ($agotado['EstaAgotado'] == 1) { ?>
-                                    <a class="btn w-100" style="color:red;">
-                                        AGOTADO
-                                    </a>
-                                <?php } else if ($producto->getTipo() == 'Cotizacion') { ?>
+                                if ($producto->getTipo() == 'Cotizacion') { ?>
 
-                                        <a id="<?php echo $idProductoSelected ?>" class="btn w-100" onclick="capturarClicCotizacion(this)">
-                                            <i class="bi bi-cart-fill"></i> Enviar Mensaje
+                                    <a id="<?php echo $idProductoSelected ?>" class="btn w-100"
+                                        onclick="capturarClicCotizacion(this)">
+                                        <i class="bi bi-cart-fill"></i> Enviar Mensaje
+                                    </a>
+
+                                <?php } else if ($agotado['EstaAgotado'] == 1) { ?>
+                                        <a class="btn w-100" style="color:red;">
+                                            AGOTADO
                                         </a>
 
                                 <?php } else { ?>
@@ -184,37 +186,6 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                         reseña</button>
                 </form>
             </div>
-
-            <!--  <div class="stars" id="stars">
-                <span class="star" onclick="rate(1)">&#9733;</span>
-                <span class="star" onclick="rate(2)">&#9733;</span>
-                <span class="star" onclick="rate(3)">&#9733;</span>
-                <span class="star" onclick="rate(4)">&#9733;</span>
-                <span class="star" onclick="rate(5)">&#9733;</span>
-            </div>
-            <p>Valor seleccionado: <span id="selectedValue">0</span></p>
-
-            <div class="comment-box">
-                <label for="comment">Comentario:</label><br>
-                <textarea id="comment" rows="4" cols="50"></textarea><br>
-                <button>Enviar</button>
-            </div>
-            <script>
-                let selectedValue = 0;
-
-                function rate(value) {
-                    selectedValue = value;
-                    const stars = document.querySelectorAll('.star');
-                    stars.forEach((star, index) => {
-                        if (index < value) {
-                            star.style.color = 'black';
-                        } else {
-                            star.style.color = '#ccc';
-                        }
-                    });
-                    document.getElementById('selectedValue').innerText = value;
-                }
-            </script> -->
 
             <div class="row w-100">
                 <h4 class="mt-4 mb-0">Reseñas</h4>
@@ -356,7 +327,7 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
         xhr.send(formData);
 
 
-    }    
+    }
     function capturarClicCotizacion(enlace) {
         // Obtener el ID del enlace
         var idProducto = enlace.id;
@@ -394,8 +365,8 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                         confirmButtonColor: '#F47B8F'
                     }).then((willDelete) => {
                         if (willDelete) {
-                            window.location.href = `./chat.php?idNewChat=${res.idNewChat}`;
-   
+
+                            window.location.href = `./chat.php?idChatSelected=${res.idNewChat}&idProductoSelected=${res.idProductChat}`;
 
                         } else {
                             alert("error");

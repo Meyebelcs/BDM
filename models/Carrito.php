@@ -412,6 +412,30 @@ class Carrito
         $stmt->close();
         return $producto ? Carrito::parseJson($producto) : null;
     }
+
+    static public function getidCarritoByProductChat($mysqli, $idProducto, $idChat)
+    {
+        // Ejecutar la consulta con SELECT directo para obtener el valor
+        $result = $mysqli->query("CALL sp_getidCarritoByProductChat( $idProducto, $idChat)");
+
+        // Verificar si la consulta fue exitosa
+        if ($result) {
+            // Obtener el valor del resultado
+            $row = $result->fetch_assoc();
+
+            // Obtener el valor del idStatus
+            $idCarrito = $row['idCarrito'];
+
+            // Liberar el resultado
+            $result->free();
+
+            // Devolver el valor del idStatus
+            return $idCarrito;
+        } else {
+            // Manejar el error según sea necesario
+            return null;
+        }
+    }
     public function toJSON()
     {
         return get_object_vars($this);

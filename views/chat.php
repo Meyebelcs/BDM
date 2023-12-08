@@ -13,56 +13,26 @@ require_once "../models/Carrito.php";
 $idChatSearch = 'firsttime';
 $idProductoSelected = 'firsttime';
 $Messages = 'firsttime';
+$idStatusCotizacion = ' ';
+$idCarrito = 'firsttime';
 $Chats = Chat::getChatsByUser($mysqli, $idUser);
+
+
 
 if (!empty($_GET['idChatSelected'])) {
     $idChatSearch = $_GET['idChatSelected'];
+    $idProductoSelected = $_GET['idProductoSelected'];
     $Messages = Mensaje::getMessagesByUser($mysqli, $idChatSearch);
-    // Llamada a la función findifexist2
-    $idcarritoooo = Carrito::traeridcarrito($mysqli, $idProductoSelected, $idChatSearch);
-    foreach ($idcarritoooo as $idcarrito) {
-        echo $idcarrito->getIdCarrito();
-    }
+
 }
 
-// Llamada a la función
-$resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
 
-
+//verificar status del chat , desactivarlo si ya se realizó el carrito
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<style>
-    #overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        /* Fondo oscuro semi-transparente */
-        display: none;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #btnAgregarCarrito {
-        /* Estilos para el botón */
-        padding: 10px 20px;
-        background-color: #4CAF50;
-        /* Color de fondo */
-        color: white;
-        /* Color del texto */
-        border: none;
-        /* Sin borde */
-        border-radius: 5px;
-        /* Esquinas redondeadas */
-        cursor: pointer;
-        /* Cursor apuntador */
-    }
-</style>
 
 <head>
     <meta charset="UTF-8">
@@ -73,6 +43,8 @@ $resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
     <?php include_once "./libs/fonts.php" ?>
     <?php include_once "./libs/bootstrap.php" ?>
     <link rel="stylesheet" href="./css/pages/chat2.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
 </head>
 
@@ -111,31 +83,7 @@ $resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
                         <div class="navbar d-flex justify-content-between">
                             <a href="home.php" class="me-5 navbar-brand text-decoration-none">Stock & Custom</a>
                         </div>
-
-                        <input class="form-control" type="search" name="searchBar" placeholder="Search"
-                            aria-label="Search">
-                        <button type="submit" class="btn btn-secondary">Buscar</button>
                     </form>
-                    <!-- Fin de la barra de búsqueda -->
-
-                    <div class="custom-dropdown">
-                        <div class="dropdown">
-                            <button class="btn text-light border-0 d-flex" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Categorias <i class="ms-2 bi bi-caret-down-fill"></i>
-                            </button>
-
-                            <!-- -----------categorias-------- -->
-                            <ul class="dropdown-menu">
-                                <?php foreach ($categorias as $categoria) { ?>
-                                    <li><a class="dropdown-item"
-                                            href="Busqueda.php?idCategoria=<?php echo $categoria['idCategoria']; ?>">
-                                            <?php echo $categoria['Nombre'] ?>
-                                        </a></li>
-                                <?php } ?>
-                            </ul>
-                        </div>
-                    </div>
 
                     <?php
                     if ($rol !== "Administrador") {
@@ -165,6 +113,7 @@ $resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
 
     </nav>
 
+
     <!-- Contenido -->
     <div id="container">
         <aside>
@@ -177,10 +126,15 @@ $resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
                         $userImage;
                         $username;
 
+                        //asigna el chat seleccionado a la variable y el producto seleccionado tmn
                         if ($idChatSearch == $Chat->getIdChat()) {
                             $idProductoSelected = $Chat->getIdProducto();
-                        }
+                            $idStatusCotizacion = Chat::obtenerIdStatusCotizacionTemporal($mysqli, $idChatSearch, $idProductoSelected);
+                            $idCarrito = Carrito::getidCarritoByProductChat($mysqli, $idProductoSelected, $idChatSearch);
 
+                        }
+                        //imprime la foto del cliente o vendedor segun quien está en sesion
+                
                         if ($idUser == $Chat->getIdUsuarioCliente()) {
                             $userImage = "../Files/" . $Chat->getImagenVendedor();
                             $username = $Chat->getNombreVendedor();
@@ -192,7 +146,8 @@ $resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
                         // Agrega un enlace que redirige a chat.php con el parámetro idChat
                         ?>
                         <li>
-                            <a href="chat.php?idChatSelected=<?php echo $Chat->getIdChat(); ?>">
+                            <a
+                                href="chat.php?idChatSelected=<?php echo $Chat->getIdChat(); ?>&idProductoSelected=<?php echo $idProductoSelected; ?>">
                                 <img class="round-image" src="<?php echo $userImage; ?>" alt="">
                                 <div>
                                     <h2>
@@ -216,24 +171,27 @@ $resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
         </aside>
         <main>
 
-
             </header>
             <ul id="chat">
 
-                <!-- Verificar el resultado y mostrar el botón según sea necesario -->
-                <?php if ($resultado !== null): ?>
-                    <!-- Agrega el botón a tu HTML con la propiedad style="display: none;" para ocultarlo inicialmente -->
-                    <button id="btnAgregarCarritoCliente" style="display: block;">Agregar a Carrito</button>
-                <?php endif; ?>
+                <!--  ====================boton para el carrito================ -->
+                <!-- Verificar q el boton esté en espera -->
+                <?php if ($idStatusCotizacion == 8) { ?>
 
-                <!-- Agrega el botón a tu HTML con la propiedad style="display: none;" para ocultarlo inicialmente -->
-                <button id="btnAgregarCarrito" style="display: none;">Agregar a Carrito</button>
+                    <button type="submit" class="btn btn-secondary" id="btnAgregarCarritoBoton">Agregar a Carrito</button>
+
+                <?php } ?>
+
+                <!-- Verificar q el boton esté en espera -->
+                <?php if ($idStatusCotizacion == 6) { ?>
+                    La cotizacion ya fue agregada al carrito
+                <?php } ?>
+                <!--  =============================================================== -->
 
 
                 <?php
                 if ($rol == 'Vendedor') {
                     if ($Messages != 'firsttime') {
-
 
                         if ($Messages) {
                             foreach ($Messages as $mensaje) {
@@ -288,6 +246,7 @@ $resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
                         </footer>
                     <?php }
                 } else {
+                    //si el que inicia sesion es el comprador
                     if ($Messages != 'firsttime') {
 
 
@@ -348,15 +307,15 @@ $resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
 
                 }
                 ?>
-
+            </ul>
         </main>
-
-
-
 
         <!-- Otros elementos que desees agregar -->
     </div>
     </div>
+
+
+
 
     <div class="cotizacion" <?php echo ($rol === 'Comprador') ? 'style="display:none;"' : ''; ?>>
         <?php
@@ -364,19 +323,20 @@ $resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
         if ($Cotizacion) {
             foreach ($Cotizacion as $producto) { ?>
                 <div class="cotizacion-titulo">
+
                     <h1>Producto:</h1>
                     <h2>
                         <?php echo $producto->getNombre() ?>
                     </h2>
+                    <input type="hidden" id="idCarritoHidden" name=" <?php echo $idCarrito; ?>"
+                        value=" <?php echo $idCarrito; ?>" />
                     <input type="hidden" id="idProductoHidden" name=" <?php echo $producto->getIdProducto() ?>"
                         value=" <?php echo $producto->getIdProducto() ?>" />
                     <input type="hidden" id="idChatHidden" name=" <?php echo $idChatSearch ?>"
                         value=" <?php echo $idChatSearch ?>" />
-                    <!-- Campo de entrada para la cantidad -->
                     <br><label for="cantidad">Cantidad:</label>
                     <input type="number" id="cantidadCoti" name="cantidadCoti" min="1" value="1" />
 
-                    <!-- Textarea con menor ancho -->
                     <h2>Descripción:</h2>
                     <textarea id="miTextarea" rows="4" cols="30"
                         placeholder="<?php echo $producto->getDescripcion() ?>..."></textarea>
@@ -396,7 +356,7 @@ $resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
                     </div>
                     <span class="text-danger" id="material_error_messageCotizacion"></span><br>
 
-                    <button type="submit" class="btn btn-secondary m-4 mb-9" id="btnCrearCotizacion">Crear Cotización</button>
+                    <button type="submit" class="btn btn-secondary m-2 mb-3" id="btnCrearCotizacion">Crear Cotización</button>
 
                     </form>
                 </div>
@@ -406,7 +366,6 @@ $resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
 
     </div>
 
-    </div>
 
 
     <!-- Modal Añadir material-->
@@ -518,6 +477,5 @@ $resultado = Chat::findifexist($mysqli, $idChatSearch, $idProductoSelected);
 
 <script type="module" src="./js/chat.js"></script>
 
-<!--  <script src="./js/chat.js"></script> -->
 
 </html>

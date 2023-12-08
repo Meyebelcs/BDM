@@ -2,7 +2,30 @@ const materialData = {};
 let materialsArray = [];
 var selectedidMaterialCb = 0;
 
+
 $(function () {
+
+    //--------botones de carrito y cotizacion--------------
+    var btnAgregarCarrito = document.getElementById('btnAgregarCarritoBoton');
+    var btnCrearCotizacion = document.getElementById('btnCrearCotizacion');
+
+
+    // Agrega un evento al botón para capturar el clic
+    btnAgregarCarrito.addEventListener('click', function () {
+        alert('clic btnAgregarCarrito' );
+        updatecotizacion();
+    });
+
+    // Agrega un evento al botón para capturar el clic
+    btnCrearCotizacion.addEventListener('click', function () {
+        alert('clic btnCrearCotizacion');
+        crearcotizacion();
+        mostrarBoton();
+    });
+
+    //---------------------------------------------------
+
+
     $("#material_name_error_message").hide();
     $("#material_cantidad_error_message").hide();
 
@@ -15,7 +38,6 @@ $(function () {
     $("#material-cantidad").on("keyup", function () {
         check_cantidad();
     });
-
 
 
     function check_name() {
@@ -222,7 +244,6 @@ $(function () {
 
     });
 
-
     // Función para actualizar la lista de materiales en el HTML
     function updateMaterialsList() {
         // Obtiene el contenedor donde se agregarán los elementos de la lista de materiales
@@ -264,42 +285,54 @@ $(function () {
             // Agrega el div del material al contenedor
             materialesContainer.appendChild(materialDiv);
         });
-    }
-
-    var btnCrearCotizacion = document.getElementById('btnCrearCotizacion');
-
-    // Agrega un evento al botón para capturar el clic
-    btnCrearCotizacion.addEventListener('click', function () {
-        // Aquí puedes agregar tu lógica para manejar el clic del botón
-
-        //valida que haya info en textarea 
-        //valida que haya info en el array material
-
-        mostrarBoton();
-        updatecotizacion() ;
-    });
+    };
 
     // Función para hacer visible el botón
     function mostrarBoton() {
-        var btnCrearCotizacion = document.getElementById('btnAgregarCarrito');
-        btnCrearCotizacion.style.display = 'block'; // Cambia 'block' a 'inline-block' si prefieres
 
-        crearcotizacion();
-    }
+        //update al boton y ponerle status espera
 
-    // Agregar un listener al evento click del botón
-    document.getElementById('btnAgregarCarritoCliente').addEventListener('click', function () {
+        var formData = new FormData();
+        formData.append('idProducto', $('#idProductoHidden').val());
+        formData.append('idChat', $('#idChatHidden').val());
 
-        // Lógica a ejecutar cuando se hace clic en el botón
-        updatecotizacion();
-        btnCrearCotizacion.style.display = 'none'; // Cambia 'block' a 'inline-block' si prefieres
-    });
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "../controllers/CotizacionTemporal/Update_CotizacionTemporal.php", true);
+        xhr.onreadystatechange = function () {
+            try {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    let res = JSON.parse(xhr.response);
+                    if (res.success !== true) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: res.msg, // El mensaje de error que obtiene del servidor
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor: '#F47B8F'
+                        });
+                        return;
+                    }
+                    location.reload();
+                }
+            } catch (error) {
+                // Imprimir error del servidor
+                console.error(xhr.response);
+            }
+        };
+
+        xhr.send(formData);
+
+    };
 
     function updatecotizacion() {
 
         const now = new Date();
         var formData = new FormData();
-        formData.append('Descripcion', $('#miTextarea').val());
+        formData.append('idCarrito', $('#idCarritoHidden').val());
+        formData.append('idProducto', $('#idProductoHidden').val());
+        formData.append('idChat', $('#idChatHidden').val());
+
 
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "../controllers/Carrito/Update_Cotizacion_Carrito.php", true);
@@ -324,10 +357,7 @@ $(function () {
                         confirmButtonColor: '#F47B8F'
                     }).then((willDelete) => {
                         if (willDelete) {
-                             window.location.href = `./Carrito.php`; 
- 
-
-
+                            window.location.href = `./Carrito.php`;
 
                         } else {
                             alert("error");
@@ -343,9 +373,7 @@ $(function () {
 
         // Enviar FormData en lugar de JSON
         xhr.send(formData);
-    }
-
-
+    };
 
     function crearcotizacion() {
 
@@ -391,12 +419,8 @@ $(function () {
                         confirmButtonText: 'Aceptar',
                         confirmButtonColor: '#F47B8F'
                     }).then((willDelete) => {
-                        if (willDelete) {/* 
-                             window.location.href = `./Carrito.php`; 
- */
-                            //crea el link y lo envia al usuario
-
-
+                        if (willDelete) {
+                            window.location.reload();
 
                         } else {
                             alert("error");
@@ -405,14 +429,12 @@ $(function () {
                     console.log(res.msg);
                 }
             } catch (error) {
-                // Imprimir error del servidor
                 console.error(xhr.response);
             }
         };
 
-        // Enviar FormData en lugar de JSON
         xhr.send(formData);
-    }
+    };
 
 })
 

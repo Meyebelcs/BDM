@@ -174,61 +174,77 @@ class Chat
         }
     }
 
-    public function findChatById($mysqli, $idChat)
+    /*     public function findChatById($mysqli, $idChat)
+        {
+            $stmt = $mysqli->prepare("CALL sp_FindChatById(?)");
+            $stmt->bind_param("i", $idChat);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $chat = $result->fetch_assoc();
+
+            return $chat ? self::parseJson($chat) : null;
+        } */
+
+/* 
+        public static function obtenerIdStatusCotizacionTemporal($mysqli, $idChat, $idProducto)
+        {
+            $stmt = $mysqli->query("CALL ObtenerIdStatusCotizacionTemporal($idChat, $idProducto)");
+    
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $chat = $result->fetch_assoc();
+            $stmt->close();
+            return $chat ? Chat::parseJson($chat) : null;
+        } */
+
+      
+    static public function obtenerIdStatusCotizacionTemporal($mysqli, $idChat, $idProducto)
     {
-        $stmt = $mysqli->prepare("CALL sp_FindChatById(?)");
-        $stmt->bind_param("i", $idChat);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $chat = $result->fetch_assoc();
+        // Ejecutar la consulta con SELECT directo para obtener el valor
+        $result = $mysqli->query("CALL ObtenerIdStatusCotizacionTemporal($idChat, $idProducto)");
 
-        return $chat ? self::parseJson($chat) : null;
-    }
+        // Verificar si la consulta fue exitosa
+        if ($result) {
+            // Obtener el valor del resultado
+            $row = $result->fetch_assoc();
 
-    public static function findifexist($mysqli, $idChat, $idProduct)
-    {
-        $stmt = $mysqli->prepare("CALL sp_ifExistCarritoProduct(?, ?)");
-        $stmt->bind_param("ii", $idProduct, $idChat);  // Cambio en esta línea
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $chat = $result->fetch_assoc();
+            // Obtener el valor del idStatus
+            $idStatus = $row['idStatus'];
 
-        return $chat ? self::parseJson($chat) : null;
-    }
+            // Liberar el resultado
+            $result->free();
 
-    public static function findifexist2($mysqli, $idChat, $idProduct)
-    {
-        $products = array();
-
-        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
-        $stmt = $mysqli->prepare("CALL sp_ifExistCarritoProduct2(?, ?)");
-        $stmt->bind_param("ii", $idProduct, $idChat);  // Cambio en esta línea
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-
-
-        while ($row = $result->fetch_assoc()) {
-            $producto = new Chat(
-                0,
-                0,
-                0,
-                0,
-                0
-            );
-            $producto->setidCarrito($row['idCarrito']);
-
-
-            // Agregar el comentario directamente al array
-            $products[] = $producto;
+            // Devolver el valor del idStatus
+            return $idStatus;
+        } else {
+            // Manejar el error según sea necesario
+            return null;
         }
+    } 
 
-        $stmt->close();
+    public static function updateCotizacionTemporalStatus($mysqli, $idChat, $idProducto)
+    {
+        $stmt = $mysqli->prepare("CALL ActualizarIdStatusCotizacionTemporal(?, ?)");
+        $stmt->bind_param("ii", $idChat, $idProducto);
 
-        return $products;
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
     }
 
+    public static function updateCotizacionTemporalStatusActivo($mysqli, $idChat, $idProducto)
+    {
+        $stmt = $mysqli->prepare("CALL ActualizarIdStatusCotizacionTemporalActivo(?, ?)");
+        $stmt->bind_param("ii", $idChat, $idProducto);
 
+        if ($stmt->execute()) {
+            return true; // Éxito en la actualización
+        } else {
+            return false; // Error en la actualización
+        }
+    }
 
 
     public function updateChat($mysqli)

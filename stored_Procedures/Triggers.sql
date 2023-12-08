@@ -78,3 +78,20 @@ BEGIN
 END //
 
 DELIMITER ;
+---------
+DELIMITER //
+
+CREATE TRIGGER tr_chat_after_insert
+AFTER INSERT ON Chat
+FOR EACH ROW
+BEGIN
+   
+    -- Inserta un nuevo registro en CotizacionTemporal con la información del nuevo chat
+    INSERT INTO CotizacionTemporal (idStatus, idChat, idProducto)
+    VALUES (7, NEW.idChat, NEW.idProducto);
+
+END;
+//
+
+DELIMITER ;
+

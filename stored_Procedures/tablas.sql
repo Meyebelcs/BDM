@@ -256,4 +256,14 @@ CREATE TABLE Pago (
    CONSTRAINT FK_Pago_Estatus FOREIGN KEY (idStatus) REFERENCES Estatus(idStatus)
 );
 
+CREATE TABLE CotizacionTemporal (
+   idCotizacionTemporal INT(10) UNSIGNED AUTO_INCREMENT,
+   idStatus INT(10) UNSIGNED NOT NULL,
+   idChat INT(10) UNSIGNED NOT NULL,
+   idProducto INT(10) UNSIGNED NOT NULL,
 
+   PRIMARY KEY (idCotizacionTemporal),
+   CONSTRAINT FK_CotizacionTemporal_idStatus FOREIGN KEY (idStatus) REFERENCES Estatus(idStatus),
+   CONSTRAINT FK_CotizacionTemporal_idChat FOREIGN KEY (idChat) REFERENCES Chat(idChat),
+   CONSTRAINT FK_CotizacionTemporal_idProducto FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+);

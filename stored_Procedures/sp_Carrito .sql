@@ -291,3 +291,68 @@ BEGIN
 END //
 
 DELIMITER ;
+
+--------------
+BEGIN
+    DECLARE carritoExists INT DEFAULT 0;
+
+    -- Verifica si existe un registro en la tabla Carrito
+    SELECT COUNT(*) INTO carritoExists
+    FROM Carrito C
+    WHERE C.idProducto = idProducto_Param
+    AND (C.idUsuarioCliente = (SELECT idUsuarioVendedor FROM Chat WHERE idChat = idChatParam)
+        OR C.idUsuarioCliente = (SELECT idUsuarioCliente FROM Chat WHERE idChat = idChatParam));
+
+    -- Devuelve 1 si encuentra coincidencia en Carrito, 0 si no encuentra
+    SELECT carritoExists AS CoincidenciaEnCarrito;
+END
+
+BEGIN
+    DECLARE carritoExists INT DEFAULT 0;
+    DECLARE carritoId INT;
+
+    -- Verifica si existe un registro en la tabla Carrito
+    SELECT COUNT(*) INTO carritoExists
+    FROM Carrito C
+    WHERE C.idProducto = idProducto_Param
+    AND (C.idUsuarioCliente = (SELECT idUsuarioVendedor FROM Chat WHERE idChat = idChatParam)
+        OR C.idUsuarioCliente = (SELECT idUsuarioCliente FROM Chat WHERE idChat = idChatParam));
+
+    -- Obtén el idCarrito si hay una coincidencia
+    SELECT idCarrito INTO carritoId
+    FROM Carrito
+    WHERE idProducto = idProducto_Param
+    AND (idUsuarioCliente = (SELECT idUsuarioVendedor FROM Chat WHERE idChat = idChatParam)
+        OR idUsuarioCliente = (SELECT idUsuarioCliente FROM Chat WHERE idChat = idChatParam))
+    LIMIT 1;
+
+    -- Devuelve 1 y el idCarrito si encuentra coincidencia en Carrito, 0 si no encuentra
+    SELECT carritoExists AS CoincidenciaEnCarrito, carritoId AS idCarrito;
+END
+
+------------------------------------------------
+DELIMITER //
+
+CREATE PROCEDURE sp_getidCarritoByProductChat(
+    IN idProducto_Param INT,
+    IN idChatParam INT
+)
+BEGIN
+    DECLARE carritoId INT;
+
+    -- Busca el idCarrito en la tabla Carrito
+    SELECT MAX(idCarrito) INTO carritoId
+    FROM Carrito C
+    WHERE C.idProducto = idProducto_Param
+    AND (C.idUsuarioCliente = (SELECT idUsuarioVendedor FROM Chat WHERE idChat = idChatParam)
+        OR C.idUsuarioCliente = (SELECT idUsuarioCliente FROM Chat WHERE idChat = idChatParam));
+
+    -- Devuelve el idCarrito si encuentra coincidencia en Carrito, o NULL si no encuentra
+    IF carritoId IS NOT NULL THEN
+        SELECT carritoId AS idCarrito;
+    ELSE
+        SELECT NULL AS idCarrito;
+    END IF;
+END//
+
+DELIMITER ;
