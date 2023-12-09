@@ -7,12 +7,17 @@ $(function () {
 
     //--------botones de carrito y cotizacion--------------
     var btnAgregarCarrito = document.getElementById('btnAgregarCarritoBoton');
+    var ggg = document.getElementById('ggg');
     var btnCrearCotizacion = document.getElementById('btnCrearCotizacion');
+    // Agrega un evento al botón para capturar el clic
+    ggg.addEventListener('click', function () {
+        alert('clic ggg');
 
+    });
 
     // Agrega un evento al botón para capturar el clic
     btnAgregarCarrito.addEventListener('click', function () {
-        alert('clic btnAgregarCarrito' );
+        alert('clic btnAgregarCarrito');
         updatecotizacion();
     });
 
@@ -375,8 +380,27 @@ $(function () {
         xhr.send(formData);
     };
 
+    function mostrarMensajeError(mensaje) {
+        Swal.fire({
+          title: 'Error',
+          text: mensaje,
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#F47B8F'
+        });
+      }
+
     function crearcotizacion() {
 
+/*         var descripcion = document.getElementById('miTextarea').value.trim();
+
+
+        if (descripcion === '') {
+
+
+            mostrarMensajeError('La descripción no puede estar vacía');
+           
+        } */
         const now = new Date();
 
         const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');

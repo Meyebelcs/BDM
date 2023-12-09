@@ -1,0 +1,363 @@
+#chatArea h2,#chatArea h3{
+  display:inline-block;
+  font-size:13px;
+  font-weight:normal;
+}
+#chatArea h3{
+  color:#bbb;
+}
+
+#chatArea .entete{
+  margin-bottom:5px;
+}
+#chatArea .message{
+  padding:20px;
+  color:#fff;
+  line-height:25px;
+  max-width:90%;
+  display:inline-block;
+  text-align:left;
+  border-radius:5px;
+}
+#chatArea .me{
+  text-align:right;
+}
+#chatArea .you .message{
+  background-color:#F4BFAD;
+}
+#chatArea .me .message{
+  background-color:#B7CBBF;
+}
+/* ------------------------- */
+
+.modal-header h4 {
+    color: rgb(40, 40, 40);
+}
+
+/* To target the "Nombre" and "Cantidad" labels */
+/* To target the "Nombre" and "Cantidad" labels */
+.modal-body label[for="Lista"],
+.modal-body label[for="material-cantidad"],
+.modal-body select[name="Lista"] + .text-danger,
+.modal-body input[name="costo-add-material"] + .text-danger {
+    color: rgb(0, 0, 0) !important; /* Use !important to override any existing styles */
+}
+.container2 {
+    display: flex;
+    height: 80vh;
+  }
+  .column {
+    flex: 1;
+    border: 1px solid #000000;
+    padding: 20px;
+    background-color: #fff; /* Fondo blanco */
+    color: #333; /* Texto gris oscuro */
+  }
+
+
+  .search-bar {
+    margin-bottom: 20px;
+    width: calc(100% - 40px); /* Ancho igual al de la columna menos el padding */
+  }
+  .search-bar input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .contact {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px; /* Espacio entre contactos */
+    position: relative; /* Para la línea */
+  }
+
+  .contact:hover {
+    background-color: #F4BFAD; /* Cambio de color al pasar el mouse */
+  }
+
+
+
+  .contact::after {
+    content: '';
+    position: absolute;
+    bottom: -10px; /* Ajusta la posición vertical de la línea */
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid #ccc; /* Línea entre contactos */
+    border-bottom: 1px solid #ccc; /* Línea entre contactos */
+  }
+  .contact:last-child::after {
+    border: none; /* No mostrar línea después del último contacto */
+  }
+  .contact img {
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 50px; /* Ancho de la imagen */
+    height: 50px; /* Alto de la imagen */
+  }
+  .contact-name {
+    font-weight: bold;
+  }
+
+
+
+  .chat-area {
+    height: calc(100% - 80px); /* Ajuste de altura */
+    overflow-y: auto;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-top: 20px; /* Ajuste de margen superior */
+  }
+  .message-input {
+    display: flex;
+  }
+  .message-input input[type="text"] {
+    flex: 1;
+    padding: 5px;
+  }
+  .message-input button {
+    padding: 5px 10px;
+  }
+
+
+
+.btn-menu {
+    position: absolute;
+    top: 130px;
+    left: 800px;
+    margin: 10px;
+    padding: 10px;
+    z-index: 10001; 
+    align-items: right;
+   
+    
+}
+
+
+.search-bar {
+    margin-top: 50px; 
+    margin-bottom: 50px; 
+    align-items: center;
+  
+}
+
+
+
+
+#btn-menu {
+    display: none;
+}
+
+
+
+.container-menu {
+    
+    position: fixed; /* Cambia a "fixed" para mantener el menú en la pantalla */
+    background: #00000080;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transition: all 500ms ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 9999; /* Establece un valor alto de z-index para el menú */
+}
+
+#btn-menu:checked ~ .container-menu {
+    opacity: 1;
+    visibility: visible;
+}
+
+.LOGOF1 {
+    color: #fff;
+   
+    font-size: 170px;
+    
+    transform: translatey(-5px); 
+
+}
+
+
+
+.cont-menu {
+    width: 100%;
+    max-width: 250px;
+    background: #00000080;
+    height: 100vh;
+    position: relative;
+    transition: all 500ms ease;
+    transform: translateX(-250px); 
+    z-index: 10000; 
+}
+
+
+
+
+#btn-menu:checked ~ .container-menu .cont-menu {
+    transform: translateX(0%);
+}
+
+/* Agrega estos estilos para dar formato al texto dentro del menú lateral */
+.cont-menu nav a {
+    display: block;
+    text-decoration: none;
+    padding: 10px 20px;
+    color: #424242;
+    border-left: 5px solid transparent;
+    transition: all 400ms ease;
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+/* Añade espacio vertical entre cada elemento del menú */
+.cont-menu nav a + a {
+    margin-top: 10px;
+}
+
+.cont-menu nav a:hover {
+    border-left: 15px solid #fcfbfb;
+    background: #1f1f1f;
+}
+
+
+
+/* =================== COLORS ======================= */
+:root {
+    --primary-color: #F5DABD;
+    --secondary-color: #F4BFAD;
+    --accent-color: #B7CBBF;
+    --dark-color: #ffffff;
+    --light-color: #ffffff;
+}
+
+/* ==================== NAVBAR ====================== */
+nav {
+    background-color: var(--primary-color);
+}
+
+.navbar-brand{
+    color: var(--light-color);
+    font-size: 1000;
+    font-weight: 5000;
+    margin-left: 30px;
+}
+
+
+.navbar-brand.logo{
+    color: var(--light-color);
+    font-size: 1000;
+    font-weight: 5000;
+    margin-left: 30px;
+}
+
+/*================= FOOTER =====================  */
+
+.footer{
+    color:#B7CBBF;
+    margin-top: auto;
+}
+
+/* ===================== BODY =================== */
+.main{
+    padding-bottom: 100px;
+}
+
+body{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: var(--dark-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ======================= BACKGROUND ==================== */
+
+.bg-tertiary{
+    background-color: var(--light-color);
+}
+
+
+.bg-primary{
+    background-color: var(--primary-color)
+    !important;
+}
+
+.border-primary{
+    border-color:var(--primary-color)
+    !important;
+}
+
+/* ========================== BUTTON ========================= */
+
+.btn-secondary{
+    --bs-btn-color:white;
+    --bs-btn-bg:var(--secondary-color);
+    --bs-btn-border-color:none;
+    --bs-btn-hover-color:white;
+    --bs-btn-hover-bg:var(--accent-color);
+    --bs-btn-hover-border-color:none;
+    --bs-btn-focus-shadow-rgb:none;
+    --bs-btn-active-color:#fff;
+    --bs-btn-active-bg:var(--secondary-color);
+    --bs-btn-active-border-color:none;
+    --bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color:#fff;
+    --bs-btn-disabled-bg:#6c757d;
+    --bs-btn-disabled-border-color:none;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Montserrat+Alternates|Poppins&display=swap');
+	*{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		font-family: 'Montserrat Alternates', sans-serif;
+	}
+	
+	.capa{
+		position: fixed;
+		width: 100%;
+		height: 100vh;
+		background: #B7CBBF;
+		z-index: -1;
+		top: 0;left: 0;
+	}
+	/*Estilos para el encabezado*/
+	.header{
+		width: 100%;
+		height: 100px;
+		position: fixed;
+		top: 0;left: 0;
+	}
+	.container{
+		width: 90%;
+		max-width: 1200px;
+		margin: auto;
+	}
+	.container .btn-menu, .logo{
+		float: left;
+		line-height:100px;
+        margin-left: -770px;
+        margin-top: -110px;
+	}
+	.container .btn-menu label{
+		color: #ffffff;
+		font-size: 25px;
+
+		
+	}
+
+
+
+    

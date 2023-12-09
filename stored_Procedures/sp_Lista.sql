@@ -80,3 +80,65 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-----------------getlistbyuser
+DELIMITER //
+
+CREATE PROCEDURE sp_getlistbyuser(
+    IN idUserParam INT
+)
+BEGIN
+    SELECT
+        idLista AS idLista,
+        idStatus AS idStatus,
+        idUsuarioCreador AS idUsuarioCreador,
+        Nombre AS nombre,
+        Descripción AS descripcion,
+        Imagen AS imagen,
+        Modo AS modo,
+        Fecha_creacion AS fechaCreacion
+   FROM Lista
+    WHERE idUsuarioCreador = idUserParam;
+END//
+
+DELIMITER ;
+--------------------
+DELIMITER //
+
+CREATE PROCEDURE ObtenerListasPublicas(IN creador INT)
+BEGIN
+    SELECT 
+
+        idLista AS idLista,
+        idStatus AS idStatus,
+        idUsuarioCreador AS idUsuarioCreador,
+        Nombre AS nombre,
+        Descripción AS descripcion,
+        Imagen AS imagen,
+        Modo AS modo,
+        Fecha_creacion AS fechaCreacion
+    FROM Lista
+    WHERE idUsuarioCreador = creador AND Modo = 'Publico';
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE ObtenerListasPrivado(IN creador INT)
+BEGIN
+    SELECT 
+        idLista AS idLista,
+        idStatus AS idStatus,
+        idUsuarioCreador AS idUsuarioCreador,
+        Nombre AS nombre,
+        Descripción AS descripcion,
+        Imagen AS imagen,
+        Modo AS modo,
+        Fecha_creacion AS fechaCreacion
+    FROM Lista
+    WHERE idUsuarioCreador = creador AND Modo = 'Privado';
+END //
+
+DELIMITER ; 
+

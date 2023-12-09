@@ -132,13 +132,7 @@ $ListaInfo = Lista::findListaById($mysqli, (int) $idLista );
                                     <a href="Detalle_producto.php?idProductoIndex=<?php echo $producto->getIdProducto(); ?>"
                                         class="btn btn-secondary mb-1" id="">Ver detalles</a>
 
-                                    <?php
-                                    if ($rol != 'Vendedor') { ?>
-                                        <div style="position: absolute; bottom: 10px; right: 10px;">
-                                           
-                                            <i class="bi bi-plus-circle ml-2" style="font-size: 24px;"></i>
-                                        </div>
-                                    <?php } ?>
+                                  
 
                                 </div>
                             </div>
@@ -232,13 +226,7 @@ $ListaInfo = Lista::findListaById($mysqli, (int) $idLista );
                                 <a href="Detalle_producto.php?idProductoIndex=<?php echo $cotizacion->getIdProducto(); ?>"
                                     class="btn btn-secondary mb-1" id="">Ver Detalles</a>
 
-                                <?php
-                                if ($rol != 'Vendedor') { ?>
-                                    <div style="position: absolute; bottom: 10px; right: 10px;">
-                                      
-                                        <i class="bi bi-plus-circle ml-2" style="font-size: 24px; padding-right:1rem;"></i>
-                                    </div>
-                                <?php } ?>
+                              
 
                             </div>
                         </div>

@@ -12,6 +12,7 @@ require_once "../models/Reportes/POV_Reportes.php";
 require_once "../models/Archivo.php";
 require_once "../models/Categoria.php";
 require_once "../models/Material_Inventario.php";
+require_once "../models/Lista.php";
 
 
 if (!empty($_GET['searchBar'])) {
@@ -126,13 +127,16 @@ if (!empty($_GET['idCategoria'])) {
 
                                         <?php
                                         if ($rol != 'Vendedor') { ?>
+
                                             <div style="position: absolute; bottom: 10px; right: 10px;">
-                                             
-                                                <i class="bi bi-plus-circle ml-2" style="font-size: 24px;"></i>
+
+                                                <i class="bi bi-plus-circle ml-2" id="addListPlus"
+                                                    style="font-size: 24px; padding-right:1rem;"
+                                                    data-producto-id="<?php echo $producto->getIdProducto(); ?>"
+                                                    data-bs-toggle="modal" data-bs-target="#addList"></i>
+
                                             </div>
                                         <?php } ?>
-
-
 
                                     </div>
                                 </div>
@@ -232,8 +236,12 @@ if (!empty($_GET['idCategoria'])) {
                             <?php
                             if ($rol != 'Vendedor') { ?>
                             <div style="position: absolute; bottom: 10px; right: 10px;">
-                            
-                                <i class="bi bi-plus-circle ml-2" style="font-size: 24px; padding-right:1rem;"></i>
+
+                                <i class="bi bi-plus-circle ml-2" id="addListPlus"
+                                    style="font-size: 24px; padding-right:1rem;"
+                                    data-producto-id="<?php echo $cotizacion->getIdProducto(); ?>" data-bs-toggle="modal"
+                                    data-bs-target="#addList"></i>
+
                             </div>
                             <?php } ?>
 
@@ -268,6 +276,42 @@ if (!empty($_GET['idCategoria'])) {
 
             </div>
 
+            <!-- Modal Añadir lista-->
+            <div class="modal fade" id="addList" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form id="add-material" class="modal-content">
+                        <input type="hidden" name="formulario" value="addList-form">
+                        <div class="modal-header">
+                            <h4>Agregar a una Lista</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="container mt-1">
+                                <select class="form-control" id="nombreList" name="nombreList">
+                                    <option value="" selected disabled>Selecciona una Lista</option>
+                                    <?php
+                                    $listasbyuser = Lista::getlistasbyUser($mysqli, $idUser);
+                                    foreach ($listasbyuser as $lista) { ?>
+                                        <option value="<?php echo $lista->getNombre() ?>"
+                                            id="<?php echo $lista->getIdLista() ?>">
+                                            <?php echo $lista->getNombre() ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <span class="text-danger" id="lista_name_error_message"></span><br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                id="close">Cerrar</button>
+                            <button type="button" id="add-lista-btn" class="btn btn-secondary">Agregar
+                                Producto</button>
+                            <span class="text-danger" id="lista_error_message"></span><br>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <!-- Footer -->
             <?php include('./components/footer.php'); ?>
 
@@ -275,6 +319,7 @@ if (!empty($_GET['idCategoria'])) {
             <?php include_once "./libs/bootstrapJS.php" ?>
             <?php include_once "./libs/sweetalertJS.php" ?>
             <script src="./js/Busqueda.js"></script>
+            <script src="./js/Agregar_ProductoEnLista.js"></script>
 
 
 

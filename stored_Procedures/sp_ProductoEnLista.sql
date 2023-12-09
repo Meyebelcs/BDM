@@ -58,3 +58,14 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-----------------
+DELIMITER //
+CREATE PROCEDURE sp_VerificarProductoEnLista(IN p_idProducto INT, IN p_idLista INT, OUT p_existe BOOLEAN)
+BEGIN
+    SELECT COUNT(*) > 0 INTO p_existe
+    FROM ProductoEnLista
+    WHERE idProducto = p_idProducto AND idLista = p_idLista;
+END //
+DELIMITER ;
+

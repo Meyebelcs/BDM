@@ -160,7 +160,7 @@ class Lista
 
         return $lista ? Lista::parseJson($lista) : null;
     }
-    
+
 
     public function updateLista($mysqli)
     {
@@ -183,6 +183,108 @@ class Lista
         }
     }
 
+    public static function getPublicList($mysqli, $idUser)
+    {
+        $listas = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerListasPublicas( ?)");
+        $stmt->bind_param("i", $idUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $lista = new Lista(
+
+                $row['idStatus'],
+                $row['idUsuarioCreador'],
+                $row['nombre'],
+                $row['descripcion'],
+                $row['imagen'],
+                $row['fechaCreacion'],
+                $row['modo']
+            );                                
+
+            $lista->setIdLista($row['idLista']);
+
+
+            // Agregar el comentario directamente al array
+            $listas[] = $lista;
+        }
+
+
+
+        $stmt->close();
+
+        return $listas;
+    }
+
+    public static function getPrivList($mysqli, $idUser)
+    {
+        $listas = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL ObtenerListasPrivado( ?)");
+        $stmt->bind_param("i", $idUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $lista = new Lista(
+
+                $row['idStatus'],
+                $row['idUsuarioCreador'],
+                $row['nombre'],
+                $row['descripcion'],
+                $row['imagen'],
+                $row['fechaCreacion'],
+                $row['modo']
+            );
+
+            $lista->setIdLista($row['idLista']);
+
+
+            // Agregar el comentario directamente al array
+            $listas[] = $lista;
+        }
+
+
+
+        $stmt->close();
+
+        return $listas;
+    }
+
+    public static function getlistasbyUser($mysqli, $idUsuario)
+    {
+        $listas = array();
+
+        $stmt = $mysqli->prepare("CALL sp_getlistbyuser(?)");
+        $stmt->bind_param("i", $idUsuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $lista = new Lista(
+                $row['idStatus'],
+                $row['idUsuarioCreador'],
+                $row['nombre'],
+                $row['descripcion'],
+                $row['imagen'],
+                $row['fechaCreacion'],
+                $row['modo']
+            );
+            $lista->setIdLista($row['idLista']);
+
+            // Agregar el comentario directamente al array
+            $listas[] = $lista;
+        }
+
+        $stmt->close();
+
+        return $listas;
+    }
+    
 
     public function toJSON()
     {

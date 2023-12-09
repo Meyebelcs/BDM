@@ -118,6 +118,19 @@ class ProductoEnLista
         }
     }
 
+    public function productoEnListaExists($mysqli)
+    {
+        $stmt = $mysqli->prepare("CALL sp_VerificarProductoEnLista(?, ?, @existe)");
+        $stmt->bind_param("ii", $this->idProducto, $this->idLista);
+        $stmt->execute();
+        
+        $result = $mysqli->query("SELECT @existe as existe");
+        $row = $result->fetch_assoc();
+        $existe = $row['existe'];
+    
+        return $existe > 0;
+    }
+    
 
     public function toJSON()
     {

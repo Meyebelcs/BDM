@@ -13,6 +13,8 @@ require_once "../models/Producto.php";
 require_once "../models/user.php";
 require_once "../models/Comentario.php";
 require_once "../models/Archivo.php";
+require_once "../models/Lista.php";
+
 $idProductoSelected = $_GET['idProductoIndex'];
 $producto = Product::findProductoById($mysqli, $idProductoSelected);
 $archivos = Archivo::getArchivoByProduct($mysqli, $idProductoSelected);
@@ -55,7 +57,9 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                     <h1>
                         <?php echo $producto->getNombre() . "<br>"; ?>
                     </h1>
-                    <a href="Perfil_Vendedor.php" style="text-decoration: none; color: inherit;">
+
+                    <a href="Perfil_Vendedor.php?idUsuarioSelected= <?php echo $producto->getIdUsuarioCreador(); ?>"
+                        style="text-decoration: none; color: inherit;">
                         <h4>Vendedor:
                             <?php echo $producto->getIdUsuarioCreador(); ?>
                         </h4>
@@ -100,10 +104,17 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                     <div class="card h-200 w-200 border-0 shadow-sm mb-3">
                         <div class="card-body">
                             <div class="d-flex text-center align-items-center mb-3">
-                                <h2 class="m-0"> Precio:
-                                    <?php echo $producto->getPrecio(); ?>
-                                </h2>
-                                <p class="m-0 ms-2">MXN</p>
+
+                                <?php if ($producto->getTipo() != 'Cotizacion') { ?>
+
+                                    <h2 class="m-0"> Precio:
+                                        <?php echo $producto->getPrecio(); ?>
+                                    </h2>
+                                    <p class="m-0 ms-2">MXN</p>
+
+                                <?php } ?>
+
+
                             </div>
 
                             <div class="valoracion p-2">
@@ -160,7 +171,16 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                                 <?php }
                             } ?>
 
+                            <?php if ($rol != 'Vendedor') { ?>
+                                <div style="position: absolute; bottom: 10px; right: 10px;">
 
+                                    <i class="bi bi-plus-circle ml-2" id="addListPlus"
+                                        style="font-size: 24px; padding-right:1rem;"
+                                        data-producto-id="<?php echo $idProductoSelected ?>" data-bs-toggle="modal"
+                                        data-bs-target="#addList"></i>
+
+                                </div>
+                            <?php } ?>
 
                         </div>
                     </div>
@@ -202,7 +222,17 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                         echo '<img src="../Files/' . $comment->getimagenUsuario() . '" alt="Imagen de usuario" style="width: 35px; height: 35px; border-radius: 50%;">';
 
                         echo "<br>";
-                        echo '<a href="Perfil_Cliente.php?idUsuario=' . $comment->getidUsuario() . '"><strong>' . $comment->getUsername() . '</strong></a><br>';
+
+                        $mysqli = db::connect();
+                        $userComent = User::findUserById($mysqli, (int) $comment->getidUsuario());
+                        $roluserComent = $userComent->getRol();
+
+                        if ($roluserComent != 'Vendedor') {
+                            echo '<a href="Perfil_Cliente.php?idUsuario=' . $comment->getidUsuario() . '"><strong>' . $comment->getUsername() . '</strong></a><br>';
+
+                        }else{
+                            echo '<a href="Perfil_Vendedor.php?idUsuarioSelected=' . $comment->getidUsuario() . '"><strong>' . $comment->getUsername() . '</strong></a><br>';
+                        }
 
                         $calificacion = $comment->getCalificacion();
                         echo 'Calificación: ';
@@ -224,6 +254,44 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                 ?>
             </div>
         </div>
+
+        <!-- Modal Añadir lista-->
+        <div class="modal fade" id="addList" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form id="add-material" class="modal-content">
+                    <input type="hidden" name="formulario" value="addList-form">
+                    <div class="modal-header">
+                        <h4>Agregar a una Lista</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="container mt-1">
+                            <select class="form-control" id="nombreList" name="nombreList">
+                                <option value="" selected disabled>Selecciona una Lista</option>
+                                <?php
+                                $listasbyuser = Lista::getlistasbyUser($mysqli, $idUser);
+                                foreach ($listasbyuser as $lista) { ?>
+                                    <option value="<?php echo $lista->getNombre() ?>"
+                                        id="<?php echo $lista->getIdLista() ?>">
+                                        <?php echo $lista->getNombre() ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <span class="text-danger" id="lista_name_error_message"></span><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            id="close">Cerrar</button>
+                        <button type="button" id="add-lista-btn" class="btn btn-secondary">Agregar
+                            Producto</button>
+                        <span class="text-danger" id="lista_error_message"></span><br>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
         <!-- Footer -->
         <?php include('./components/footer.php'); ?>
 
@@ -231,6 +299,7 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
         <?php include_once "./libs/jqueryJS.php" ?>
         <?php include_once "./libs/swiperJS.php" ?>
         <?php include_once "./libs/bootstrapJS.php" ?>
+        <script src="./js/Agregar_ProductoEnLista.js"></script>
         <script type="module" src="./js/Detalle_producto.js"></script>
 
 

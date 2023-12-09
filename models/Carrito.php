@@ -436,6 +436,7 @@ class Carrito
             return null;
         }
     }
+
     public function toJSON()
     {
         return get_object_vars($this);

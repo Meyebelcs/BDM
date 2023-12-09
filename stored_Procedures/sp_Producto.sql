@@ -213,3 +213,93 @@ BEGIN
 END //
 
 DELIMITER ;
+------------
+DELIMITER //
+
+CREATE PROCEDURE getProductsListCotizacion2(IN p_idUsuarioCreador INT, IN p_idLista INT)
+BEGIN
+    SELECT
+        P.idProducto AS idProducto,
+        P.Nombre AS Nombre,
+        P.Descripción AS Descripción,
+        PEL.idLista AS idLista,
+        PEL.idUsuarioCreador AS idUsuarioCreador,
+        P.Precio AS Precio,
+        P.Fecha_Publicación AS Fecha_Hr,
+        (SELECT Archivo.Archivo
+            FROM Archivo
+            WHERE Archivo.idProducto = P.idProducto
+            ORDER BY Archivo.idArchivo DESC
+            LIMIT 1) AS Imagen,
+        COALESCE(SUM(V.Cantidad), 0) AS CantidadVendida,
+        COALESCE(AVG(C.promedio), 0) AS PromedioCalificacion
+    FROM Producto P
+    JOIN ProductoEnLista PEL ON PEL.idProducto = P.idProducto
+    LEFT JOIN Venta V ON P.idProducto = V.idProducto
+    LEFT JOIN PromedioCalificacion C ON P.idProducto = C.idProducto
+    WHERE  P.Tipo = 'Cotizacion'
+        AND PEL.idUsuarioCreador = p_idUsuarioCreador
+        AND PEL.idLista = p_idLista
+    GROUP BY P.idProducto;
+END //
+
+DELIMITER ;
+------------
+DELIMITER //
+
+CREATE PROCEDURE getProductsListStock2(IN p_idUsuarioCreador INT, IN p_idLista INT)
+BEGIN
+    SELECT
+        P.idProducto AS idProducto,
+        P.Nombre AS Nombre,
+        P.Descripción AS Descripción,
+        PEL.idLista AS idLista,
+        PEL.idUsuarioCreador AS idUsuarioCreador,
+        P.Precio AS Precio,
+        P.Fecha_Publicación AS Fecha_Hr,
+        (SELECT Archivo.Archivo
+            FROM Archivo
+            WHERE Archivo.idProducto = P.idProducto
+            ORDER BY Archivo.idArchivo DESC
+            LIMIT 1) AS Imagen,
+        COALESCE(SUM(V.Cantidad), 0) AS CantidadVendida,
+        COALESCE(AVG(C.promedio), 0) AS PromedioCalificacion
+    FROM Producto P
+    JOIN ProductoEnLista PEL ON PEL.idProducto = P.idProducto
+    LEFT JOIN Venta V ON P.idProducto = V.idProducto
+    LEFT JOIN PromedioCalificacion C ON P.idProducto = C.idProducto
+    WHERE  P.Tipo = 'Stock'
+        AND PEL.idUsuarioCreador = p_idUsuarioCreador
+        AND PEL.idLista = p_idLista
+    GROUP BY P.idProducto;
+END //
+
+DELIMITER ;
+------------
+DELIMITER //
+
+CREATE PROCEDURE getProductsbyVendedor(IN p_idUsuarioCreador INT, IN p_tipo VARCHAR(50))
+BEGIN
+    SELECT
+        P.idProducto AS idProducto,
+        P.Nombre AS Nombre,
+        P.Descripción AS Descripción,
+        P.Precio AS Precio,
+        P.Fecha_Publicación AS Fecha_Hr,
+        P.Inventario AS Inventario,
+        (SELECT Archivo.Archivo
+            FROM Archivo
+            WHERE Archivo.idProducto = P.idProducto
+            ORDER BY Archivo.idArchivo DESC
+            LIMIT 1) AS Imagen,
+        COALESCE(SUM(V.Cantidad), 0) AS CantidadVendida,
+        COALESCE(AVG(C.promedio), 0) AS PromedioCalificacion
+    FROM Producto P
+    LEFT JOIN Venta V ON P.idProducto = V.idProducto
+    LEFT JOIN PromedioCalificacion C ON P.idProducto = C.idProducto
+    WHERE  P.Tipo = p_tipo
+        AND P.idUsuarioCreador = p_idUsuarioCreador
+    GROUP BY P.idProducto;
+END //
+
+DELIMITER ;

@@ -30,12 +30,14 @@ $carrito->setIdUsuarioCliente($idUsuarioCliente);
 
 
 $carrito->setCantidad($_POST['Cantidad']);
+$carrito->setPrecioUnitario($_POST['precioProduct']);
 $carrito->setDescripcion($_POST['Descripcion']);
 $carrito->setFechaAgregado($_POST['fECHA']);
 $carrito->setIdProducto($_POST['idProducto']);
 $carrito->setIdStatus(7);
-$carrito->setPrecioUnitario($producto ->getPrecio());
-$SUBTOTAL= $producto ->getPrecio() *$_POST['Cantidad'];
+
+$SUBTOTAL= floatval($carrito->getPrecioUnitario()) * floatval($_POST['Cantidad']);
+
 $carrito->setSubtotal($SUBTOTAL);
 $carrito->setTipo('Cotizacion');
 

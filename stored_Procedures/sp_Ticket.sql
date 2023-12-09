@@ -19,39 +19,4 @@ BEGIN
 END //
 
 DELIMITER ;
------------------
-DELIMITER //
-
-CREATE PROCEDURE ObtenerListasPublicas(IN creador INT)
-BEGIN
-    SELECT 
-        idLista AS idLista,
-        idStatus AS idStatus,
-        idUsuarioCreador AS idUsuarioCreador,
-        Nombre AS Nombre,
-        Descripción AS Descripción,
-        Imagen AS Imagen,
-        Fecha_creacion AS Fecha_creacion
-    FROM Lista
-    WHERE idUsuarioCreador = creador AND Modo = 'Publico';
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE PROCEDURE ObtenerListasPrivado(IN creador INT)
-BEGIN
-    SELECT 
-        idLista AS idLista,
-        idStatus AS idStatus,
-        idUsuarioCreador AS idUsuarioCreador,
-        Nombre AS Nombre,
-        Descripción AS Descripción,
-        Imagen AS Imagen,
-        Fecha_creacion AS Fecha_creacion
-    FROM Lista
-    WHERE idUsuarioCreador = creador AND Modo = 'Privado';
-END //
-
-DELIMITER ; */
+-----------------*/

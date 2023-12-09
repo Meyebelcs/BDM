@@ -222,6 +222,7 @@ class Chat
         }
     } 
 
+
     public static function updateCotizacionTemporalStatus($mysqli, $idChat, $idProducto)
     {
         $stmt = $mysqli->prepare("CALL ActualizarIdStatusCotizacionTemporal(?, ?)");

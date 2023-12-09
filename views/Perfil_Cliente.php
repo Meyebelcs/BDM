@@ -6,21 +6,18 @@ if (empty($_GET['idUsuario'])) {
     header("Location: home.php");
     exit;
 }
+require_once "../models/Lista.php";
 
 $idUsuario = $_GET['idUsuario'];
+$mysqli = db::connect();
+$userSelected = User::findUserById($mysqli, (int) $idUsuario);
+$modoPerfil = $userSelected->getModo();
 
-if ($idUser != $idUsuario) {
-    //validar que tipo de perfil es, priv o publico
- /*    if ($perfilEsPrivado) { 
-        echo '$(".PerfilPrivado").show();';
-        echo '$(".PerfilPublico").hide();';
-    } else {
-        echo '$(".PerfilPrivado").hide();';
-        echo '$(".PerfilPublico").show();';
-    } */
-}
+$PublicList = Lista::getPublicList($mysqli, $idUsuario);
+$PrivList = Lista::getPrivList($mysqli, $idUsuario);
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,6 +32,9 @@ if ($idUser != $idUsuario) {
     <link rel="stylesheet" href="./css/pages/Perfil_Cliente.css">
 
 </head>
+
+
+
 
 <body>
 
@@ -52,11 +52,17 @@ if ($idUser != $idUsuario) {
                         <img src="./css/assets/perfil.png" id="foto_perfil" class="img-hero" alt="">
                     </div>
                     <div class="col-12 text-center">
-                        <h4 id="nombre_Inst">Melany Arleth Jiménez Gómez</h4>
-                        <h6>@arleth_mel</h6>
+                        <h4 id="nombre_Inst">
+                            <?php echo $userSelected->getNombres(); ?>
+                        </h4>
+                        <h6>
+                            <?php echo $userSelected->getUsername(); ?>
+                        </h6>
 
                         <div class="text-center col-12 mb-3 ">
-                            <h6 class="p-1 pt-3" id="switchText">Perfil Privado</h6>
+                            <h6 class="p-1 pt-3" id="switchText">Perfil
+                                <?php echo $userSelected->getModo(); ?>
+                            </h6>
                             <!-- Interruptor de bolita -->
                             <!--  <label class="switch">
                                 <input type="checkbox" id="switchInput">
@@ -74,62 +80,92 @@ if ($idUser != $idUsuario) {
         <!-- Contenido -->
         <div class="container">
 
-            <div class="PerfilPublico mb-5">
+            <?php if ($modoPerfil === 'Público' || $idUser == $idUsuario) { ?>
 
-                <div class="text-center mb-3">
-                    <h3 class="p-2 pt-3" id="switchText">Listas</h3>
+                <div class="PerfilPublico mb-5">
+
+                    <div class="text-center mb-3">
+                        <h3 class="p-2 pt-3" id="switchText">Listas</h3>
+                    </div>
+                    <!-- Cards -->
+
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center">
+
+
+                        <?php
+                        if ($PublicList) {
+                            foreach ($PublicList as $lista) { ?>
+                                <div class=" col border mx-3 mb-3 " style="width: 20rem;">
+                                    <div class="card" style="width: 100%;">
+
+
+                                     <!--    <img src="data:image/jpeg;base64,<?php /*  echo base64_encode($lista->getImagen()); */ ?>"
+                                            class="card-img card-img-top" alt="Imagen actual"> -->
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-1">
+                                                <?php echo $lista->getNombre(); ?>
+                                            </h5>
+                                            <small class="card-text mb-1">
+                                                <?php echo $lista->getDescripcion(); ?>
+                                            </small>
+                                            <hr class="mt-2">
+                                            <p class="card-text mb-2">Fecha de creacion:<br>
+                                                <?php echo $lista->getFechaCreacion(); ?>
+                                            </p>
+
+
+                                            <a href="Perfil_Listas.php?idLista=<?php echo $lista->getIdLista(); ?>"
+                                                class="btn btn-secondary mb-1" id="">Ver
+                                                detalles</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <?php }
+                        } else { ?>
+                            <div class="col border mx-3 mb-6 mt-6 " style="width: 20rem; background:  #B7CBBF;  margin: 5rem;">
+                                No hay listas
+                            </div>
+                        <?php } ?>
+
+                        <?php
+                        if ($idUser == $idUsuario) {
+                            foreach ($PrivList as $lista) { ?>
+                                <div class=" col border mx-3 mb-3 " style="width: 20rem;">
+                                    <div class="card" style="width: 100%;">
+                                       <!--  <img src="data:image/jpeg;base64,<?php /*  echo base64_encode($lista->getImagen()); */ ?>"
+                                            class="card-img card-img-top" alt="Imagen actual"> -->
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-1">
+                                                <?php echo $lista->getNombre(); ?>
+                                            </h5>
+                                            <small class="card-text mb-1">
+                                                <?php echo $lista->getDescripcion(); ?>
+                                            </small>
+                                            <hr class="mt-2">
+                                            <p class="card-text mb-2">Fecha de creacion:
+                                                <?php echo $lista->getFechaCreacion(); ?>
+                                            </p>
+
+
+                                            <a href="Perfil_Listas.php?idLista=<?php echo $lista->getIdLista(); ?>"
+                                                class="btn btn-secondary mb-1" id="">Ver
+                                                detalles</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <?php }
+                        } ?>
+                    </div>
                 </div>
-                <!-- Cards -->
 
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center">
-                    <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                        <div class="card" style="width: 100%;">
-                            <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                            <div class="card-body">
-                                <h5 class="card-title mb-1">Favoritos</h5>
-                                <small class="card-text mb-1">Productos deseados</small>
-                                <hr class="mt-2">
-                                <p class="card-text mb-2">15 elementos</p>
+            <?php } ?>
+            <?php if ($modoPerfil === 'Privado' && $idUser != $idUsuario) { ?>
 
 
-                                <a href="Perfil_Listas.php?idLista=3" class="btn btn-secondary mb-1" id="">Ver
-                                    detalles</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                        <div class="card" style="width: 100%;">
-                            <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                            <div class="card-body">
-                                <h5 class="card-title mb-1">Regalos Amigos</h5>
-                                <small class="card-text mb-1">Regalos bonitos para los que quiero</small>
-                                <hr class="mt-2">
-                                <p class="card-text mb-2">42 elementos</p>
-
-
-                                <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" col border mx-3 mb-3 " style="width: 20rem;">
-                        <div class="card" style="width: 100%;">
-                            <img src="./css/assets/vangogh.png" class="card-img card-img-top" alt="Imagen actual">
-                            <div class="card-body">
-                                <h5 class="card-title mb-1">Para Papá</h5>
-                                <small class="card-text mb-1">Cosas para decorar el carro</small>
-                                <hr class="mt-2">
-                                <p class="card-text mb-2">26 elementos</p>
-
-
-                                <a href="" class="btn btn-secondary mb-1" id="">Ver detalles</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="PerfilPrivado">
-                <!-- Cards COTIZACION--------->
+                <div class="PerfilPrivado">
+                    <!-- Cards COTIZACION--------->
 
                 <div class="row pt-5 row-cols-1 row-cols-md-2 row-cols-lg-4 mx-3 justify-content-center">
                     <div class="card border mb-5" style="width: 50rem; ">
@@ -141,6 +177,7 @@ if ($idUser != $idUsuario) {
 
             </div>
         </div>
+        <?php } ?>
 
         <!-- Footer -->
         <?php include('./components/footer.php'); ?>

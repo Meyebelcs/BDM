@@ -78,7 +78,7 @@
             <a href="chat.php">Chat</a>
             <?php
             if ($rol == 'Comprador') { ?>
-                <a href="Perfil_Cliente.php">Mis Listas</a>
+                <a href="Perfil_Cliente.php?idUsuario=<?php echo $idUser ?>">Mis Listas</a>
             <?php }
             ?>
             <a href=<?php echo $url ?>><?php echo $titulo ?></a>

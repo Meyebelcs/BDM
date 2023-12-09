@@ -1,4 +1,3 @@
-<!-- -----------FALTA EDICION DE FOTO PERFIL------------------>
 <?php
 session_start();
 
@@ -87,6 +86,8 @@ $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli,
                                     <a class="btn btn-secondary mb-3" data-bs-toggle="modal"
                                         data-bs-target="#editProfile">Editar perfil</a>
                                     <a class="btn btn-secondary mb-3" href="Alta_Producto.php">Agregar Producto</a>
+                                    <a class="btn btn-secondary mb-3" href="Editar_Producto.php" data-bs-toggle="modal"
+                                        data-bs-target="#editproducto">Editar Producto</a>
 
                                 </div>
                             </div>
@@ -525,6 +526,53 @@ $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli,
             </div>
         </div>
 
+        <!-- Modal editar producto-->
+        <div class="modal fade" id="editproducto" tabindex="-1" aria-labelledby="edit-producto-title"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="edit-profile-title">Editar producto</h4>
+                    </div>
+                    <form action="" id="edit-producto-modal">
+                        <div class="modal-body">
+
+                            <label for="" class="form-label">Productos</label>
+                            <div class="container mt-1">
+                                <select class="form-control" id="producto-edit-name" name="nameproductoeditname">
+                                    <option value="" selected disabled>Selecciona un producto</option>
+                                    <?php
+                                    $productosStock = POV_ReportesVendedor::getProductsbyVendedor($mysqli, $idUser, 'Stock');
+
+                                    foreach ($productosStock as $producto) { ?>
+                                        <option value="<?php echo $producto->getNombre() ?>"
+                                            id="<?php echo $producto->getIdProducto() ?>">
+                                            <?php echo $producto->getNombre() ?>
+                                        </option>
+                                    <?php } ?>
+                                    <?php
+                                    $productosCotizacion = POV_ReportesVendedor::getProductsbyVendedor($mysqli, $idUser, 'Cotizacion');
+
+                                    foreach ($productosCotizacion as $productoCoti) { ?>
+                                        <option value="<?php echo $productoCoti->getNombre() ?>"
+                                            id="<?php echo $productoCoti->getIdProducto() ?>">
+                                            <?php echo $productoCoti->getNombre() ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <a href="#" class="btn btn-secondary" id="editButton" name="save-changes">Editar</a>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Footer -->
         <?php include('./components/footer.php'); ?>
 
@@ -534,7 +582,22 @@ $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli,
         <?php include_once "./libs/bootstrapJS.php" ?>
         <script src="./js/POV_Perfil_Vendedor.js"></script>
         <script src="./js/Profile_edition.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
 
+                var editButton = document.getElementById("editButton");
+                var productoSelect = document.getElementById("producto-edit-name");
+
+                editButton.addEventListener("click", function () {
+                    var selectedValue = productoSelect.options[productoSelect.selectedIndex].value;
+                    var selectedId = productoSelect.options[productoSelect.selectedIndex].id;
+
+                    var redirectUrl = "Editar_Producto.php?idProductoSelected=" + selectedId;
+
+                    window.location.href = redirectUrl;
+                });
+            });
+        </script>
 
     </main>
 </body>

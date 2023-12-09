@@ -388,13 +388,88 @@ class POV_ReportesVendedor
 
         return $products;
     }
-
+/* 
     public static function getAllProductsListaStock($mysqli, $idLista, $idUsuarioCliente)
     {
         $products = array();
 
         // Ajusta el nombre del procedimiento almacenado y el número de parámetros
         $stmt = $mysqli->prepare("CALL getProductsListStock(?, ?)");
+        $stmt->bind_param("ss", $idUsuarioCliente, $idLista);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new POV_ReportesVendedor(
+                $row['idProducto'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                0,
+                $row['Fecha_Hr'],
+                $row['Imagen'],
+                $row['CantidadVendida'],
+                0,
+                $row['PromedioCalificacion']
+            );
+
+            
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+
+
+        $stmt->close();
+
+        return $products;
+    } */
+
+    public static function getAllProductsListaStock($mysqli, $idLista, $idUsuarioCliente)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL getProductsListStock2(?, ?)");
+        $stmt->bind_param("ss", $idUsuarioCliente, $idLista);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new POV_ReportesVendedor(
+                $row['idProducto'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                0,
+                $row['Fecha_Hr'],
+                $row['Imagen'],
+                $row['CantidadVendida'],
+                0,
+                $row['PromedioCalificacion']
+            );
+
+            
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+
+
+        $stmt->close();
+
+        return $products;
+    }
+
+
+/*     public static function getAllProductsListaCotizacion($mysqli, $idLista, $idUsuarioCliente)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL getProductsListCotizacion(?, ?)");
         $stmt->bind_param("ss", $idUsuarioCliente, $idLista);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -422,14 +497,14 @@ class POV_ReportesVendedor
         $stmt->close();
 
         return $products;
-    }
+    } */
 
     public static function getAllProductsListaCotizacion($mysqli, $idLista, $idUsuarioCliente)
     {
         $products = array();
 
         // Ajusta el nombre del procedimiento almacenado y el número de parámetros
-        $stmt = $mysqli->prepare("CALL getProductsListCotizacion(?, ?)");
+        $stmt = $mysqli->prepare("CALL getProductsListCotizacion2(?, ?)");
         $stmt->bind_param("ss", $idUsuarioCliente, $idLista);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -480,6 +555,41 @@ class POV_ReportesVendedor
                 $row['Imagen'],
                 $row['CantidadVendida'],
                 $row['TotalIngresos'],
+                $row['PromedioCalificacion']
+            );
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+
+
+        $stmt->close();
+
+        return $products;
+    }
+
+    public static function getProductsbyVendedor($mysqli, $idUsuarioCreador, $tipo)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL getProductsbyVendedor(?, ?)");
+        $stmt->bind_param("ss", $idUsuarioCreador, $tipo);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new POV_ReportesVendedor(
+                $row['idProducto'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                $row['Inventario'],
+                $row['Fecha_Hr'],
+                $row['Imagen'],
+                $row['CantidadVendida'],
+                0,
                 $row['PromedioCalificacion']
             );
 

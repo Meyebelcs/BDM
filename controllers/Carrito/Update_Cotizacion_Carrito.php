@@ -12,9 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     try {
-        var_dump($_POST["idCarrito"]);
-        var_dump($_POST["idChat"]);
-        var_dump($_POST["idProducto"]);
+    
         $result = Carrito::updateCarritoStatus($mysqli, $_POST["idCarrito"]);
         //se actualiza el status del boton
         Chat::updateCotizacionTemporalStatusActivo($mysqli, $_POST["idChat"], $_POST["idProducto"]);
