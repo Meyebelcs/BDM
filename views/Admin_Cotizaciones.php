@@ -9,6 +9,11 @@ session_start();
 
 require_once './components/menu.php';
 
+require_once "../models/Producto.php";
+
+$cotizaciones = Product::getProductbyStatus($mysqli, 2);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +38,9 @@ require_once './components/menu.php';
 
   <main m-0 p-0 class="background">
 
-    <div class="col py-3">
+
+
+    <!--     <div class="col py-3">
       <div class="content">
         <div class="container mt-3">
           <div class="row">
@@ -73,12 +80,12 @@ require_once './components/menu.php';
             </div>
           </div>
 
-          <!--   <div class="row mt-4">
+           <div class="row mt-4">
                     <h2>Cotizaciones pendientes de revisión</h2>
-                    </div> -->
+                    </div> 
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Hero -->
     <div class="Hero">
@@ -100,45 +107,49 @@ require_once './components/menu.php';
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="text-center">
-                      <td data-title="Cotización">Pinturas de Oleo</td>
-                      <td data-title="Usuario">Elian Padilla</td>
-                      <td data-title="Detalle">
-                        <a class="btn btn-secondary" href="Detalle_producto.php">Ver detalles</a>
-                      </td>
-                      <td data-title="Aceptar/Declinar">
-                        <a class="btn text-success" href=""><i class="bi bi-check-circle-fill"></i></a>
-                        <a class="btn text-danger" href=""><i class="bi bi-x-circle-fill"></i></a>
-                      </td>
-                    </tr>
-                    <tr class="text-center">
-                      <td data-title="Cotización">Manualidades</td>
-                      <td data-title="Usuario">Mary Sofia</td>
-                      <td data-title="Detalle">
-                         <a class="btn btn-secondary" href="Detalle_producto.php">Ver detalles</a>
-                      </td>
-                      <td data-title="Aceptar/Declinar">
-                        <a class="btn text-success" href=""><i class="bi bi-check-circle-fill"></i></a>
-                        <a class="btn text-danger" href=""><i class="bi bi-x-circle-fill"></i></a>
-                      </td>
-                    </tr>
-                    <tr class="text-center">
-                      <td data-title="Cotización">Mesas de maders</td>
-                      <td data-title="Usuario">Daniel Gomez</td>
-                      <td data-title="Detalle">
-                         <a class="btn btn-secondary" href="Detalle_producto.php">Ver detalles</a>
-                      </td>
-                      <td data-title="Aceptar/Declinar">
-                        <a class="btn text-success" href=""><i class="bi bi-check-circle-fill"></i></a>
-                        <a class="btn text-danger" href=""><i class="bi bi-x-circle-fill"></i></a>
-                      </td>
-                    </tr>
+                    <?php if ($cotizaciones) {
+                      foreach ($cotizaciones as $producto) { ?>
+
+                        <tr class="text-center">
+                          <td data-title="Cotización">
+                            <?php echo $producto->getNombre(); ?>
+                          </td>
+
+                          <?php
+                          $userproducto = User::findUserById($mysqli, (int) $producto->getIdUsuarioCreador());
+                          ?>
+
+                          <td data-title="Usuario">
+                            <?php echo $userproducto->getNombres(); ?>
+                            <?php echo $userproducto->getApellidos(); ?>
+                          </td>
+                          <td data-title="Detalle">
+                            <a class="btn btn-secondary"
+                              href="Detalle_producto.php?idProductoIndex=<?php echo $producto->getIdProducto(); ?>">Ver
+                              detalles</a>
+                          </td>
+                          <td data-title="Aceptar/Declinar">
+                            <a data-idproducto="<?php echo $producto->getIdProducto(); ?>"
+                            id="btnAceptar"  class="btn text-success btnAceptar" href="#"><i class="bi bi-check-circle-fill"></i></a>
+                            <a data-idproducto="<?php echo $producto->getIdProducto(); ?>"
+                            id="btnDeclinar" class="btn text-danger btnDeclinar" href="#"><i class="bi bi-x-circle-fill"></i></a>
+                          </td>
+
+                        </tr>
+                      <?php }
+                    } else { ?>
+                      <div class="col border mx-3 mb-6 mt-6 " style="width: 20rem; background:  #B7CBBF;  margin: 5rem;">
+                        Aún no hay Cotizaciones en estado de espera
+                      </div>
+                    <?php } ?>
+
+
                   </tbody>
                 </table>
               </div>
             </div>
 
-            <div class="disabled-course-table col-12 me-3 mt-4 mb-4">
+            <!--             <div class="disabled-course-table col-12 me-3 mt-4 mb-4">
               <h2>Cotizaciones Denegadas</h2>
               <div class="row pt-3" id="no-more-tables">
                 <table class="table table-borderless">
@@ -209,7 +220,10 @@ require_once './components/menu.php';
                   </tbody>
                 </table>
               </div>
-            </div>
+            </div> -->
+
+
+
           </div>
 
         </div>
@@ -224,6 +238,7 @@ require_once './components/menu.php';
     <?php include_once "./libs/bootstrapJS.php" ?>
     <?php include_once "./libs/sweetalertJS.php" ?>
     <script src="./js/Admin_Cotizaciones.js"></script>
+
 
   </main>
 </body>

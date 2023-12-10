@@ -1,3 +1,28 @@
+var selectedCategoryId = null; // Variable para almacenar el idCategoria seleccionado
+
+document.getElementById('categoria-edit-name').addEventListener('change', function () {
+  var selectedOption = this.options[this.selectedIndex];
+  selectedCategoryId = selectedOption.getAttribute('data-category-id');
+  var nombreField = document.getElementById('edit-namecategoria');
+  var descripcionField = document.getElementById('edit-last-categoria');
+
+  if (selectedOption.value !== "") {
+    // Habilitar campos y asignar valores
+    nombreField.disabled = false;
+    descripcionField.disabled = false;
+    nombreField.value = selectedOption.value;
+    descripcionField.value = selectedOption.getAttribute('data-category-description');
+  } else {
+    // Deshabilitar campos
+    nombreField.disabled = true;
+    descripcionField.disabled = true;
+    nombreField.value = '';
+    descripcionField.value = '';
+  }
+});
+
+
+
 /*----------- Switch Cotizacion Producto ----------*/
 var estado = 'Stock';
 $(document).ready(function () {
@@ -38,7 +63,71 @@ $(document).ready(function () {
     nombreProductoInput.value = '';
     calificacionSelect.value = '';
   }
+  //----------------------
+  document.getElementById('editButtonCategoria').addEventListener('click', function () {
 
+    if (selectedCategoryId !== null) {
+
+      var nombreValue = document.getElementById('edit-namecategoria').value;
+      var descripcionValue = document.getElementById('edit-last-categoria').value;
+
+      var formDataCotizacion = new FormData();
+
+      const now = new Date();
+      const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
+
+
+      //obtengo el valor de los campos
+      formDataCotizacion.append('Nombre', nombreValue);
+      formDataCotizacion.append('Descripción', descripcionValue);
+      formDataCotizacion.append('idCategoria', selectedCategoryId);
+
+
+      const xhr = new XMLHttpRequest();
+
+      xhr.open("POST", "../controllers/Categoria/Editar_Categoria.php", true);
+      xhr.onreadystatechange = function () {
+        try {
+          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            let res = JSON.parse(xhr.response);
+            if (res.success !== true) {
+              Swal.fire({
+                title: 'Error',
+                text: res.msg, // El mensaje de error que obtiene del servidor
+                icon: 'error',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#F47B8F'
+              });
+              return;
+            }
+
+            // Éxito...
+            Swal.fire({
+              title: ' La Categoría se ha editado con éxito',
+              icon: 'success',
+              confirmButtonText: 'Aceptar',
+              confirmButtonColor: '#F47B8F'
+            }).then((willDelete) => {
+              if (willDelete) {
+                location.reload();
+              } else {
+                alert("error");
+              }
+            });
+
+            console.log(res.msg);
+          }
+        } catch (error) {
+          // Imprimir error del servidor
+          console.error(xhr.response);
+        }
+      };
+
+      // Enviar formDataCotizacion en lugar de JSON
+      xhr.send(formDataCotizacion);
+      return false;
+    }
+  });
   //--------------FILTROOO-------------------------
 
   // Captura cambios en los campos con la clase 'buscar'

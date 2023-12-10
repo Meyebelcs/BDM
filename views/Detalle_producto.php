@@ -92,11 +92,17 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                             <?php echo $producto->getDescripcion(); ?>
                         </h6>
                     </div>
-                    <div class="mt-4" style="color: cadetblue;">
-                        <h2> Cantidad Disponible:
-                            <?php echo $producto->getInventario(); ?>
-                        </h2>
-                    </div>
+
+                    <?php if ($producto->getTipo() != 'Cotizacion') { ?>
+
+
+                        <div class="mt-4" style="color: cadetblue;">
+                            <h2> Cantidad Disponible:
+                                <?php echo $producto->getInventario(); ?>
+                            </h2>
+                        </div>
+
+                    <?php } ?>
 
                 </div>
 
@@ -230,7 +236,7 @@ $agotado = Product::validateExist($mysqli, $idProductoSelected);
                         if ($roluserComent != 'Vendedor') {
                             echo '<a href="Perfil_Cliente.php?idUsuario=' . $comment->getidUsuario() . '"><strong>' . $comment->getUsername() . '</strong></a><br>';
 
-                        }else{
+                        } else {
                             echo '<a href="Perfil_Vendedor.php?idUsuarioSelected=' . $comment->getidUsuario() . '"><strong>' . $comment->getUsername() . '</strong></a><br>';
                         }
 

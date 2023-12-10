@@ -1,5 +1,5 @@
 
-/* DELIMITER //
+DELIMITER //
 
 CREATE PROCEDURE ObtenerDatosReciboVenta(IN identificadorVenta INT)
 BEGIN
@@ -19,4 +19,28 @@ BEGIN
 END //
 
 DELIMITER ;
------------------*/
+
+------------find Producto------------
+DELIMITER //
+
+CREATE PROCEDURE sp_Ticket(
+    IN p_identificador INT
+)
+BEGIN
+    SELECT
+        V.idProducto,
+        P.Nombre,
+        P.Descripción,
+        P.Precio,
+        P.Tipo,
+        V.FechaHr_registro,
+        V.Cantidad,
+        V.Total
+    FROM Producto P
+    JOIN Venta V ON P.idProducto = V.idProducto
+    WHERE  V.identificador = p_identificador
+    GROUP BY P.idProducto;
+   
+END //
+
+DELIMITER ;

@@ -94,3 +94,34 @@ BEGIN
     WHERE
         idProducto = p_idProducto;
 END
+---------
+-- Crear procedimiento almacenado para verificar existencia de categoría por nombre
+DELIMITER //
+
+CREATE PROCEDURE sp_CheckCategoriaExists(IN p_nombre VARCHAR(255), OUT p_existe BOOLEAN)
+BEGIN
+    SELECT COUNT(*) > 0 INTO p_existe
+    FROM Categoria
+    WHERE Nombre = p_nombre;
+END //
+
+DELIMITER ;
+
+
+----------------
+DELIMITER //
+
+CREATE PROCEDURE sp_getCategoriasbyuserCreador(IN p_idUsuario INT)
+BEGIN
+    SELECT
+        idCategoria,
+        Nombre,
+        Descripcion,
+        Fecha_creacion
+    FROM
+        Categoria
+    WHERE
+        idUsuarioCreador = p_idUsuario;
+END//
+
+DELIMITER ;

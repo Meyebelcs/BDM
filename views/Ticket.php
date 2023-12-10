@@ -1,13 +1,19 @@
-<!-- NOOO HA SIDO PROGRAMADA -->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
-<!-- --------------------------------------------------->
+
 <?php
 session_start();
 
 require_once './components/menu.php';
+
+require_once "../models/Ticket.php";
+
+//Sereedirige a home si no ha seleccionado ningun producto para mostrar
+if (!isset($_GET['idProductoIndex'])) {
+    header('Location: home.php');
+    exit;
+}
+
+
+$ticketInfo = Ticket::finTicketByidProduct($mysqli, $_GET['idProductoIndex']);
 
 ?>
 
@@ -41,6 +47,8 @@ require_once './components/menu.php';
                 <br> 
                 <br> 
                 <br> 
+                <?php echo date("Y-m-d"); ?></p>
+              
             <p>Fecha: <?php echo date("Y-m-d"); ?></p>
             <p>Hora: <?php echo date("H:i:s");  ?> </p>
             <p><strong>Vendedor</strong></p>

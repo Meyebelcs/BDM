@@ -8,6 +8,7 @@ require_once './components/POV_menu.php';
 require_once "../models/Reportes/POV_Reportes.php";
 require_once "../models/Archivo.php";
 require_once "../models/Material_Inventario.php";
+require_once "../models/Categoria.php";
 
 
 //$productosStock = POV_ReportesVendedor::getAllSellsProductsStock($mysqli, $idUser);
@@ -15,6 +16,11 @@ $productosStock = POV_ReportesVendedor::getAllProductsFiltro($mysqli, $idUser, n
 $productosCotizacion = POV_ReportesVendedor::getAllProductsFiltro($mysqli, $idUser, null, null, 0, null, 0, 'Cotizacion');
 $VentasStock = POV_ReportesVendedor::GetSellsTotalByUserStock($mysqli, $idUser);
 $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli, $idUser);
+
+$categoriasbyuser = Categoria::sp_getCategoriasbyuserCreador($mysqli, $idUser);
+/* var_dump( $categoriasbyuser);
+var_dump( $idUser); */
+
 
 ?>
 
@@ -88,6 +94,8 @@ $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli,
                                     <a class="btn btn-secondary mb-3" href="Alta_Producto.php">Agregar Producto</a>
                                     <a class="btn btn-secondary mb-3" href="Editar_Producto.php" data-bs-toggle="modal"
                                         data-bs-target="#editproducto">Editar Producto</a>
+                                    <a class="btn btn-secondary mb-3" data-bs-toggle="modal"
+                                        data-bs-target="#editcategoria">Editar Categorias</a>
 
                                 </div>
                             </div>
@@ -546,7 +554,7 @@ $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli,
 
                                     foreach ($productosStock as $producto) { ?>
                                         <option value="<?php echo $producto->getNombre() ?>"
-                                            id="<?php echo $producto->getIdProducto() ?>">
+                                            id="<?php echo $producto->getIdProducto() ?>">Stock -
                                             <?php echo $producto->getNombre() ?>
                                         </option>
                                     <?php } ?>
@@ -555,7 +563,7 @@ $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli,
 
                                     foreach ($productosCotizacion as $productoCoti) { ?>
                                         <option value="<?php echo $productoCoti->getNombre() ?>"
-                                            id="<?php echo $productoCoti->getIdProducto() ?>">
+                                            id="<?php echo $productoCoti->getIdProducto() ?>">Cotizacion -
                                             <?php echo $productoCoti->getNombre() ?>
                                         </option>
                                     <?php } ?>
@@ -572,6 +580,59 @@ $VentasCotizacion = POV_ReportesVendedor::GetSellsTotalByUserCotizacion($mysqli,
                 </div>
             </div>
         </div>
+
+        <!-- Modal editar categoria-->
+        <div class="modal fade" id="editcategoria" tabindex="-1" aria-labelledby="edit-categoria-title"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="edit--title">Editar categoria</h4>
+                    </div>
+                    <form action="" id="edit-categoria-modal">
+                        <div class="modal-body">
+
+                            <label for="" class="form-label">Categorias</label>
+                            <div class="container mt-1">
+                                <select class="form-control" id="categoria-edit-name" name="namecategoriaeditname">
+                                    <option value="" selected disabled>Selecciona un categoria</option>
+
+                                    <?php
+                                    foreach ($categoriasbyuser as $category) {
+                                        ?>
+                                        <option value="<?php echo $category->getNombre(); ?>"
+                                            data-category-id="<?php echo $category->getIdCategoria(); ?>"
+                                            data-category-description="<?php echo $category->getDescripcion(); ?>">
+                                            <?php echo $category->getNombre(); ?>
+                                        </option>
+
+
+                                    <?php } ?>
+
+                                </select>
+                            </div>
+
+                            <label for="edit-name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="edit-namecategoria" name="namecategoria" disabled>
+                            <span class="text-danger" id="fname_error_categoria"></span><br>
+
+                            <label for="edit-last-name" class="form-label">Descripción</label>
+                            <input type="text" class="form-control" id="edit-last-categoria" name="edit-last-categoria" disabled>
+                            <span class="text-danger" id="sname_error_categoria"></span><br>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <a href="#" class="btn btn-secondary" id="editButtonCategoria"
+                                name="save-changes">Editar</a>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
 
         <!-- Footer -->
         <?php include('./components/footer.php'); ?>

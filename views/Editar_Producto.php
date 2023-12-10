@@ -10,6 +10,7 @@ if (!isset($_GET['idProductoSelected'])) {
 
 require_once "../models/Producto.php";
 require_once "../models/Archivo.php";
+require_once "../models/Material_Inventario.php";
 
 $idProductoSelected = $_GET['idProductoSelected'];
 $producto = Product::findProductoById($mysqli, $idProductoSelected);
@@ -53,8 +54,9 @@ $archivos = Archivo::getArchivoByProduct($mysqli, $idProductoSelected);
     <!-- Hero -->
     <div class="text-center mb-3">
       <h3 class="border-bottom p-2 pt-3" id="switchText">Editar Producto</h3>
-      <!-- Interruptor de bolita -->
-
+      
+      <input type="hidden" id="idProductoHidden" name=" <?php echo $idProductoSelected ?>"
+          value=" <?php echo $idProductoSelected ?>" />
     </div>
 
     <div class="container">
@@ -78,8 +80,7 @@ $archivos = Archivo::getArchivoByProduct($mysqli, $idProductoSelected);
                 </div>
                 <div class="mb-3">
                   <label for="descripcion" class="form-label">Descripción</label>
-                  <textarea class="form-control" id="desc" rows="3"
-                    ><?php echo $producto->getDescripcion(); ?></textarea>
+                  <textarea class="form-control" id="desc" rows="3"><?php echo $producto->getDescripcion(); ?></textarea>
                   <span class="text-danger" id="description_error_message"></span><br>
                 </div>
 
@@ -173,36 +174,49 @@ $archivos = Archivo::getArchivoByProduct($mysqli, $idProductoSelected);
               </div>
               <div class="mb-3">
                 <label for="descripcionCotizacion" class="form-label">Descripción</label>
-                <textarea class="form-control" id="descCotizacion" rows="3"
-                 ><?php echo $producto->getDescripcion(); ?></textarea>
+                <textarea class="form-control" id="descCotizacion"
+                  rows="3"><?php echo $producto->getDescripcion(); ?></textarea>
                 <span class="text-danger" id="description_error_messageCotizacion"></span><br>
               </div>
 
-              </div>
+            </div>
 
-              <!-- MATERIALES -->
-              <div class="row mt-4">
-                <div class="col-lg-12 p-2 d-flex">
-                  <h4 class="pe-4">Materiales</h4>
-                  <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#addmaterial">Añadir Material</button>
+
+            <!-- Botón para mostrar/ocultar el div -->
+              <button type="button" id="mostrarMaterialesBtn" class="btn btn-secondary mt-3" style="width: 100px;  height: 100px;">Editar Materiales</button>
+
+
+              <div class="editmateriales" style="display: none;">
+
+                <!-- MATERIALES -->
+                <div class="row mt-4">
+                  <div class="col-lg-12 p-2 d-flex">
+                    <h4 class="pe-4">Materiales</h4>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                      data-bs-target="#addmaterial">Añadir Material</button>
+                  </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="accordion levels" id="levels">
+                <div class="row">
+                  <div class="accordion levels" id="levels">
 
-                  <?php
-                  $materialesbyproduct = MaterialInventario::GetMaterialesPorProducto($mysqli, $idProductoSelected);
-                  foreach ($materialesbyproduct as $material) { ?>
-                  <?php echo $material->getNombre() ?>
-                  <?php echo $material->getIdMaterial() ?>
-                  
-                  <?php } ?>
+                    <?php
+                    $mysqli = db::connect();
+                    $materialesbyproduct = MaterialInventario::GetMaterialesPorProducto($mysqli, $idProductoSelected);
+                    foreach ($materialesbyproduct as $material) {
+                      echo $material->getNombre();
+                      echo $material->getIdMaterial();
 
+                    } ?>
+
+                  </div>
                 </div>
                 <span class="text-danger" id="material_error_messageCotizacion"></span><br>
-                <button type="submit" class="btn btn-secondary m-4 mb-9">Editar Cotización</button>
+              </div>
+
+
+
+              <button type="submit" class="btn btn-secondary m-4 mb-9">Editar Cotización</button>
 
           </form>
         </div>

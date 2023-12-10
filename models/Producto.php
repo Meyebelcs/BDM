@@ -269,21 +269,23 @@ class Product
 
     public function updateProducto($mysqli)
     {
-        $stmt = $mysqli->prepare("CALL sp_UpdateProducto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $mysqli->prepare("CALL sp_UpdateProducto(?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param(
-            "sssssssssss",
+            "sssssss",
             $this->idProducto,
-            $this->idAdminAutorizacion,
+          
             $this->idStatus,
-            $this->idUsuarioCreador,
+           
             $this->nombre,
             $this->descripcion,
             $this->precio,
             $this->inventario,
-            $this->fechaPublicacion,
+           
             $this->fechaActualizacion,
-            $this->tipo
+          
         );
+
+      
 
         if ($stmt->execute()) {
             return true; // Éxito en la actualización
@@ -595,6 +597,45 @@ class Product
 
         return $products;
     }
+
+    public static function getProductbyStatus($mysqli, $idStatus)
+    {
+        $products = array();
+
+        // Ajusta el nombre del procedimiento almacenado y el número de parámetros
+        $stmt = $mysqli->prepare("CALL sp_FindProductoByStatus(?)");
+
+        // Cambia "ss" a "ii" para indicar que son enteros
+        $stmt->bind_param("i", $idStatus);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $producto = new Product(
+                $row['idAdminAutorización'],
+                $row['idStatus'],
+                $row['idUsuarioCreador'],
+                $row['Nombre'],
+                $row['Descripción'],
+                $row['Precio'],
+                $row['Inventario'],
+                $row['Fecha_publicación'],
+                $row['Fecha_actualizacion'],
+                $row['Tipo']
+            );
+
+            $producto->setIdProducto($row['idProducto']);
+
+            // Agregar el comentario directamente al array
+            $products[] = $producto;
+        }
+
+        $stmt->close();
+
+        return $products;
+    }
+
     public function toJSON()
     {
         return get_object_vars($this);

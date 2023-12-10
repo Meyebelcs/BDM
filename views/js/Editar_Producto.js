@@ -1,9 +1,22 @@
 import { materialsArray } from './Material.js';
 
 
+
 $(document).ready(function () {
 
-   
+    var mostrarMaterialesBtn = document.getElementById('mostrarMaterialesBtn');
+    var materialesDiv = document.querySelector('.editmateriales');
+    
+    mostrarMaterialesBtn.addEventListener('click', function () {
+        if (materialesDiv.style.display === 'none' || materialesDiv.style.display === '') {
+            materialesDiv.style.display = 'block';
+            mostrarMaterialesBtn.textContent = 'No Editar Materiales';
+        } else {
+            materialesDiv.style.display = 'none';
+            mostrarMaterialesBtn.textContent = 'Editar Materiales';
+        }
+    });
+
     //---------------select categorias-----------------
     $("#select-categories").select2({
         placeholder: "Selecciona categorías", //placeholder
@@ -184,15 +197,15 @@ $(document).ready(function () {
 
         event.preventDefault();
 
-
+        alert( $('#idProductoHidden').val());
         check_name();
         check_desc();
         check_price();
         check_inventario();
-        check_category();
-        check_img();
+      /*   check_category(); */
+       
 
-        if (error_name === false && error_desc === false && error_category === false && error_inventario === false && error_price === false && error_img === false) {
+        if (error_name === false && error_desc === false && error_inventario === false && error_price === false ) {
 
             var formData = new FormData();
 
@@ -201,23 +214,16 @@ $(document).ready(function () {
 
             //obtengo el valor de los campos
             formData.append('Nombre', $('#name').val());
+            formDataCotizacion.append('idProducto', $('#idProductoHidden').val());
+            alert( $('#idProductoHidden').val());
             formData.append('Descripción', $('#desc').val());
             formData.append('Precio', $('#price').val());
             formData.append('Inventario', $('#inventario').val());
             formData.append('Fecha_actualizacion', formattedDate);
-            formData.append('Fecha_publicación', formattedDate);
             formData.append('idStatus', '1');
-            formData.append('idAdminAutorización', $('#idUser').val());
-            formData.append('idUsuarioCreador', $('#idUser').val());
-            formData.append('Tipo', 'Stock');
-
-            // Itera sobre el array de imágenes y agrégales al FormData
-            for (var i = 0; i < imagenesStock.length; i++) {
-                formData.append("imagenesStock[]", imagenesStock[i]);
-            }
-
-
-            // Itera sobre el array de categoria y agrégales al FormData
+           
+           
+         /*    // Itera sobre el array de categoria y agrégales al FormData
             var selectElement = document.getElementById("select-categories");
             var selectedOptions = [];
 
@@ -230,12 +236,12 @@ $(document).ready(function () {
             for (var i = 0; i < selectedOptions.length; i++) {
                 const idCategoria = selectedOptions[i];
                 formData.append("categorias[" + i + "]", idCategoria);
-            }
+            } */
 
-            console.log("Imágenes antes de enviar la solicitud:", imagenesStock);
+         
 
             const xhr = new XMLHttpRequest();
-            xhr.open("POST", "../controllers/Producto/Alta_Producto.php", true);
+            xhr.open("POST", "../controllers/Producto/Editar_Producto.php", true);
             xhr.onreadystatechange = function () {
                 try {
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
@@ -253,7 +259,7 @@ $(document).ready(function () {
 
                         // Éxito...
                         Swal.fire({
-                            title: ' El Producto se ha creado con éxito',
+                            title: ' El Producto se ha editado con éxito',
                             icon: 'success',
                             confirmButtonText: 'Aceptar',
                             confirmButtonColor: '#F47B8F'
@@ -293,11 +299,11 @@ $(document).ready(function () {
 
         check_nameCotizacion();
         check_descCotizacion();
-        check_categoryCotizacion();
-        check_imgCotizacion();
-        check_materialCotizacion();
+       /*  check_categoryCotizacion();
+        check_materialCotizacion(); */
 
-        if (error_name === false && error_desc === false && error_category === false && error_img === false && error_material === false) {
+       /*  if (error_name === false && error_desc === false && error_category === false && error_img === false && error_material === false) { */
+            if (error_name === false && error_desc === false ) {
 
             var formDataCotizacion = new FormData();
 
@@ -307,22 +313,13 @@ $(document).ready(function () {
 
             //obtengo el valor de los campos
             formDataCotizacion.append('Nombre', $('#nameCotizacion').val());
+            formDataCotizacion.append('idProducto', $('#idProductoHidden').val());
             formDataCotizacion.append('Descripción', $('#descCotizacion').val());
-            formDataCotizacion.append('Precio', ' ');
-            formDataCotizacion.append('Inventario', ' ');
             formDataCotizacion.append('Fecha_actualizacion', formattedDate);
-            formDataCotizacion.append('Fecha_publicación', formattedDate);
             formDataCotizacion.append('idStatus', '1');
-            formDataCotizacion.append('idAdminAutorización', $('#idUser').val());
-            formDataCotizacion.append('idUsuarioCreador', $('#idUser').val());
-            formDataCotizacion.append('Tipo', 'Cotizacion');
+         /*    formDataCotizacion.append('idAdminAutorización', $('#idUser').val()); */
 
-            // Itera sobre el array de imágenes y agrégales al FormData
-            for (var i = 0; i < imagenesCotizacion.length; i++) {
-                formDataCotizacion.append("imagenesCotizacion[]", imagenesCotizacion[i]);
-            }
-
-            // Itera sobre el array de categoria y agrégales al FormData
+          /*   // Itera sobre el array de categoria y agrégales al FormData
             var selectElement = document.getElementById("select-categoriesCotizacion");
             var selectedOptions = [];
 
@@ -335,24 +332,21 @@ $(document).ready(function () {
             for (var i = 0; i < selectedOptions.length; i++) {
                 const idCategoria = selectedOptions[i];
                 formDataCotizacion.append("categorias[" + i + "]", idCategoria);
-            }
+            } */
 
 
-            console.log("Imágenes antes de enviar la solicitud:", imagenesCotizacion);
-
-
-            //materiales
+         /*    //materiales
             for (var i = 0; i < materialsArray.length; i++) {
                 const material = materialsArray[i];
                 formDataCotizacion.append("materiales[" + i + "][Nombre]", material.Nombre);
                 formDataCotizacion.append("materiales[" + i + "][Cantidad]", material.Cantidad);
                 formDataCotizacion.append("materiales[" + i + "][Fecha_creacion]", material.Fecha_creacion);
-            }
+            } */
 
 
             const xhr = new XMLHttpRequest();
 
-            xhr.open("POST", "../controllers/Producto/Alta_Cotizacion.php", true);
+            xhr.open("POST", "../controllers/Producto/Editar_Cotizacion.php", true);
             xhr.onreadystatechange = function () {
                 try {
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
@@ -370,9 +364,8 @@ $(document).ready(function () {
 
                         // Éxito...
                         Swal.fire({
-                            title: ' La Cotización se ha creado con éxito',
-                            html: '<div>¡Gracias por tu contribución!</div><div>Ahora debes esperar a que el administrador acepte publicar tu Cotización</div>',
-                            icon: 'success',
+                            title: ' La Cotización se ha editado con éxito',
+                           icon: 'success',
                             confirmButtonText: 'Aceptar',
                             confirmButtonColor: '#F47B8F'
                         }).then((willDelete) => {
@@ -400,96 +393,5 @@ $(document).ready(function () {
             return false;
         }
     })
-
-    var imagenesStock = []; // Declarar un array global para almacenar las imágenes
-
-    $("#Upload").on("change", function () {
-        var container = $("#image-previews-container");
-
-        $("#photo_error_message").hide();
-        $("#Upload").css("border", "1px solid #dee2e6");
-
-        if (typeof FileReader !== "undefined") {
-            var files = $(this)[0].files;
-
-            for (var i = 0; i < files.length; i++) {
-                var objectURL = URL.createObjectURL(files[i]);
-
-                // Validar el tamaño de la imagen
-                if (validateImageSize(files[i])) {
-                    container.append('<img src="' + objectURL + '" class="preview-img" alt="">');
-
-                    // Agrega cada imagen al array global
-                    imagenesStock.push(files[i]);
-                } else {
-                    // Manejar el error de tamaño de la imagen
-                    Swal.fire({
-                        title: 'Error',
-                        text: "Error: La imagen '" + files[i].name + "' supera el tamaño permitido.",
-                        icon: 'error',
-                        confirmButtonText: 'Aceptar',
-                        confirmButtonColor: '#F47B8F'
-                    });
-                }
-            }
-
-            // Imprimir el contenido de imagenesStock en la consola de manera entendible
-            console.log("Imágenes antes de enviar la solicitud:");
-            console.log(JSON.stringify(imagenesStock, null, 2));
-        } else {
-            alert("Este navegador no admite FileReader.");
-        }
-    });
-
-    // ----- muestra la imagen seleccionada ----
-    var imagenesCotizacion = []; // Declarar un array global para almacenar las imágenes
-
-    $("#UploadCotizacion").on("change", function () {
-        var container = $("#image-previews-container-Cotizacion");
-
-        $("#img_error_messageCotizacion").hide();
-        $("#UploadCotizacion").css("border", "1px solid #dee2e6");
-
-        if (typeof FileReader !== "undefined") {
-            var files = $(this)[0].files;
-
-            for (var i = 0; i < files.length; i++) {
-                var objectURL = URL.createObjectURL(files[i]);
-
-                // Validar el tamaño de la imagen
-                if (validateImageSize(files[i])) {
-                    container.append('<img src="' + objectURL + '" class="preview-img" alt="">');
-
-                    // Agrega cada imagen al array global
-                    imagenesCotizacion.push(files[i]);
-                } else {
-                    // Manejar el error de tamaño de la imagen
-                    Swal.fire({
-                        title: 'Error',
-                        text: "Error: La imagen '" + files[i].name + "' supera el tamaño permitido.",
-                        icon: 'error',
-                        confirmButtonText: 'Aceptar',
-                        confirmButtonColor: '#F47B8F'
-                    });
-                }
-            }
-
-            // Imprimir el contenido de imagenesStock en la consola de manera entendible
-            console.log("Imágenes antes de enviar la solicitud:");
-            console.log(JSON.stringify(imagenesCotizacion, null, 2));
-        } else {
-            alert("Este navegador no admite FileReader.");
-        }
-
-    });
-
-
-    function validateImageSize(file) {
-        // Define el tamaño máximo permitido para LONGBLOB (en bytes)
-        var maxSizeAllowed = 4294967295;  // 4 GB
-
-        // Verifica si el tamaño del archivo excede el límite
-        return file.size <= maxSizeAllowed;
-    }
 
 })

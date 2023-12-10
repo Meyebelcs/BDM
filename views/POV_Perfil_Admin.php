@@ -39,7 +39,7 @@ require_once './components/POV_menu.php';
 
     <main m-0 p-0 class="background">
 
-        <div class="col py-3">
+        <!-- <div class="col py-3">
             <div class="content">
                 <div class="container mt-3">
                     <div class="row">
@@ -112,9 +112,9 @@ require_once './components/POV_menu.php';
                     <div class="row mt-4">
                         <h3>Perfil</h3>
                     </div>
-                </div>
+                </div> 
             </div>
-        </div>
+        </div>-->
 
         <!-- Hero -->
         <div class="Hero">

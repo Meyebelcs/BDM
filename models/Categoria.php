@@ -83,6 +83,18 @@ class Categoria
         $this->descripcion = $descripcion;
         $this->fechaCreacion = $fechaCreacion;
     }
+    public static function categoriaExists($mysqli, $nombre)
+    {
+        $stmt = $mysqli->prepare("CALL sp_CheckCategoriaExists(?, @existe)");
+        $stmt->bind_param("s", $nombre);
+        $stmt->execute();
+        
+        $result = $mysqli->query("SELECT @existe as existe");
+        $row = $result->fetch_assoc();
+        $existe = $row['existe'];
+    
+        return $existe > 0;
+    }
 
     public function insertCategoria($mysqli)
     {
@@ -104,7 +116,7 @@ class Categoria
         }
     }
 
-    public function findCategoriaById($mysqli, $idCategoria)
+    public static function findCategoriaById($mysqli, $idCategoria)
     {
         $stmt = $mysqli->prepare("CALL sp_FindCategoriaById(?)");
         $stmt->bind_param("i", $idCategoria);
@@ -182,6 +194,35 @@ class Categoria
                 $row['DescripcionCategoria'],
                 $row['FechaCreacionCategoria']
             );
+            $categoria->setIdCategoria($row['idCategoria']);
+
+            // Agregar el comentario directamente al array
+            $categorias[] = $categoria;
+        }
+
+        $stmt->close();
+
+        return $categorias;
+    }
+
+    public static function sp_getCategoriasbyuserCreador($mysqli, $idUsuarioCreador)
+    {
+        $categorias = array();
+
+        $stmt = $mysqli->prepare("CALL sp_getCategoriasbyuserCreador(?)");
+        $stmt->bind_param("i", $idUsuarioCreador);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $categoria = new Categoria(
+                0,
+                0,
+                $row['Nombre'],
+                $row['Descripcion'],
+                $row['Fecha_creacion']
+            );
+
             $categoria->setIdCategoria($row['idCategoria']);
 
             // Agregar el comentario directamente al array
